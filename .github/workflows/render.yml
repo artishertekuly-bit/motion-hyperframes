@@ -1,0 +1,168 @@
+# Облачный рендер HyperFrames на сервере GitHub (ноутбук не нагружается).
+# Запуск: node scripts/cloud-render.mjs ...  (сам вызывает gh workflow run / watch / download)
+name: Render
+
+run-name: "render ${{ inputs.mode }} ${{ inputs.composition }} · ${{ inputs.request_id }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      request_id:
+        description: "Уникальный id запуска (по нему скрипт находит свой run и artifact)"
+        required: true
+        type: string
+      mode:
+        description: "video — черновое видео, stills — стоп-кадры, final — финал + копия для телефона"
+        required: true
+        type: choice
+        options: [video, stills, final]
+        default: video
+      composition:
+        description: "HTML-файл композиции (по умолчанию index.html)"
+        required: false
+        type: string
+        default: "index.html"
+      name:
+        description: "Имя файла без расширения, например test-v1"
+        required: true
+        type: string
+      quality:
+        description: "draft | looks | high (video/final)"
+        required: false
+        type: string
+        default: "looks"
+      range:
+        description: "video/final: отрезок в секундах «2-6» (пусто — весь ролик)"
+        required: false
+        type: string
+        default: ""
+      at:
+        description: "stills: моменты в секундах «0.5,2,3.5»"
+        required: false
+        type: string
+        default: ""
+      fps:
+        description: "Частота кадров (пусто — из композиции, иначе 30)"
+        required: false
+        type: string
+        default: ""
+      phone_copy:
+        description: "final: сделать лёгкую копию для телефона (crf 27)"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+env:
+  HF_VERSION: "0.9.22"
+  HYPERFRAMES_NO_TELEMETRY: "1"
+  DO_NOT_TRACK: "1"
+  HYPERFRAMES_SKIP_SKILLS: "1"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          ffmpeg -version | head -1
+
+      - name: HyperFrames doctor
+        run: npx --yes hyperframes@$HF_VERSION doctor || true
+
+      - name: Lint
+        env:
+          COMP: ${{ inputs.composition }}
+        run: |
+          [[ "$COMP" =~ ^[A-Za-z0-9_./-]+\.html$ && "$COMP" != *..* ]] || { echo "bad composition: $COMP"; exit 1; }
+          npx --yes hyperframes@$HF_VERSION lint
+
+      - name: Render
+        env:
+          MODE: ${{ inputs.mode }}
+          COMP: ${{ inputs.composition }}
+          NAME: ${{ inputs.name }}
+          QUALITY: ${{ inputs.quality }}
+          RANGE: ${{ inputs.range }}
+          AT: ${{ inputs.at }}
+          FPS: ${{ inputs.fps }}
+          PHONE: ${{ inputs.phone_copy }}
+        run: |
+          set -euo pipefail
+          # Проверка параметров: в команды попадают только безопасные значения
+          [[ "$NAME"    =~ ^[A-Za-z0-9._-]+$ ]]               || { echo "bad name: $NAME"; exit 1; }
+          [[ "$QUALITY" =~ ^(draft|looks|standard|high|delivery)$ ]] || { echo "bad quality: $QUALITY"; exit 1; }
+          [[ -z "$FPS"   || "$FPS" =~ ^[0-9]+(/[0-9]+)?$ ]]   || { echo "bad fps: $FPS"; exit 1; }
+          HF="npx --yes hyperframes@$HF_VERSION"
+          mkdir -p result
+
+          if [[ "$MODE" == "stills" ]]; then
+            [[ "$AT" =~ ^[0-9]+(\.[0-9]+)?(,[0-9]+(\.[0-9]+)?)*$ ]] || { echo "stills need --at like 0.5,2,3.5"; exit 1; }
+            $HF snapshot --at "$AT" --no-end --keep --output result/stills
+            n=0
+            for f in result/stills/*.png; do
+              n=$((n + 1)); mv "$f" "result/$NAME-$(basename "$f")"
+            done
+            rm -rf result/stills
+            cols=$(( n < 4 ? n : 4 )); rows=$(( (n + cols - 1) / cols ))
+            ffmpeg -v error -y -pattern_type glob -i "result/$NAME-at-*.png" \
+              -vf "scale=480:-1,tile=${cols}x${rows}:padding=6:color=white" -frames:v 1 "result/$NAME-sheet.png"
+          else
+            args=(render --composition "$COMP" --output "result/$NAME.mp4" --quality "$QUALITY" --workers 2 --no-low-memory-mode --no-wait)
+            if [[ -n "$FPS" ]]; then args+=(--fps "$FPS"); fi
+            if [[ -n "$RANGE" ]]; then
+              [[ "$RANGE" =~ ^([0-9]+(\.[0-9]+)?)-([0-9]+(\.[0-9]+)?)$ ]] || { echo "range must look like 2-6"; exit 1; }
+              args+=(--start "${BASH_REMATCH[1]}" --end "${BASH_REMATCH[3]}")
+            fi
+            $HF "${args[@]}"
+
+            # Лист кадров каждые 0,5 с — для самопроверки (сетка по длине видео, максимум 8x4 на лист)
+            dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "result/$NAME.mp4")
+            n=$(awk -v d="$dur" 'BEGIN { n = int(d * 2 + 0.999); print (n < 1 ? 1 : n) }')
+            cols=$(( n < 8 ? n : 8 )); rows=$(( (n + cols - 1) / cols )); rows=$(( rows > 4 ? 4 : rows ))
+            ffmpeg -v error -y -i "result/$NAME.mp4" \
+              -vf "fps=2,scale=480:-1,tile=${cols}x${rows}:padding=4:color=white" "result/$NAME-sheet-%02d.png"
+
+            # Громкость (если есть звук)
+            has_audio=$(ffprobe -v error -select_streams a -show_entries stream=index -of csv=p=0 "result/$NAME.mp4")
+            if [[ -n "$has_audio" ]]; then
+              ffmpeg -hide_banner -nostats -i "result/$NAME.mp4" -af ebur128=framelog=quiet -f null - 2>&1 \
+                | sed -n '/Summary:/,$p' > "result/$NAME-loudness.txt"
+            fi
+
+            if [[ "$MODE" == "final" && "$PHONE" == "true" ]]; then
+              ffmpeg -v error -y -i "result/$NAME.mp4" -c:v libx264 -crf 27 -preset slow \
+                -c:a aac -b:a 128k -movflags +faststart "result/${NAME}_phone.mp4"
+            fi
+          fi
+
+          {
+            echo "### Render: $MODE · $COMP · $NAME"
+            echo '```'
+            for f in result/*.mp4; do
+              if [[ -e "$f" ]]; then
+                ffprobe -v error -show_entries format=duration,size:stream=codec_name,width,height,r_frame_rate -of compact "$f" | sed "s|^|$(basename "$f"): |"
+              fi
+            done
+            if [[ -e "result/$NAME-loudness.txt" ]]; then cat "result/$NAME-loudness.txt"; fi
+            ls -la result
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: render-${{ inputs.request_id }}
+          path: result/
+          retention-days: 7
+          if-no-files-found: error

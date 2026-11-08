@@ -1,0 +1,73 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      font-family: var(--font-display);
+    }
+    #title-stack {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      text-align: center;
+    }
+    #title-kicker {
+      color: var(--accent);
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    #title-name {
+      color: var(--ink);
+      font-size: 150px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    #title-letters {
+      display: flex;
+      gap: 26px;
+      color: var(--ink);
+      font-size: 64px;
+      font-weight: 600;
+    }
+    .title-glyph {
+      display: inline-block;
+    }
+  </style>
+  <div id="root" data-composition-id="title" data-width="1080" data-height="1920">
+    <div id="title-stack" class="clip" data-start="0" data-duration="5">
+      <div id="title-kicker">Сынақ</div>
+      <h1 id="title-name">HyperFrames</h1>
+      <div id="title-letters">
+        <span class="title-glyph">ә</span><span class="title-glyph">ғ</span><span class="title-glyph">қ</span>
+        <span class="title-glyph">ң</span><span class="title-glyph">ө</span><span class="title-glyph">ұ</span>
+        <span class="title-glyph">ү</span><span class="title-glyph">һ</span><span class="title-glyph">і</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#title-kicker", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.2);
+    tl.fromTo(
+      "#title-name",
+      { opacity: 0, y: 60, filter: "blur(16px)" },
+      { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power4.out" },
+      0.45,
+    );
+    // Буквы съезжаются к центру (транcформ x, без letterSpacing — он дрожит при покадровом рендере)
+    tl.fromTo(
+      ".title-glyph",
+      { opacity: 0, x: (i) => (i - 4) * 60 },
+      { opacity: 0.85, x: 0, duration: 1.0, ease: "power3.out", stagger: 0.04 },
+      1.1,
+    );
+    tl.to(["#title-kicker", "#title-name", "#title-letters"], { opacity: 0, y: -40, duration: 0.4, stagger: 0.06, ease: "power2.in" }, 4.4);
+    window.__timelines["title"] = tl;
+  </script>
+</template>
