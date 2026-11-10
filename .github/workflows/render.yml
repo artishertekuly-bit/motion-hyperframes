@@ -86,6 +86,16 @@ jobs:
           COMP: ${{ inputs.composition }}
         run: |
           [[ "$COMP" =~ ^[A-Za-z0-9_./-]+\.html$ && "$COMP" != *..* ]] || { echo "bad composition: $COMP"; exit 1; }
+          # Несколько корневых композиций в корне проекта (artur-test.html, artur-sheet.html…):
+          # выбранная на время рендера становится index.html, остальные корни убираются (lint требует один корень,
+          # snapshot снимает только index.html). Пути assets/... не меняются — файл остаётся в корне.
+          if [[ "$COMP" != "index.html" ]]; then
+            [[ "$COMP" =~ ^[A-Za-z0-9_.-]+\.html$ && -f "$COMP" ]] || { echo "composition must be a root-level file: $COMP"; exit 1; }
+            mkdir -p "$RUNNER_TEMP/other-roots"
+            for f in *.html; do [[ "$f" != "$COMP" ]] && mv "$f" "$RUNNER_TEMP/other-roots/"; done
+            mv "$COMP" index.html
+            echo "→ $COMP рендерится как index.html"
+          fi
           npx --yes hyperframes@$HF_VERSION lint
 
       - name: Render
@@ -105,6 +115,7 @@ jobs:
           [[ "$QUALITY" =~ ^(draft|looks|standard|high|delivery)$ ]] || { echo "bad quality: $QUALITY"; exit 1; }
           [[ -z "$FPS"   || "$FPS" =~ ^[0-9]+(/[0-9]+)?$ ]]   || { echo "bad fps: $FPS"; exit 1; }
           HF="npx --yes hyperframes@$HF_VERSION"
+          COMP="index.html"   # шаг Lint уже переложил выбранную композицию в index.html
           mkdir -p result
 
           if [[ "$MODE" == "stills" ]]; then

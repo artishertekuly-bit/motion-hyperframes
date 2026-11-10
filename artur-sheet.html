@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="kk" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="assets/characters/artur/artur-rig.js"></script>
+    <style>
+      /* Артур — кейіпкер парағы (3 бет: 0.5 с бұрылыс/киім, 1.5 с эмоция/ауыз, 2.5 с поза/түстер). */
+      :root {
+        --paper: #f4f0e7;
+        --ink: #141418;
+        --muted: #6d6a63;
+        --accent: #2b3e9e;
+        --font-display: "Montserrat", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+      #root { position: absolute; inset: 0; background: var(--paper); font-family: var(--font-display); color: var(--ink); }
+      .page { position: absolute; inset: 0; }
+      .page svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+      .title { position: absolute; left: 70px; top: 46px; font-weight: 900; font-size: 74px; letter-spacing: 2px; line-height: 1; }
+      .sub { position: absolute; left: 74px; top: 128px; font-weight: 600; font-size: 24px; color: var(--muted); }
+      .tag { position: absolute; right: 70px; top: 58px; font-weight: 800; font-size: 22px; color: #fff; background: var(--accent); padding: 10px 18px; border-radius: 30px; }
+      .lbl { position: absolute; transform: translateX(-50%); font-weight: 800; font-size: 22px; letter-spacing: 1.5px; text-align: center; white-space: nowrap; }
+      .lbl small { display: block; font-weight: 600; font-size: 16px; letter-spacing: 0; color: var(--muted); margin-top: 2px; }
+      .note { position: absolute; font-weight: 500; font-size: 19px; line-height: 1.45; color: #2a2a30; }
+      .note b { font-weight: 800; }
+      .h2 { position: absolute; font-weight: 900; font-size: 30px; letter-spacing: 1px; }
+      svg text { font-family: var(--font-display); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3" data-width="1920" data-height="1080">
+      <!-- 1-бет: бұрылыс және киім -->
+      <div id="p1" class="clip page" data-start="0" data-duration="1" data-track-index="0">
+        <svg id="p1-svg" viewBox="0 0 1920 1080"></svg>
+        <div class="title">АРТУР</div>
+        <div class="sub">кейіпкер парағы · «ақ кейіпкер» стилі (ZAKATOON-ды талдау бойынша) · бойы ≈ 3,2 бас</div>
+        <div class="tag">1 / 3 · БҰРЫЛЫС ЖӘНЕ КИІМ</div>
+        <div class="lbl" style="left:190px;top:1018px">АЛДЫ<small>turn 0</small></div>
+        <div class="lbl" style="left:480px;top:1018px">¾<small>turn 0.5</small></div>
+        <div class="lbl" style="left:770px;top:1018px">БҮЙІРІ<small>turn 1</small></div>
+        <div class="lbl" style="left:1060px;top:1018px">АРТЫ<small>turn 2</small></div>
+        <div class="lbl" style="left:1430px;top:1018px">КҮНДЕЛІКТІ<small>ақ поло, бежевый шалбар</small></div>
+        <div class="lbl" style="left:1740px;top:1018px">ТҮЛЕК<small>лента, погон, қоңырау</small></div>
+      </div>
+      <!-- 2-бет: эмоциялар және ауыз -->
+      <div id="p2" class="clip page" data-start="1" data-duration="1" data-track-index="0">
+        <svg id="p2-svg" viewBox="0 0 1920 1080"></svg>
+        <div class="title">ЭМОЦИЯЛАР</div>
+        <div class="sub">ауысу: дайындық → жаншылу → жаңа бет → тұрақтау · қарашық кішкентай, қабақ ауыр — Артурдың сабырлы көзқарасы</div>
+        <div class="tag">2 / 3 · БЕТ ЖӘНЕ АУЫЗ</div>
+        <div class="h2" style="left:1478px;top:196px">АУЫЗ (ДЫБЫСҚА)</div>
+      </div>
+      <!-- 3-бет: позалар, түстер, белгілер -->
+      <div id="p3" class="clip page" data-start="2" data-duration="1" data-track-index="0">
+        <svg id="p3-svg" viewBox="0 0 1920 1080"></svg>
+        <div class="title">ПОЗАЛАР</div>
+        <div class="sub">қол-аяқ — параметрлер (иық, шынтақ, алақан), бас пен дене бөлек бұрылады</div>
+        <div class="tag">3 / 3 · ПОЗА ЖӘНЕ ТҮС</div>
+        <div class="h2" style="left:70px;top:842px">ТҮСТЕР</div>
+        <div class="h2" style="left:1040px;top:842px">АРТУРДАН АЛЫНҒАН БЕЛГІЛЕР</div>
+        <div class="note" style="left:1040px;top:890px;width:820px">
+          <b>Шаш:</b> қалың, қап-қара, маңдайды жапқан шашбау — ұштары қасқа жетеді.<br />
+          <b>Қас:</b> жуан, түзу, сыртқа қарай сәл көтерілген (басты белгі).<br />
+          <b>Көз:</b> сабырлы, ауыр қабақ. <b>Мең:</b> оң бетінде. <b>Құлақ:</b> көрінеді.<br />
+          <b>Бой:</b> ұзын, жіңішке. <b>Киім:</b> түлек костюмі мен лента, ақ поло.
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        const R = window.ArturRig;
+        const E = R.EXPR, P = R.POSES;
+        const fig = (x, y, s, p, id, seed) =>
+          `<g transform="translate(${x},${y}) scale(${s})">${R.draw(p, { seed: seed == null ? 5 : seed, id })}</g>`;
+
+        // ---------- 1-бет ----------
+        let h = "";
+        // бас-өлшем сызықтары
+        const base = 1000, sc = 0.76;
+        const guides = [[-975, "бас төбесі"], [-650, "иек / иық"], [-400, "жамбас"], [0, "табан"]];
+        for (const [y, t] of guides) {
+          const yy = base + y * sc;
+          h += `<line x1="60" y1="${yy}" x2="1190" y2="${yy}" stroke="#cfc8b8" stroke-width="2" stroke-dasharray="10 10"/>`;
+          h += `<text x="64" y="${yy - 8}" font-family="Montserrat" font-weight="600" font-size="15" fill="#a39c8c">${t}</text>`;
+        }
+        h += `<line x1="1265" y1="230" x2="1265" y2="1050" stroke="#cfc8b8" stroke-width="3"/>`;
+        const turns = [0, 0.5, 1, 2];
+        turns.forEach((t, i) => (h += fig(190 + i * 290, base, sc, Object.assign({}, E.calm, { turn: t }), "t" + i)));
+        h += fig(1430, base, sc, Object.assign({}, E.happy, { outfit: "casual" }), "o1");
+        h += fig(1740, base, sc, Object.assign({}, E.calm, { outfit: "grad", turn: -0.35 }), "o2");
+        document.getElementById("p1-svg").innerHTML = h;
+
+        // ---------- 2-бет ----------
+        h = "";
+        const emo = [
+          ["calm", "сабырлы"], ["happy", "қуанышты"], ["laugh", "күлкі"], ["shock", "шошу"], ["angry", "ашулы"], ["sad", "мұңды"],
+          ["smug", "менмен"], ["scared", "қорқу"], ["sleepy", "ұйқылы"], ["thinking", "ойлану"], ["shy", "ұялу"], ["blink", "көз жұму"],
+        ];
+        emo.forEach(([k, name], i) => {
+          const cx = 70 + (i % 6) * 228, cy = 196 + Math.floor(i / 6) * 420;
+          const p = k === "blink" ? Object.assign({}, E.calm, { eye: Object.assign({}, E.calm.eye, { lidTop: 1 }) }) : Object.assign({}, E[k]);
+          if (k === "thinking") Object.assign(p, P.think);
+          h += `<rect x="${cx}" y="${cy}" width="214" height="400" rx="22" fill="${i % 2 ? "#ece6da" : "#e6dfd1"}"/>`;
+          h += `<svg x="${cx}" y="${cy}" width="214" height="350" viewBox="-205 -1010 410 670">${R.draw(p, { seed: 5 + i, id: "e" + i })}</svg>`;
+          h += `<text x="${cx + 107}" y="${cy + 384}" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="21" fill="#141418">${name.toUpperCase()}</text>`;
+        });
+        // ауыз кестесі
+        const mouths = [["rest", "тыныш"], ["mbp", "М Б П"], ["ee", "Е І И Ы"], ["aa", "А Ә Я"], ["oh", "О Ө"], ["uu", "У Ұ Ү"], ["ff", "Ф В"], ["smile", "күлімсіреу"]];
+        mouths.forEach(([k, name], i) => {
+          const cx = 1478 + (i % 2) * 206, cy = 250 + Math.floor(i / 2) * 192;
+          h += `<rect x="${cx}" y="${cy}" width="192" height="178" rx="20" fill="#fff" stroke="#e1d9c8" stroke-width="2"/>`;
+          // тек ауыздың маңы: бастың төменгі бөлігі
+          h += `<svg x="${cx + 6}" y="${cy + 6}" width="180" height="128" viewBox="-64 -782 128 90">${R.draw(Object.assign({}, E.calm, { mouth: k }), { seed: 11, id: "m" + i })}</svg>`;
+          h += `<text x="${cx + 96}" y="${cy + 162}" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" fill="#141418">${name}</text>`;
+        });
+        document.getElementById("p2-svg").innerHTML = h;
+
+        // ---------- 3-бет ----------
+        h = "";
+        const poses = [
+          [Object.assign({}, E.happy, P.wave), "СӘЛЕМ", "wave"],
+          [Object.assign({}, E.smug, P.hips), "БЕЛГЕ ТАЯНУ", "hips"],
+          [Object.assign({}, E.thinking, P.think), "ОЙЛАНУ", "think"],
+          [Object.assign({}, E.sad, P.shrug), "БІЛМЕЙМІН", "shrug"],
+          [Object.assign({}, E.laugh, P.cheer), "ЖЕҢІС!", "cheer"],
+          [Object.assign({}, E.calm, P.point, { turn: 0.3 }), "АНАУ ЖАҚ", "point"],
+        ];
+        poses.forEach(([p, name, key], i) => {
+          const x = 175 + i * 292;
+          h += fig(x, 772, 0.555, p, "p" + i, 21 + i);
+          h += `<text x="${x}" y="816" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="21" fill="#141418">${name}</text>`;
+        });
+        const C = R.COLORS;
+        const sw = [
+          ["тері", C.skin], ["контур", R.INK], ["шаш", C.hair], ["пиджак", C.blazer], ["көлеңке", C.blazerShade], ["галстук", C.tie],
+          ["лента", C.sash], ["жиек", C.sashEdge], ["шалбар", C.chinos], ["мең", C.mole], ["ауыз", C.mouth], ["тіл", C.tongue],
+        ];
+        sw.forEach(([n, c], i) => {
+          const x = 70 + (i % 6) * 152, y = 890 + Math.floor(i / 6) * 88;
+          h += `<circle cx="${x + 28}" cy="${y + 28}" r="27" fill="${c}" stroke="#141418" stroke-width="4"/>`;
+          h += `<text x="${x + 64}" y="${y + 24}" font-family="Montserrat" font-weight="800" font-size="16" fill="#141418">${n}</text>`;
+          h += `<text x="${x + 64}" y="${y + 46}" font-family="Montserrat" font-weight="600" font-size="15" fill="#6d6a63">${c}</text>`;
+        });
+        document.getElementById("p3-svg").innerHTML = h;
+
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        tl.set({}, {}, 3);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

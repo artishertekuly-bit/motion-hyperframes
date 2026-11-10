@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Artur rig preview</title>
+<style>
+  html, body { margin: 0; background: #e9e6df; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<svg id="stage" width="1600" height="900" viewBox="0 0 1600 900"></svg>
+<script src="../assets/characters/artur/artur-rig.js"></script>
+<script>
+  // Тексеру беті (репозиторийде, композиция емес). ?view=turn | expr | poses
+  const S = document.getElementById("stage");
+  window.show = function (items, opts) {
+    opts = opts || {};
+    let html = "";
+    items.forEach((it, i) => {
+      html += `<g transform="translate(${it.x},${it.y}) scale(${it.s || 0.62})">${ArturRig.draw(it.p, { seed: opts.seed == null ? 3 : opts.seed, id: "c" + i })}</g>`;
+    });
+    S.innerHTML = html;
+  };
+  window.views = {
+    turn: () => show([
+      { x: 150, y: 820, p: { turn: 0 } },
+      { x: 400, y: 820, p: { turn: 0.5 } },
+      { x: 650, y: 820, p: { turn: 1 } },
+      { x: 900, y: 820, p: { turn: 2 } },
+      { x: 1150, y: 820, p: { turn: 0, outfit: "casual" } },
+      { x: 1420, y: 820, p: { turn: -0.5, outfit: "grad" } },
+    ]),
+    head: (o) => show([
+      { x: 220, y: 1400, s: 1.2, p: Object.assign({ turn: 0 }, o) },
+      { x: 610, y: 1400, s: 1.2, p: Object.assign({ turn: 0.5 }, o) },
+      { x: 1000, y: 1400, s: 1.2, p: Object.assign({ turn: 1 }, o) },
+      { x: 1390, y: 1400, s: 1.2, p: Object.assign({ turn: 2 }, o) },
+    ]),
+    body: (o) => show([
+      { x: 300, y: 1340, s: 1.3, p: Object.assign({ turn: 0 }, o) },
+      { x: 800, y: 1340, s: 1.3, p: Object.assign({ turn: 0, outfit: "casual" }, o) },
+      { x: 1300, y: 1340, s: 1.3, p: Object.assign({ turn: 0, outfit: "grad" }, o) },
+    ]),
+    expr: () => {
+      const names = Object.keys(ArturRig.EXPR);
+      show(names.map((n, i) => ({ x: 130 + (i % 6) * 250, y: 560 + Math.floor(i / 6) * 330, s: 0.62, p: Object.assign({ turn: 0 }, ArturRig.EXPR[n]) })));
+    },
+  };
+  views[(new URLSearchParams(location.search).get("view")) || "turn"]();
+</script>
+</body>
+</html>
