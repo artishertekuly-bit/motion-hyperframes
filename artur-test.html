@@ -217,7 +217,7 @@
           const txt = shown.map((w) => w[0]).join(" ");
           const lastK = clamp((t - shown[shown.length - 1][1]) / 0.12, 0, 1);
           const pop = 1 + 0.12 * (1 - EASE.out(lastK));
-          return `<g transform="translate(540,1700) scale(${pop.toFixed(3)})" opacity="${out.toFixed(2)}"><text x="0" y="0" text-anchor="middle" font-weight="900" font-size="84" fill="#fff" stroke="${INK}" stroke-width="14" stroke-linejoin="round" paint-order="stroke">${txt}</text></g>`;
+          return `<g transform="translate(540,1700) scale(${pop.toFixed(3)})" opacity="${out.toFixed(2)}"><text x="0" y="0" text-anchor="middle" font-weight="900" font-size="64" fill="#fff" stroke="${INK}" stroke-width="12" stroke-linejoin="round" paint-order="stroke">${txt}</text></g>`;
         }
 
         // ---------- бір кадр ----------
