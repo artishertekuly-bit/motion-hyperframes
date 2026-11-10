@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>sheet</title>
+<style>body{margin:0;background:#222;display:grid;grid-template-columns:repeat(4,480px);gap:0}
+.c{position:relative;width:480px;height:270px;overflow:hidden}
+.c iframe{width:1920px;height:1080px;border:0;transform:scale(0.25);transform-origin:0 0}
+.c b{position:absolute;left:4px;top:2px;color:#ff0;font:700 16px monospace;text-shadow:0 0 3px #000}</style></head>
+<body>
+<script>
+const ts = (new URLSearchParams(location.search).get("t") || "0").split(",").map(Number);
+for (const t of ts) {
+  const d = document.createElement("div"); d.className = "c";
+  const f = document.createElement("iframe"); f.src = "../songy.html?t=" + t;
+  f.onload = () => { try { f.contentWindow.__renderAt(t); } catch (e) { d.style.outline = "4px solid red"; } };
+  d.appendChild(f); const b = document.createElement("b"); b.textContent = t.toFixed(1); d.appendChild(b);
+  document.body.appendChild(d);
+}
+</script>
+</body></html>

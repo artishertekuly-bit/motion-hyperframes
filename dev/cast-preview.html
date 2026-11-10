@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>cast</title>
+<style>body{margin:0;background:#e9e4da}svg{display:block}</style></head>
+<body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+<script src="../assets/characters/artur/artur-rig.js"></script>
+<script>
+const R = ArturRig, q = new URLSearchParams(location.search);
+const turn = +(q.get("turn") || 0.25);
+const cast = [
+  ["artur", "grad", "happy", {}],
+  ["arturSwept", "grad", "shock", {}],
+  ["kid", "school", "shy", {}],
+  ["mom", "momHome", "angry", {}],
+  ["mom", "momFest", "sad", {}],
+  ["dad", "dad", "happy", { armR: { sh: 120, el: 30, hand: "fist" } }],
+  ["teacher", "teacher", "calm", {}],
+  ["teacher1", "teacher1", "happy", {}],
+  ["girl", "girl", "smug", { armR: { sh: 150, el: 10, hand: "fist" } }],
+  ["director", "director", "calm", {}],
+];
+let s = "";
+cast.forEach(([look, outfit, ex, extra], i) => {
+  const p = Object.assign({}, R.EXPR[ex], extra, { look, outfit, turn: i % 2 ? -turn : turn });
+  s += `<g transform="translate(${100 + i * 190},${1000}) scale(0.62)">${R.draw(p, { seed: 3, id: "c" + i })}</g>`;
+});
+document.getElementById("s").innerHTML = s;
+</script>
+</body></html>

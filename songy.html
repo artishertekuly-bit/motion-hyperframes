@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="kk" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="assets/characters/artur/artur-rig.js"></script>
+    <script src="assets/songy/timing.js"></script>
+    <script src="assets/songy/bg.js"></script>
+    <script src="assets/songy/engine.js"></script>
+    <script src="assets/songy/shots-a.js"></script>
+    <script src="assets/songy/shots-b.js"></script>
+    <style>
+      /* «Соңғы қоңырау» — Артурдың storytime-видеосы (16:9, ~5:18). Дыбыс жергілікті араласып, кейін қосылады. */
+      :root { --font-display: "Montserrat", sans-serif; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #1b2a52; }
+      #root { position: absolute; inset: 0; overflow: hidden; background: #1b2a52; }
+      #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+      #stage text { font-family: var(--font-display); }
+      #fontwarm { position: absolute; left: -3000px; top: 0; font-family: var(--font-display); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="318" data-width="1920" data-height="1080">
+      <div id="stage" class="clip" data-start="0" data-duration="318"></div>
+      <div id="fontwarm"><b style="font-weight:900">СОҢҒЫ ҚОҢЫРАУ ӘҒҚҢӨҰҮҺІ әғқңөұүһі «»—…</b><b style="font-weight:800">Аа</b><b style="font-weight:700">Аа</b><i style="font-weight:300">Фильмдерде</i></div>
+    </div>
+    <script>
+      (function () {
+        const DUR = 318;
+        const stage = document.getElementById("stage");
+        const renderAt = (t) => window.SONGY.renderAt(Math.max(0, Math.min(DUR - 1 / 120, t)), stage);
+        window.__renderAt = renderAt;
+        window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+        renderAt(0);
+        window.__timelines = window.__timelines || {};
+        const proxy = { t: 0 };
+        const tl = gsap.timeline({ paused: true });
+        tl.to(proxy, { t: DUR, duration: DUR, ease: "none", onUpdate: () => renderAt(proxy.t) }, 0);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

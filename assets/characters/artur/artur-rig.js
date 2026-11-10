@@ -139,23 +139,59 @@
 
   // ---------- шаш ----------
   // Шаш сызығы (θ°, y): артында желкеге дейін, бүйірінде құлақтың үстіне дейін, алдында — маңдайды жапқан шашбау.
-  function hairlineList() {
+  function hairlineList(shift) {
+    shift = shift || 0; // теріс — шашбау жоғары қайырылған (маңдай ашық)
     const L = [];
     for (let a = -180; a < -104; a += 12) L.push([a, 40 + (Math.round(a / 12) % 2 ? 6 : -3)]);
-    L.push([-104, 30], [-97, -2], [-90, -8], [-82, -22], [-75, -46]);
+    L.push([-104, 30], [-97, -2], [-90, -8], [-82, -22], [-75, -46 + shift * 0.5]);
     // шашбау тістері: −68…+68, ұштары сәл солға (кейіпкердің оңына) ауған
     const n = 9, a0 = -68, a1 = 68, step = (a1 - a0) / n;
     const tipY = [-60, -56, -62, -54, -58, -55, -61, -57, -63];
     const notchY = [-90, -100, -96, -104, -98, -102, -95, -99, -92, -86];
     for (let i = 0; i <= n; i++) {
-      L.push([a0 + i * step, notchY[i]]);
-      if (i < n) L.push([a0 + (i + 0.5) * step - 2.5, tipY[i]]);
+      L.push([a0 + i * step, notchY[i] + shift * 0.55]);
+      if (i < n) L.push([a0 + (i + 0.5) * step - 2.5 + (shift ? 6 : 0), tipY[i] + shift]);
     }
-    L.push([75, -46], [82, -22], [90, -8], [97, -2], [104, 30]);
+    L.push([75, -46 + shift * 0.5], [82, -22], [90, -8], [97, -2], [104, 30]);
     for (let a = 108; a <= 180; a += 12) L.push([a, 40 + (Math.round(a / 12) % 2 ? -3 : 6)]);
     return L;
   }
-  const HAIRLINE = hairlineList();
+  // тегіс шаш сызығы: yOf(θ) әр 8° сайын
+  function hairlineFn(yOf) {
+    const L = [];
+    for (let a = -180; a < 180; a += 8) L.push([a, yOf(a)]);
+    return L;
+  }
+  const sstep = (a, b, x) => { const k = clamp((x - a) / (b - a), 0, 1); return k * k * (3 - 2 * k); };
+  // ---------- басқа кейіпкерлер (look) ----------
+  const HAIR = {
+    artur: { line: hairlineList(), color: "#262730", lineColor: "#4d4f5e", tufts: true, strands: true },
+    arturSwept: { line: hairlineList(-46), color: "#262730", lineColor: "#4d4f5e", tufts: true, strands: true, my: 0.04 },
+    // әкесі: қысқа, маңдайы биік, самайы сәл шегінген
+    dad: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 70 ? -100 + 10 * Math.pow(Math.sin(x * 3 * D), 2) - 6 * Math.cos(a * 2.2 * D) : x < 100 ? lerp(-82, -12, sstep(70, 100, x)) : lerp(-12, 34, sstep(100, 150, x)); }), color: "#33343b", strands: [[-30, -140, -34, -112], [10, -146, 6, -114], [40, -136, 36, -110]], mx: -0.02, my: -0.04 },
+    director: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 60 ? -122 : x < 100 ? lerp(-122, -6, sstep(60, 100, x)) : lerp(-6, 30, sstep(100, 150, x)); }), color: "#9a9ca6", strands: [[120, -60, 116, 20], [-120, -60, -124, 20]], mx: -0.03, my: -0.07 },
+    // апасы: ортадан фарқ, түйін (пучок)
+    mom: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 6 ? -112 + x * 2 : x < 80 ? lerp(-100, -36, sstep(6, 80, x)) : x < 108 ? lerp(-36, 30, sstep(80, 108, x)) : 38; }), color: "#2b2226", bun: true, strands: [[-8, -148, -40, -104], [8, -148, 40, -104], [-60, -110, -84, -40], [60, -110, 84, -40]] },
+    // Гүлнар апай: иекке дейінгі каре, қиғаш шашбау
+    teacher: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 64 ? -64 - 34 * sstep(-64, 64, a) : x < 92 ? lerp(a < 0 ? -64 : -98, 96, sstep(64, 92, x)) : 104; }), color: "#4b3a36", flare: 0.1, strands: [[-30, -146, -56, -70], [20, -150, 36, -102], [130, -40, 128, 80], [-130, -40, -128, 80]], streak: [[30, -150, 52, -96]] },
+    // бастауыш мұғалім: құйрық шаш
+    teacher1: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 70 ? -92 + 8 * Math.cos(a * 4 * D) : x < 100 ? lerp(-84, 20, sstep(70, 100, x)) : 36; }), color: "#5e3f2f", pony: true, strands: [[-20, -146, -40, -96], [20, -146, 40, -96]] },
+    // Аяулым: түзу шашбау, екі өрім + үлкен ақ бантиктер
+    girl: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 62 ? -56 + 3 * Math.cos(a * 9 * D) : x < 90 ? lerp(-56, 34, sstep(62, 90, x)) : 40; }), color: "#2a2226", bows: true, pigtails: true, strands: [[-36, -140, -40, -70], [0, -150, 0, -70], [36, -140, 40, -70]] },
+  };
+  const LOOKS = {
+    artur: { hair: "artur", brow: "thick", mole: true },
+    arturSwept: { hair: "arturSwept", brow: "thick", mole: true },
+    kid: { hair: "artur", brow: "thick", mole: true, kid: [0.56, 0.84], lid: -0.16 },
+    mom: { hair: "mom", brow: "thin", lashes: true, body: { w: 0.94, arm: 40, leg: 46 } },
+    dad: { hair: "dad", brow: "thick2", mustache: true, body: { w: 1.14, arm: 50, leg: 62 } },
+    teacher: { hair: "teacher", brow: "thin", lashes: true, glasses: true, body: { w: 0.98, arm: 42, leg: 44 } },
+    teacher1: { hair: "teacher1", brow: "thin", lashes: true, body: { w: 0.9, arm: 40, leg: 42 } },
+    girl: { hair: "girl", brow: "thin", lashes: true, lid: -0.2, kid: [0.5, 0.78], body: { w: 0.92, arm: 42, leg: 50 } },
+    director: { hair: "director", brow: "thick2", glasses: true, body: { w: 1.1, arm: 48, leg: 60 } },
+  };
+  let LK = LOOKS.artur, HS = HAIR.artur;
+  let HAIRLINE = HS.line;
   function hairlineY(th) {
     // θ бойынша интерполяция (шеңбер бойымен)
     const L = HAIRLINE;
@@ -192,8 +228,8 @@
     const outerAt = (p, extra) => {
       const s = Math.sin(p), c = Math.cos(p);
       const top = Math.max(0, -s);
-      const mx = 1.055 + 0.02 * top + (extra || 0);
-      const my = 1.03 + 0.1 * Math.pow(top, 1.6) + (extra || 0);
+      const mx = 1.055 + 0.02 * top + (extra || 0) + (HS.mx || 0) * top + (HS.flare || 0) * Math.max(0, s);
+      const my = 1.03 + (0.1 + (HS.my || 0)) * Math.pow(top, 1.6) + (extra || 0);
       const ry = s > 0 ? RYD : RYU;
       return [R * c * mx, ry * s * my - 3 * top];
     };
@@ -222,25 +258,75 @@
     d += "Z";
     // шығып тұрған шаш шоқтары (силуэтте; негізгі шаштың астында сызылады)
     let tufts = "";
-    for (const [deg, len, w, lean] of [[200, 14, 9, -6], [218, 10, 8, -5], [266, 12, 10, 7], [282, 9, 8, 6], [330, 11, 8, 6], [344, 13, 9, 7]]) {
+    const HC = HS.color || C.hair;
+    for (const [deg, len, w, lean] of HS.tufts ? [[200, 14, 9, -6], [218, 10, 8, -5], [266, 12, 10, 7], [282, 9, 8, 6], [330, 11, 8, 6], [344, 13, 9, 7]] : []) {
       const p = deg * D;
       if (p < pL + 0.08 || p > pR - 0.08) continue;
       const a = outerAt(p - w * D * 0.6), b = outerAt(p + w * D * 0.6);
       const tip = outerAt(p + lean * D, len / 150);
-      tufts += shape(`M${f(a[0])},${f(a[1])} Q${f((a[0] + tip[0]) / 2)},${f((a[1] + tip[1]) / 2 - 2)} ${f(tip[0])},${f(tip[1])} Q${f((b[0] + tip[0]) / 2)},${f((b[1] + tip[1]) / 2)} ${f(b[0])},${f(b[1])}Z`, C.hair, OL - 1);
+      tufts += shape(`M${f(a[0])},${f(a[1])} Q${f((a[0] + tip[0]) / 2)},${f((a[1] + tip[1]) / 2 - 2)} ${f(tip[0])},${f(tip[1])} Q${f((b[0] + tip[0]) / 2)},${f((b[1] + tip[1]) / 2)} ${f(b[0])},${f(b[1])}Z`, HC, OL - 1);
     }
-    let s = tufts + shape(d, C.hair);
+    let s = tufts + shape(d, HC);
     // 4) шаш талшықтары
-    const strands = [
+    const strands = HS.strands === true ? [
       [-52, -134, -58, -98], [-24, -146, -28, -104], [6, -150, 2, -106], [33, -142, 29, -103], [58, -122, 54, -94],
       [150, -60, 146, 40], [180, -70, 176, 44], [-150, -60, -154, 40], [118, -40, 114, 30], [-120, -40, -124, 30],
-    ];
-    for (const [t0, y0, t1, y1] of strands) {
-      const a = proj(t0, y0, T), b = proj(t1, y1, T);
-      if (a.c > 0.18 && b.c > 0.18) {
-        const m = proj((t0 + t1) / 2 + 3, (y0 + y1) / 2, T);
-        const pts = jit([[a.x, a.y], [m.x, m.y], [b.x, b.y]], AMP * 0.5);
-        s += line(smooth(pts, false), 3.6, C.hairLine);
+    ] : HS.strands || [];
+    const lineCol = HS.lineColor || mix(HS.color, "#ffffff", 0.22);
+    for (const [list, col, w] of [[strands, lineCol, 3.6], [HS.streak || [], "#c9c3c1", 7]]) {
+      for (const [t0, y0, t1, y1] of list) {
+        const a = proj(t0, y0, T), b = proj(t1, y1, T);
+        if (a.c > 0.18 && b.c > 0.18) {
+          const m = proj((t0 + t1) / 2 + 3, (y0 + y1) / 2, T);
+          const pts = jit([[a.x, a.y], [m.x, m.y], [b.x, b.y]], AMP * 0.5);
+          s += line(smooth(pts, false), w, col);
+        }
+      }
+    }
+    return s;
+  }
+  function mix(a, b, k) {
+    const h = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+    const A = h(a), B = h(b);
+    return "#" + A.map((v, i) => Math.round(lerp(v, B[i], k)).toString(16).padStart(2, "0")).join("");
+  }
+  // бастың артындағы шаш бөліктері (түйін, құйрық, өрімдер)
+  function drawHairBack(T) {
+    let s = "";
+    const HC = HS.color;
+    if (HS.bun) {
+      const p = proj(180, -120, T);
+      const x = p.x * 0.55, y = -RYU - 18;
+      s += shape(smooth(jit([[x - 58, y + 30], [x - 52, y - 30], [x, y - 62], [x + 52, y - 30], [x + 58, y + 30], [x, y + 46]]), true), HC);
+      s += line(smooth([[x - 30, y - 22], [x, y - 40], [x + 28, y - 18]], false), 3.4, mix(HC, "#ffffff", 0.22));
+    }
+    if (HS.pony) {
+      const p = proj(180, -40, T);
+      const side = Math.sin(T * D) >= 0 ? -1 : 1;
+      const x = p.x * 0.9 + side * 30 * Math.abs(Math.sin(T * D));
+      s += shape(smooth(jit([[x - 30, -80], [x + 30, -86], [x + 44, 40], [x + 26, 150], [x - 6, 190], [x - 20, 120], [x - 36, 20]]), true), HC);
+    }
+    if (HS.pigtails) {
+      for (const side of [-1, 1]) {
+        const p = proj(side * 98, -60, T);
+        const x = (p.c < 0 ? p.x * 0.8 : p.x) + side * 34;
+        s += shape(smooth(jit([[x - 22, -70], [x + 22, -74], [x + side * 26 + 14, 30], [x + side * 18, 92], [x + side * 4, 100], [x - 14, 30]]), true), HC);
+      }
+    }
+    return s;
+  }
+  function drawHairFront(T) {
+    let s = "";
+    if (HS.bows) {
+      // бантиктер — бастан үлкен (Аяулымның белгісі), басының екі жағында
+      for (const side of [-1, 1]) {
+        const p = proj(side * 80, -100, T);
+        if (p.c < -0.75) continue;
+        const x = p.x + side * 34 * Math.max(0.3, Math.abs(Math.sin(p.ph * D))), y = -118;
+        const loop = (dir, up) => smooth(jit([[x, y], [x + dir * 34, y - 70 * up], [x + dir * 104, y - 74 * up], [x + dir * 116, y - 8 * up], [x + dir * 66, y + 22 * up], [x, y + 4 * up]]), true);
+        s += shape(loop(side, 1), "#ffffff") + shape(loop(-side, 0.8), "#ffffff") + shape(loop(side * 0.8, -0.75), "#ffffff");
+        s += line(`M${f(x + side * 26)},${f(y - 22)} Q${f(x + side * 60)},${f(y - 50)} ${f(x + side * 92)},${f(y - 40)} M${f(x - side * 22)},${f(y - 18)} Q${f(x - side * 50)},${f(y - 40)} ${f(x - side * 74)},${f(y - 32)}`, 3, "#c9cfdb");
+        s += shape(smooth(jit([[x - 18, y - 18], [x + 18, y - 18], [x + 20, y + 16], [x - 20, y + 16]]), true), "#ffffff", 6);
       }
     }
     return s;
@@ -273,7 +359,7 @@
     cx = clamp(cx, -lim, lim);
     const cy = 2 + jn(0.6);
     const top = cy - ry, h = 2 * ry;
-    const lt = clamp(e.lidTop, 0, 1), lb = clamp(e.lidBot, 0, 1);
+    const lt = clamp(e.lidTop + (e.lidTop > 0.9 ? 0 : LK.lid || 0), 0, 1), lb = clamp(e.lidBot, 0, 1);
     const closed = lt + lb >= 0.97;
     const inner = -side; // ішкі ұшы (мұрынға қарай) — экранда
     let s = "";
@@ -314,7 +400,39 @@
     }
     s += `</g>`;
     s += `${ell} fill="none" stroke="${INK}" stroke-width="${FL}"/>`;
+    if (LK.lashes && lt < 0.85) {
+      // кірпіктер — сыртқы бұрышта
+      const outer = side;
+      const yl = top + h * lt;
+      const x0 = cx + outer * rx * 0.86, y0 = Math.max(yl, cy - ry * 0.55);
+      s += line(`M${f(x0)},${f(y0)} l${f(outer * 16)},${f(-10)} M${f(x0 - outer * 8)},${f(y0 - 6)} l${f(outer * 12)},${f(-14)}`, 4.2);
+    }
     return s;
+  }
+  // көзілдірік, мұрт
+  function drawGlasses(T) {
+    let s = "";
+    const pts = [];
+    for (const side of [-1, 1]) {
+      const p = proj(side * 20, 2, T);
+      if (p.c < 0.12) continue;
+      const sx = Math.pow(p.c, 0.6);
+      const w = 58 * sx, h = 46;
+      const cx = clamp(p.x, -(R + 10 - w), R + 10 - w);
+      pts.push([cx, w]);
+      s += `<rect x="${f(cx - w)}" y="${f(2 - h)}" width="${f(2 * w)}" height="${f(2 * h)}" rx="${f(20 * sx)}" fill="#dfeaf3" fill-opacity="0.18" stroke="${INK}" stroke-width="5.5"/>`;
+      s += line(`M${f(cx - w * 0.5)},${f(-28)} l${f(w * 0.3)},${f(-8)}`, 3.4, "#ffffff");
+    }
+    if (pts.length === 2) s += line(`M${f(pts[0][0] + pts[0][1])},${f(-6)} Q${f((pts[0][0] + pts[1][0]) / 2)},${f(-16)} ${f(pts[1][0] - pts[1][1])},${f(-6)}`, 5);
+    return s;
+  }
+  function drawMustache(T) {
+    const p = proj(0, 50, T);
+    if (p.c < -0.1) return "";
+    const sx = 0.45 + 0.55 * Math.max(0, p.c);
+    const x = clamp(p.x, -rAt(50) + 40, rAt(50) - 40);
+    const d = smooth(jit([[-44, 6], [-30, -10], [-6, -12], [0, -6], [6, -12], [30, -10], [44, 6], [22, 2], [0, 6], [-22, 2]]), true);
+    return `<g transform="translate(${f(x)},${f(p.y)}) scale(${f(sx)},1)">` + shape(d, HS.color, 4.5) + `</g>`;
   }
 
   // ---------- қас (Артурдың белгісі: жуан, түзу) ----------
@@ -332,11 +450,18 @@
     // ішкі ұшы
     const xi = cx + inner * dx, yi = cy + dy;
     const xo = cx - inner * dx, yo = cy - dy;
-    const ti = 17, to = 10;
+    const bc = LK.brow === "thick" ? C.brow : mix(HS.color, "#000000", 0.25);
+    if (LK.brow === "thin") {
+      // жіңішке доға қас
+      const pts = jit([[xi, yi + 2], [cx, cy - 8], [xo, yo + 3]], AMP * 0.5);
+      const d = smooth(pts, false);
+      return line(d, 15, "#fff") + line(d, 7, bc);
+    }
+    const ti = LK.brow === "thick2" ? 13 : 17, to = LK.brow === "thick2" ? 8 : 10;
     const pts = jit([[xi, yi - ti / 2], [cx, cy - (ti + to) / 4 - 1.5], [xo, yo - to / 2], [xo - inner * 2, yo + to / 2], [cx, cy + (ti + to) / 4], [xi, yi + ti / 2]], AMP * 0.5);
     const d = smooth(pts, true, 1 / 8);
     // ақ жиек: қас қара шаштың үстіне шыққанда да көрінеді
-    return `<path d="${d}" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><path d="${d}" fill="${C.brow}" stroke="${C.brow}" stroke-width="2" stroke-linejoin="round"/>`;
+    return `<path d="${d}" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><path d="${d}" fill="${bc}" stroke="${bc}" stroke-width="2" stroke-linejoin="round"/>`;
   }
 
   // ---------- ауыз ----------
@@ -444,9 +569,24 @@
     const midU = [lerp(sh[0], el[0], 0.5), lerp(sh[1], el[1], 0.5)];
     const midF = [lerp(el[0], wr[0], 0.5), lerp(el[1], wr[1], 0.5)];
     let s = "";
-    const sleeve = outfit === "casual" ? C.skin : C.blazer;
+    let sleeve = outfit === "casual" ? C.skin : C.blazer;
     const pts = jit([sh, midU, el, midF, wr], AMP * 0.6);
-    if (outfit === "casual") {
+    const AW = (LK.body && LK.body.arm) || 46;
+    if (OF && !OF.base) {
+      sleeve = OF.top;
+      if (OF.sleeve === "short") {
+        s += tube(pts, AW - 6, C.skin);
+        const k = 0.5, cuff = [lerp(sh[0], el[0], k), lerp(sh[1], el[1], k)];
+        s += tube(jit([sh, [lerp(sh[0], cuff[0], 0.5), lerp(sh[1], cuff[1], 0.5)], cuff]), AW, OF.top);
+      } else {
+        s += tube(pts, AW, OF.top);
+        if (OF.collar === "shirt") {
+          const dir = [(wr[0] - el[0]) / L2, (wr[1] - el[1]) / L2];
+          const c0 = [wr[0] - dir[0] * 12, wr[1] - dir[1] * 12], nx = -dir[1], ny = dir[0];
+          s += line(`M${f(c0[0] - nx * AW * 0.5)},${f(c0[1] - ny * AW * 0.5)} L${f(c0[0] + nx * AW * 0.5)},${f(c0[1] + ny * AW * 0.5)}`, 3.4);
+        }
+      }
+    } else if (outfit === "casual") {
       s += tube(pts, 40, C.skin);
       // қысқа жең: иықтан шынтаққа дейінгі 55%
       const k = 0.55;
@@ -464,8 +604,11 @@
       s += line(`M${f(c0[0] - nx * 23)},${f(c0[1] - ny * 23)} L${f(c0[0] + nx * 23)},${f(c0[1] + ny * 23)}`, 4);
     }
     const ang = Math.atan2(-(wr[0] - el[0]), wr[1] - el[1]) / D; // білезік бағыты (төмен = 0)
+    // қолдағы зат (prop): білезіктің жергілікті координаттарында, саусақтар +y бағытында, айнасыз
+    if (arm.prop) s += `<g transform="translate(${f(wr[0])},${f(wr[1])}) rotate(${f(ang)})">${arm.prop}</g>`;
     s += `<g transform="translate(${f(wr[0])},${f(wr[1])}) rotate(${f(ang)}) scale(${s0},1)">${handSVG(arm.hand || "rest")}</g>`;
-    return { svg: s, wrist: wr, elbow: el, shoulder: sh, sleeve: outfit === "casual" ? C.skin : C.blazer, w: outfit === "casual" ? 46 : 46 };
+    if (arm.propFront) s += `<g transform="translate(${f(wr[0])},${f(wr[1])}) rotate(${f(ang)})">${arm.propFront}</g>`;
+    return { svg: s, wrist: wr, elbow: el, shoulder: sh, sleeve, w: AW };
   }
 
   // ---------- аяқ ----------
@@ -474,15 +617,15 @@
     const L1 = 190, L2 = 180;
     const kn = [hip[0] + side * Math.sin(a) * L1 + Math.sin(k) * 40 * Math.sign(Math.sin(T * D) || 1), hip[1] + Math.cos(a) * L1 * Math.cos(k * 0.5)];
     const an = [kn[0] + side * Math.sin(a) * L2 - Math.sin(k) * 30 * Math.sign(Math.sin(T * D) || 1), kn[1] + Math.cos(a) * L2];
-    const col = outfit === "casual" ? C.chinos : C.trousers;
-    let s = tube(jit([hip, kn, an], AMP * 0.5), 58, col);
+    const col = OF && !OF.base ? OF.legs : outfit === "casual" ? C.chinos : C.trousers;
+    let s = tube(jit([hip, kn, an], AMP * 0.5), (LK.body && LK.body.leg) || 58, col);
     // табан: алдынан — сыртқа қарай сәл бұрылған, бүйірден — алға
     const fwd = Math.sin(T * D);
     const fc = Math.abs(fwd);
     const fx = an[0] + side * 10 * (1 - fc) + fwd * 30;
     const fy = an[1] + 26;
     const rx = 40 + 18 * fc, ry = 22;
-    const shoe = outfit === "casual" ? C.sneaker : C.shoes;
+    const shoe = OF && !OF.base ? OF.shoes : outfit === "casual" ? C.sneaker : C.shoes;
     const pts = jit([[fx - rx, fy + 6], [fx - rx + 6, fy - ry + 4], [fx, fy - ry - 2], [fx + rx - 6, fy - ry + 6], [fx + rx, fy + 6], [fx, fy + ry * 0.55]]);
     s += shape(smooth(pts, true), shoe);
     if (outfit === "casual") s += line(`M${f(fx - rx + 6)},${f(fy + 6)} L${f(fx + rx - 6)},${f(fy + 6)}`, 3, "#9a9aa3");
@@ -491,7 +634,7 @@
 
   // ---------- кеуде + киім ----------
   function torsoPts(T) {
-    const k = 0.62 + 0.38 * Math.abs(Math.cos(T * D));
+    const k = (0.62 + 0.38 * Math.abs(Math.cos(T * D))) * ((LK.body && LK.body.w) || 1);
     const hw = 90 * k, hb = 86 * k;
     return [
       [-hw + 26, -660], [-hw + 4, -644], [-hw - 2, -604], [-hw + 1, -500], [-hb, -430], [-hb + 4, -392], [-hb + 18, -380],
@@ -508,7 +651,38 @@
     const sq = Math.max(0.15, c); // алдыңғы бөлшектердің сығылуы
     const X = (x) => fx + x * sq;
     let inner = "";
-    if (outfit === "casual") {
+    if (OF && !OF.base) {
+      const kk = (0.62 + 0.38 * Math.abs(c)) * ((LK.body && LK.body.w) || 1);
+      inner += `<path d="${d}" fill="${OF.top}"/>`;
+      inner += `<path d="M${f(100 * kk - 30)},-650 Q${f(100 * kk - 12)},-520 ${f(94 * kk - 22)},-385 L240,-385 L240,-670Z" fill="${OF.shade}"/>`;
+      if (vis) {
+        if (OF.collar === "v") {
+          inner += `<path d="M${f(X(-34))},-668 L${f(X(34))},-668 L${f(X(0))},-560 Z" fill="${OF.under}"/>`;
+          inner += line(`M${f(X(-34))},-668 L${f(X(0))},-560 L${f(X(34))},-668`, 3.6);
+          if (OF.buttons) for (const y of [-536, -500, -464]) inner += `<circle cx="${f(X(0))}" cy="${y}" r="4.4" fill="${INK}"/>`;
+          if (OF.belt) inner += `<path d="M-200,-470 L200,-470 L200,-448 L-200,-448Z" fill="${OF.belt}"/>` + line(`M-200,-470 L200,-470 M-200,-448 L200,-448`, 3);
+        } else if (OF.collar === "shirt") {
+          inner += shape(`M${f(X(-2))},-662 L${f(X(-34))},-668 L${f(X(-24))},-628 Z`, OF.top, 3.4);
+          inner += shape(`M${f(X(2))},-662 L${f(X(34))},-668 L${f(X(24))},-628 Z`, OF.top, 3.4);
+          inner += line(`M${f(X(0))},-660 L${f(X(0))},-400`, 3);
+          for (const y of [-610, -560, -510, -460]) inner += `<circle cx="${f(X(7))}" cy="${y}" r="4" fill="${INK}"/>`;
+          inner += line(`M${f(X(-50))},-600 L${f(X(-20))},-600 L${f(X(-20))},-570 L${f(X(-50))},-570Z`, 3);
+        } else if (OF.collar === "peter") {
+          inner += shape(`M${f(X(0))},-662 Q${f(X(-46))},-668 ${f(X(-46))},-640 Q${f(X(-30))},-614 ${f(X(0))},-630Z`, "#ffffff", 3.4);
+          inner += shape(`M${f(X(0))},-662 Q${f(X(46))},-668 ${f(X(46))},-640 Q${f(X(30))},-614 ${f(X(0))},-630Z`, "#ffffff", 3.4);
+        } else {
+          inner += line(`M${f(X(-30))},-664 Q${f(X(0))},-636 ${f(X(30))},-664`, 3.6);
+          if (OF.brooch) inner += shape(`M${f(X(-44))},-600 l10,-10 l10,10 l-10,10Z`, C.gold, 3);
+        }
+        if (OF.apron) {
+          // ақ алжапқыш (бірінші сынып формасы)
+          inner += shape(`M${f(X(-40))},-626 L${f(X(40))},-626 L${f(X(46))},-430 L${f(X(-46))},-430Z`, "#ffffff", 3.6);
+          inner += shape(`M${f(X(-40))},-626 Q${f(X(-60))},-650 ${f(X(-70))},-664 L${f(X(-56))},-668 Q${f(X(-44))},-648 ${f(X(-30))},-626Z`, "#ffffff", 3);
+          inner += shape(`M${f(X(40))},-626 Q${f(X(60))},-650 ${f(X(70))},-664 L${f(X(56))},-668 Q${f(X(44))},-648 ${f(X(30))},-626Z`, "#ffffff", 3);
+          inner += line(`M${f(X(-40))},-626 q8,-10 16,0 t16,0 t16,0 t16,0 t16,0`, 2.6, "#c9cfdb");
+        }
+      }
+    } else if (outfit === "casual") {
       inner += `<path d="${d}" fill="#fff"/>`;
       if (vis) {
         // поло: түймелі планка + жаға
@@ -586,6 +760,20 @@
     return s;
   }
 
+  // ---------- басқа киімдер ----------
+  // top/shade — кеуде, sleeve long|short, collar shirt|v|round|peter, skirt {to, color, flare}, legs — аяқ түсі (шалбар/колготки)
+  const OUTFITS = {
+    tee: { top: "#9aa6b4", shade: "#8592a1", sleeve: "short", collar: "round", legs: "#3a3f4c", shoes: "#e9e9ee" },
+    momHome: { top: "#3f8f8a", shade: "#357a75", sleeve: "long", collar: "v", under: "#f1e2cf", belt: "#2f6f6b", skirt: { to: -110, color: "#3f8f8a", shade: "#357a75" }, legs: "#ffffff", shoes: "#d0647a" },
+    momFest: { top: "#8e3b6e", shade: "#77305c", sleeve: "long", collar: "round", brooch: true, skirt: { to: -150, color: "#8e3b6e", shade: "#77305c" }, legs: "#ffffff", shoes: "#2a1f24" },
+    dad: { top: "#a7c7e4", shade: "#8fb2d2", sleeve: "long", collar: "shirt", buttons: true, belt: "#2a2522", legs: "#3b3f4a", shoes: "#2a2522" },
+    teacher: { top: "#7d3040", shade: "#68283a", sleeve: "long", collar: "v", under: "#ffffff", buttons: true, skirt: { to: -175, color: "#3a3d4a", shade: "#31333f" }, legs: "#efe3d6", shoes: "#2a2228" },
+    teacher1: { top: "#e3ad4c", shade: "#cf9a3c", sleeve: "long", collar: "round", skirt: { to: -190, color: "#4c6a8c", shade: "#425c7a" }, legs: "#ffffff", shoes: "#5a3a2a" },
+    girl: { top: "#273556", shade: "#1f2a45", sleeve: "long", collar: "peter", apron: true, skirt: { to: -230, color: "#273556", shade: "#1f2a45", flare: 1.4 }, legs: "#ffffff", shoes: "#1b1b20" },
+    director: { base: "school", pal: { blazer: "#555a66", blazerShade: "#474b56", tie: "#9b2c2c", trousers: "#4a4e59" } },
+  };
+  let OF = null;
+
   // ---------- негізгі сызу ----------
   const DEF = {
     turn: 0, headTurn: 0, headTilt: 0, headY: 0, lean: 0, squash: 1, x: 0, y: 0, scale: 1,
@@ -617,17 +805,30 @@
     const TH = T + p.headTurn * 90;
     const sq = p.squash;
     const sxs = 1 + (1 - sq) * 0.7;
+    // кейіпкер (look) және киім
+    LK = typeof p.look === "object" ? p.look : LOOKS[p.look || "artur"] || LOOKS.artur;
+    HS = HAIR[LK.hair] || HAIR.artur;
+    HAIRLINE = HS.line;
+    OF = OUTFITS[p.outfit] || null;
+    let outfit = p.outfit;
+    const saved = {};
+    if (OF && OF.base) {
+      for (const k in OF.pal) { saved[k] = C[k]; C[k] = OF.pal[k]; }
+      outfit = OF.base;
+    }
+    const BW = (LK.body && LK.body.w) || 1;
+    const [BK, HK] = LK.kid || [1, 1];
 
     // иық пен жамбас нүктелері (цилиндрлік проекция)
     const kk = 0.62 + 0.38 * Math.abs(Math.cos(T * D));
     const shoulderAt = (side) => {
       const ph = wrap(side * 90 + T);
-      return { c: Math.cos(ph * D), pt: [(66 * Math.sin(ph * D)) + side * 4 * kk, -612] };
+      return { c: Math.cos(ph * D), pt: [(66 * BW * Math.sin(ph * D)) + side * 4 * kk, -612] };
     };
     const SL = shoulderAt(-1), SR = shoulderAt(1);
     const hipAt = (side) => {
       const ph = wrap(side * 90 + T);
-      return { x: 42 * Math.sin(ph * D), c: Math.cos(ph * D) };
+      return { x: 42 * BW * Math.sin(ph * D), c: Math.cos(ph * D) };
     };
     const HL = hipAt(-1), HR = hipAt(1);
 
@@ -638,7 +839,7 @@
       { side: 1, h: HR, leg: p.legR },
     ].sort((a, b) => a.h.c - b.h.c);
     let legSvg = "";
-    for (const L of legs) legSvg += drawLeg(L.side, T, L.leg, [L.h.x, -400], p.outfit);
+    for (const L of legs) legSvg += drawLeg(L.side, T, L.leg, [L.h.x, -400], outfit);
 
     // қолдар: денеден артта (c < −0.15) немесе алдында
     const arms = [
@@ -649,7 +850,7 @@
     const patches = [];
     for (const A of arms) {
       const sideScreen = Math.abs(Math.sin(wrap(A.side * 90 + T) * D)) > 0.35 ? Math.sign(Math.sin(wrap(A.side * 90 + T) * D)) : A.side * (Math.cos(T * D) >= 0 ? 1 : -1) * (Math.sin(T * D) >= 0 ? 1 : 1);
-      const r = drawArm(sideScreen, T, A.arm, A.s.pt, p.outfit);
+      const r = drawArm(sideScreen, T, A.arm, A.s.pt, outfit);
       if (A.s.c < -0.15) armsBack += r.svg;
       else {
         armsFront += r.svg;
@@ -661,27 +862,53 @@
     let head = "";
     const hp = jit(headPts(44));
     // артқы құлақ (бастың артында)
+    head += drawHairBack(TH);
     head += drawEar(-1, TH, false) + drawEar(1, TH, false);
     head += shape(smooth(hp, true), C.skin);
-    head += drawEar(-1, TH, true) + drawEar(1, TH, true);
-    head += drawEye(-1, TH, p.eye) + drawEye(1, TH, p.eye);
-    // мең: кейіпкердің оң беті (экранда сол жақ)
-    const mole = proj(-36, 36, TH);
-    if (mole.c > 0.2) head += `<circle cx="${f(mole.x)}" cy="${f(mole.y)}" r="4.6" fill="${C.mole}"/>`;
-    head += drawMouth(TH, p.mouth);
+    if (!LK.hideFace) {
+      head += drawEar(-1, TH, true) + drawEar(1, TH, true);
+      head += drawEye(-1, TH, p.eye) + drawEye(1, TH, p.eye);
+      // мең: кейіпкердің оң беті (экранда сол жақ)
+      const mole = proj(-36, 36, TH);
+      if (LK.mole && mole.c > 0.2) head += `<circle cx="${f(mole.x)}" cy="${f(mole.y)}" r="4.6" fill="${C.mole}"/>`;
+      head += drawMouth(TH, p.mouth);
+      if (LK.mustache) head += drawMustache(TH);
+    }
     head += drawHair(TH);
+    if (LK.glasses) head += drawGlasses(TH);
     head += drawBrow(-1, TH, p.brow) + drawBrow(1, TH, p.brow);
+    head += drawHairFront(TH);
     head += drawFx(TH, p.fx);
 
-    const headG = `<g transform="translate(0,-652) rotate(${f(p.headTilt)}) translate(0,${f(-157 + p.headY)})">${head}</g>`;
-    const torso = drawTorso(T, p.outfit);
+    const torso = drawTorso(T, outfit);
+    // юбка / халат етегі
+    let skirt = "";
+    if (OF && OF.skirt) {
+      const sk = OF.skirt, k2 = (0.62 + 0.38 * Math.abs(Math.cos(T * D))) * BW;
+      const top = 86 * k2, bot = 86 * k2 * (sk.flare || 1.18) + 8;
+      const pts = jit([[-top, -440], [top, -440], [bot, sk.to + 4], [bot * 0.5, sk.to + 12], [0, sk.to + 8], [-bot * 0.5, sk.to + 12], [-bot, sk.to + 4]]);
+      const id = uid("sk");
+      const d = smooth(pts, true, 1 / 9);
+      skirt = `<clipPath id="${id}"><path d="${d}"/></clipPath><path d="${d}" fill="${sk.color}"/><g clip-path="url(#${id})"><path d="M${f(top * 0.35)},-440 L300,-440 L300,${sk.to + 20} L${f(bot * 0.45)},${sk.to + 20}Z" fill="${sk.shade || sk.color}"/></g>` + line(d, OL);
+      if ((sk.flare || 1) > 1.3) skirt += line(`M${f(-bot * 0.45)},${sk.to} L${f(-top * 0.3)},-430 M${f(bot * 0.45)},${sk.to} L${f(top * 0.3)},-430`, 3);
+    }
     // иық түйісуі: қолдың дөңгелек ұшының дене ішіндегі контурын жеңнің түсімен жабу
     let patch = "";
     for (const r of patches) {
       patch += `<circle cx="${f(r.shoulder[0])}" cy="${f(r.shoulder[1])}" r="${f(r.w / 2 + OL + 1)}" fill="${r.sleeve}" clip-path="url(#${LAST_TORSO_CLIP})"/>`;
     }
-    const upper = `<g transform="rotate(${f(p.lean)} 0 -400)">${armsBack}${torso}${armsFront}${patch}${headG}</g>`;
-    const body = `<g transform="translate(${f(p.x)},${f(p.y)}) scale(${f(p.scale * sxs * 1000) / 1000},${f(p.scale * sq * 1000) / 1000})">${legSvg}${upper}</g>`;
+    let body;
+    if (BK === 1 && HK === 1) {
+      const headG = `<g transform="translate(0,-652) rotate(${f(p.headTilt)}) translate(0,${f(-157 + p.headY)})">${head}</g>`;
+      const upper = `<g transform="rotate(${f(p.lean)} 0 -400)">${armsBack}${skirt}${torso}${armsFront}${patch}${headG}</g>`;
+      body = `<g transform="translate(${f(p.x)},${f(p.y)}) scale(${f(p.scale * sxs * 1000) / 1000},${f(p.scale * sq * 1000) / 1000})">${legSvg}${upper}</g>`;
+    } else {
+      // бала пропорциясы: дене кіші, бас салыстырмалы түрде үлкен
+      const headG = `<g transform="translate(0,${f(-652 * BK)}) rotate(${f(p.headTilt)}) scale(${HK}) translate(0,${f(-157 + p.headY)})">${head}</g>`;
+      const upper = `<g transform="rotate(${f(p.lean)} 0 ${f(-400 * BK)})"><g transform="scale(${BK})">${armsBack}${skirt}${torso}${armsFront}${patch}</g>${headG}</g>`;
+      body = `<g transform="translate(${f(p.x)},${f(p.y)}) scale(${f(p.scale * sxs * 1000) / 1000},${f(p.scale * sq * 1000) / 1000})"><g transform="scale(${BK})">${legSvg}</g>${upper}</g>`;
+    }
+    for (const k in saved) C[k] = saved[k];
     RNG = null;
     return body;
   }
@@ -737,5 +964,5 @@
     return k < 0.5 ? a : b;
   }
 
-  G.ArturRig = { draw, EXPR, POSES, VISEMES, letterViseme, blend, COLORS: C, INK, DEF };
+  G.ArturRig = { draw, EXPR, POSES, VISEMES, letterViseme, blend, COLORS: C, INK, DEF, LOOKS, OUTFITS, HAIR };
 })(typeof window !== "undefined" ? window : globalThis);
