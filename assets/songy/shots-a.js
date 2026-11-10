@@ -246,7 +246,7 @@
     t0: WT, bg: "classroom", bgArgs: [TX(0, -760, "1 қыркүйек", 90, "#ffffff", ' opacity="0.9"'), { desks: false }], bgKey: "class1",
     cam: [[WT, { x: 60, y: -460, z: 1.15 }], [E("L15") + 1.4, { x: 40, y: -480, z: 1.3 }]],
     actors: [
-      { look: "kid", outfit: "school", x: 0, s: 0.75, seed: 9, keys: [[WT, { y: 40, turn: 0, ...RIG.EXPR.calm, eye: { lidTop: 0.98 } }], [WT + 2.2, { y: -170, ...RIG.EXPR.shock, mouth: "shock", fx: { sweat: 1 } }, 0.18, back]] },
+      { look: "kid", outfit: "school", x: 0, s: 0.75, seed: 9, keys: [[WT, { y: 40, turn: 0, ...RIG.EXPR.calm, eye: { lidTop: 0.98 } }], [WT + 2.2, { y: -390, ...RIG.EXPR.shock, mouth: "shock", fx: { sweat: 1 } }, 0.18, back]] },
       { look: "teacher1", outfit: "teacher1", x: 520, s: 0.74, seed: 41, keys: [[WT, { turn: -0.45, ...RIG.EXPR.happy, armR: { sh: 70, el: 60, hand: "fist", prop: PROPS.can() } }], [WT + 1.4, { armR: { sh: 100, el: 50 } }, 0.4], [WT + 2.3, { ...RIG.EXPR.shock, mouth: "oh" }, 0.15]] },
     ],
     worldBack: () => P("M-170,-40 L170,-40 L130,0 L-130,0Z", "#8b8f99", 6),
