@@ -171,7 +171,7 @@
   const MV = S("L10") - 0.25;
   add({
     t0: MV, bg: "movie", flashIn: 0.3,
-    cam: [[MV, { x: -420, y: -500, z: 1.1, r: -1 }], [S("L11") - 0.2, { x: 260, y: -480, z: 1.22, r: 1 }, (k) => k]],
+    cam: [[MV, { x: -520, y: -540, z: 1.45, r: -1 }], [S("L11") - 0.2, { x: 300, y: -540, z: 1.6, r: 1 }, (k) => k]],
     actors: [{ look: "artur", outfit: "grad", s: 0.75, seed: 5,
       keys: [[MV, { x: -650, turn: 0.75, ...RIG.EXPR.happy, eye: { lidTop: 0.35, lidBot: 0.2 }, walk: 0.42, walkAmp: 13 }], [MV + 0.01, { x: 360 }, 7.2, (k) => k]] }],
     world: (t) => {

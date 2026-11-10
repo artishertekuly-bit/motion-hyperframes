@@ -63,7 +63,7 @@
     actors: crowdCast(),
     world: (t) => { let s = ""; const a = lerp(-50, 50, win(t, TL, E("L39"))); for (const x of [-420, -40, 230, 520, 760]) s += `<ellipse cx="${f(x + a * 3)}" cy="6" rx="${f(110 + Math.abs(a) * 1.6)}" ry="20" fill="#000" opacity="0.13"/>`; return s; },
     nearWorld: () => front(3),
-    over: (t) => { const k = win(t, TL, E("L39")); const a = lerp(200, -20, k) * D; return `<g transform="translate(${f(960 + Math.cos(a) * 800)},${f(620 - Math.sin(a) * 500)})">${C(0, 0, 70, "#ffd34d", 7)}</g>`; },
+    over: (t) => { const k = win(t, TL, E("L39")); const a = lerp(200, -20, k) * D; return `<g transform="translate(${f(960 + Math.cos(a) * 820)},${f(230 - Math.sin(a) * 150)})">${C(0, 0, 70, "#ffd34d", 7)}</g>`; },
     type: (t) => counter(t) + TY.pop(t, Wt("L39", 2), "40 МИН", 300, 170, { size: 90, color: "#ffffff", tilt: -6 }),
     fx: (t) => ({ tint: "#ffcf7a", tintA: 0.18 * win(t, TL, E("L39")), bright: lerp(1, 1.05, win(t, TL, E("L39"))) }),
   });
