@@ -246,14 +246,17 @@
       const Z = Math.pow(c.z, kz);
       const tx = c0.x + (c.x - c0.x) * kd, ty = c0.y + (c.y - c0.y) * kd;
       el[n + "Cam"].setAttribute("transform", `translate(${W / 2},${H / 2}) rotate(${f(c.r)}) scale(${f(Z * 1000) / 1000}) translate(${f(-tx)},${f(-ty)})`);
-      const bx = Math.min(24, Math.abs(vx) * kd * 0.5 + vz * 0.3), by = Math.min(24, Math.abs(vy) * kd * 0.5 + vz * 0.3);
+      // mbScale — кадрдың бұлдырлық еселігі; mbMid — орта қабат (кейіпкерлер камерамен бірге жүгіргенде аз)
+      const ms = (sh.mbScale == null ? 1 : sh.mbScale) * (n === "mid" && sh.mbMid != null ? sh.mbMid : 1);
+      const bx = Math.min(24, (Math.abs(vx) * kd * 0.5 + vz * 0.3) * ms), by = Math.min(24, (Math.abs(vy) * kd * 0.5 + vz * 0.3) * ms);
       if (bx > 0.6 || by > 0.6) { el[n + "Mb"].setAttribute("stdDeviation", `${f(bx)} ${f(by)}`); el[n + "Cam"].setAttribute("filter", `url(#mb-${n})`); }
       else el[n + "Cam"].removeAttribute("filter");
     }
     // дүние: кейіпкерлер мен заттар
     const ctx = { t, S, E, sh, cam: c };
     el.midWb.innerHTML = sh.worldBack ? sh.worldBack(t, ctx) : "";
-    el.midAct.innerHTML = (sh.actors || []).map((a, i) => drawActor(a, t, i)).join("");
+    const ta = sh.freeze != null && t > sh.freeze ? sh.freeze : t; // «қатып қалу» кадры
+    el.midAct.innerHTML = (sh.actors || []).map((a, i) => drawActor(a, ta, i)).join("");
     el.midWf.innerHTML = sh.world ? sh.world(t, ctx) : "";
     el.farWb.innerHTML = sh.farWorld ? sh.farWorld(t, ctx) : "";
     el.nearWf.innerHTML = sh.nearWorld ? sh.nearWorld(t, ctx) : "";

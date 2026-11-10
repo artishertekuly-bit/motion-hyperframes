@@ -178,6 +178,13 @@
     teacher1: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 70 ? -92 + 8 * Math.cos(a * 4 * D) : x < 100 ? lerp(-84, 20, sstep(70, 100, x)) : 36; }), color: "#5e3f2f", pony: true, strands: [[-20, -146, -40, -96], [20, -146, 40, -96]] },
     // Аяулым: түзу шашбау, екі өрім + үлкен ақ бантиктер
     girl: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 62 ? -56 + 3 * Math.cos(a * 9 * D) : x < 90 ? lerp(-56, 34, sstep(62, 90, x)) : 40; }), color: "#2a2226", bows: true, pigtails: true, strands: [[-36, -140, -40, -70], [0, -150, 0, -70], [36, -140, 40, -70]] },
+    // әже: орамал (желкеде түйілген), астынан ақ шаш көрінеді
+    scarf: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 60 ? -78 + 4 * Math.cos(a * 6 * D) : x < 100 ? lerp(-78, 118, sstep(60, 100, x)) : lerp(118, 150, sstep(100, 180, x)); }), color: "#c8425a", lineColor: "#a8344a", flare: 0.16, my: 0.05, dots: "#fff3e6", knot: true, coverEars: true, peek: "#d4d1d8", strands: [[-44, -138, -64, -92], [44, -138, 64, -92], [0, -150, -6, -104]] },
+    scarf2: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 60 ? -82 + 4 * Math.cos(a * 6 * D) : x < 100 ? lerp(-82, 112, sstep(60, 100, x)) : lerp(112, 146, sstep(100, 180, x)); }), color: "#3f8f5a", lineColor: "#2f7449", flare: 0.14, my: 0.05, dots: "#f6d55c", knot: true, coverEars: true, peek: "#3b2f2c", strands: [[-44, -138, -64, -92], [44, -138, 64, -92]] },
+    // ата: қысқа ақ шаш + тақия
+    ata: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 70 ? -112 : x < 100 ? lerp(-112, -10, sstep(70, 100, x)) : lerp(-10, 34, sstep(100, 150, x)); }), color: "#dcdce2", lineColor: "#b4b4bd", strands: [[120, -60, 116, 20], [-120, -60, -124, 20], [150, -40, 146, 30], [-150, -40, -154, 30]], mx: -0.03, my: -0.06, cap: { color: "#24252d", orn: "#ece6d4" } },
+    // Бекзат: қысқа (машинкамен алынған) шаш
+    buzz: { line: hairlineFn((a) => { const x = Math.abs(a); return x < 66 ? -98 + 3 * Math.cos(a * 8 * D) : x < 100 ? lerp(-98, -6, sstep(66, 100, x)) : lerp(-6, 30, sstep(100, 150, x)); }), color: "#3a2f2a", lineColor: "#5a4a42", mx: -0.035, my: -0.075, strands: [[-30, -140, -34, -112], [10, -146, 6, -114], [40, -136, 36, -110], [130, -50, 126, 10], [-130, -50, -134, 10]] },
   };
   const LOOKS = {
     artur: { hair: "artur", brow: "thick", mole: true },
@@ -189,6 +196,10 @@
     teacher1: { hair: "teacher1", brow: "thin", lashes: true, body: { w: 0.9, arm: 40, leg: 42 } },
     girl: { hair: "girl", brow: "thin", lashes: true, lid: -0.2, kid: [0.5, 0.78], body: { w: 0.92, arm: 42, leg: 50 } },
     director: { hair: "director", brow: "thick2", glasses: true, body: { w: 1.1, arm: 48, leg: 60 } },
+    aje: { hair: "scarf", brow: "thin", browColor: "#8f8b96", wrinkles: true, lid: 0.08, blushK: 0.4, kid: [0.9, 0.97], body: { w: 1.12, arm: 44, leg: 46 } },
+    apa: { hair: "scarf2", brow: "thin", browColor: "#3b2f2c", wrinkles: true, lid: 0.04, blushK: 0.5, body: { w: 1.22, arm: 48, leg: 50 } },
+    ata: { hair: "ata", brow: "thick2", browColor: "#b9b7bf", mustache: true, beard: true, wrinkles: true, lid: 0.24, kid: [0.96, 0.98], body: { w: 1.02, arm: 44, leg: 48 } },
+    boy: { hair: "buzz", brow: "thick2", kid: [0.6, 0.86], lid: -0.12, body: { w: 0.95, arm: 42, leg: 48 } },
   };
   let LK = LOOKS.artur, HS = HAIR.artur;
   let HAIRLINE = HS.line;
@@ -306,6 +317,18 @@
       const x = p.x * 0.9 + side * 30 * Math.abs(Math.sin(T * D));
       s += shape(smooth(jit([[x - 30, -80], [x + 30, -86], [x + 44, 40], [x + 26, 150], [x - 6, 190], [x - 20, 120], [x - 36, 20]]), true), HC);
     }
+    if (HS.knot) {
+      // орамалдың түйіні мен екі ұшы (желкеде)
+      const p = proj(180, 120, T);
+      const dir = Math.sin(T * D) >= 0 ? -1 : 1;
+      const vis = Math.abs(Math.sin(T * D));
+      const x = p.x * 0.7 + dir * 30 * vis, y = 118;
+      if (vis > 0.3) {
+      s += shape(smooth(jit([[x - 10, y], [x + dir * 36, y + 56], [x + dir * 58, y + 112], [x + dir * 26, y + 106], [x - dir * 4, y + 40]]), true), HC);
+      s += shape(smooth(jit([[x + 10, y], [x + dir * 12, y + 70], [x + dir * 2, y + 128], [x - dir * 22, y + 116], [x - dir * 18, y + 40]]), true), HC);
+      s += shape(smooth(jit([[x - 26, y - 16], [x + 26, y - 16], [x + 24, y + 18], [x - 24, y + 18]]), true), HC, 6);
+      }
+    }
     if (HS.pigtails) {
       for (const side of [-1, 1]) {
         const p = proj(side * 98, -60, T);
@@ -332,8 +355,83 @@
     return s;
   }
 
+  // ---------- орамал / тақия / әжім / сақал ----------
+  function drawPeek(T) {
+    // орамалдың астынан көрінетін шаш (маңдайда)
+    const top = [], bot = [];
+    for (let a = -48; a <= 48; a += 8) {
+      const p = proj(a, 0, T);
+      if (p.c < 0.1) continue;
+      const y = hairlineY(a);
+      const x = rAt(y) * Math.sin(p.ph * D);
+      top.push([x, y - 6]);
+      bot.push([x, y + 10 - Math.abs(a) * 0.08]);
+    }
+    if (top.length < 3) return "";
+    return shape(smooth(jit(top.concat(bot.reverse()), AMP * 0.5), true, 1 / 8), HS.peek, 4);
+  }
+  function drawDots(T) {
+    let s = "";
+    for (let y = -132; y <= 120; y += 36) for (let a = -170; a <= 180; a += 26) {
+      const aa = wrap(a + (Math.round(y / 36) % 2 ? 13 : 0));
+      if (y > hairlineY(aa) - 12) continue;
+      const p = proj(aa, y, T);
+      if (p.c < 0.22) continue;
+      const k = 1.06 + 0.06 * Math.max(0, -y / 150);
+      s += '<circle cx="' + f(p.x * k) + '" cy="' + f(y * (y < 0 ? 1.04 : 1)) + '" r="' + f(6 * Math.pow(p.c, 0.5)) + '" fill="' + HS.dots + '"/>';
+    }
+    return s;
+  }
+  function drawCap(T) {
+    const cp = HS.cap, yb = -108, xw = rAt(yb) * 1.1;
+    let s = shape(smooth(jit([[-xw, yb + 4], [-xw * 0.96, yb - 40], [-xw * 0.62, -172], [0, -184], [xw * 0.62, -172], [xw * 0.96, yb - 40], [xw, yb + 4], [0, yb + 12]]), true, 1 / 7), cp.color);
+    // кесте: жиектегі зигзаг + маңдайдағы «қошқар мүйіз»
+    let z = "";
+    for (let i = 0; i <= 10; i++) { const u = -1 + i / 5; z += (i ? "L" : "M") + f(u * xw * 0.9) + "," + f(yb - 6 + (i % 2 ? -10 : 0) - Math.abs(u) * 3); }
+    s += line(z, 3.2, cp.orn);
+    const p = proj(0, -140, T);
+    if (p.c > 0.2) {
+      const x = p.x * 0.9, y = -146;
+      const X = (d) => f(x + d);
+      s += line("M" + X(0) + "," + (y + 16) + " L" + X(0) + "," + (y - 4) + " M" + X(0) + "," + (y - 4) + " Q" + X(-4) + "," + (y - 22) + " " + X(-18) + "," + (y - 18) + " Q" + X(-28) + "," + (y - 10) + " " + X(-18) + "," + (y - 2) + " M" + X(0) + "," + (y - 4) + " Q" + X(4) + "," + (y - 22) + " " + X(18) + "," + (y - 18) + " Q" + X(28) + "," + (y - 10) + " " + X(18) + "," + (y - 2), 3.4, cp.orn);
+    }
+    return s;
+  }
+  function drawWrinkles(T) {
+    let s = "";
+    for (const side of [-1, 1]) {
+      const o = proj(side * 45, -2, T);
+      if (o.c > 0.15) s += line("M" + f(o.x) + "," + f(o.y - 10) + " l" + f(side * 14) + ",-6 M" + f(o.x + side * 2) + "," + f(o.y + 4) + " l" + f(side * 15) + ",2", 3.4, INK, ' opacity="0.75"');
+      const a = proj(side * 15, 44, T), b = proj(side * 30, 86, T);
+      if (a.c > 0.2 && b.c > 0.2) s += line("M" + f(a.x) + "," + f(a.y) + " Q" + f((a.x + b.x) / 2 + side * 10) + "," + f((a.y + b.y) / 2) + " " + f(b.x) + "," + f(b.y), 3.4, INK, ' opacity="0.7"');
+      const u = proj(side * 20, 46, T);
+      if (u.c > 0.2) s += line("M" + f(u.x - 16) + "," + f(u.y) + " Q" + f(u.x) + "," + f(u.y + 8) + " " + f(u.x + 16) + "," + f(u.y), 3, INK, ' opacity="0.55"');
+    }
+    return s;
+  }
+  function drawBeard(T) {
+    // қысқа ақ сақал: бастың төменгі контуры бойымен (беттің ортасына қарай), ауыздың астында ойық
+    const m = proj(0, 98, T);
+    const sx = 0.55 + 0.45 * Math.max(0, m.c);
+    const mx = clamp(m.x, -rAt(98) + 30, rAt(98) - 30);
+    const outer = [];
+    for (let k = 12; k <= 168; k += 6) {
+      const ph = k * D, sn = Math.sin(ph);
+      const x = R * Math.cos(ph) * (1 - 0.075 * sn * sn), y = RYD * sn;
+      if (y < 78 || Math.abs(x - mx) > 104 * sx) continue;
+      outer.push([x * 1.03, y * 1.03 + 12 * Math.pow(sn, 8)]);
+    }
+    if (outer.length < 3) return "";
+    outer.sort((p, q) => q[0] - p[0]);
+    const L = outer[outer.length - 1], Rr = outer[0];
+    const inner = [[lerp(L[0], mx, 0.3), 100], [mx - 24 * sx, 110], [mx, 116], [mx + 24 * sx, 110], [lerp(Rr[0], mx, 0.3), 100]];
+    const d = smooth(jit(outer.concat(inner)), true, 1 / 7);
+    return shape(d, HS.color, 5) + line("M" + f(mx - 26 * sx) + ",138 q6,12 0,22 M" + f(mx + 22 * sx) + ",136 q6,12 0,22 M" + f(mx - 2) + ",150 q4,10 0,16", 3, HS.lineColor || "#b4b4bd");
+  }
+
   // ---------- құлақ ----------
   function drawEar(side, T, front) {
+    if (HS.coverEars) return "";
     const p = proj(side * 90, 6, T);
     if (p.c < -0.3) return "";
     const onFace = p.c > 0.25;
@@ -450,7 +548,7 @@
     // ішкі ұшы
     const xi = cx + inner * dx, yi = cy + dy;
     const xo = cx - inner * dx, yo = cy - dy;
-    const bc = LK.brow === "thick" ? C.brow : mix(HS.color, "#000000", 0.25);
+    const bc = LK.browColor || (LK.brow === "thick" ? C.brow : mix(HS.color, "#000000", 0.25));
     if (LK.brow === "thin") {
       // жіңішке доға қас
       const pts = jit([[xi, yi + 2], [cx, cy - 8], [xo, yo + 3]], AMP * 0.5);
@@ -770,6 +868,10 @@
     teacher: { top: "#7d3040", shade: "#68283a", sleeve: "long", collar: "v", under: "#ffffff", buttons: true, skirt: { to: -175, color: "#3a3d4a", shade: "#31333f" }, legs: "#efe3d6", shoes: "#2a2228" },
     teacher1: { top: "#e3ad4c", shade: "#cf9a3c", sleeve: "long", collar: "round", skirt: { to: -190, color: "#4c6a8c", shade: "#425c7a" }, legs: "#ffffff", shoes: "#5a3a2a" },
     girl: { top: "#273556", shade: "#1f2a45", sleeve: "long", collar: "peter", apron: true, skirt: { to: -230, color: "#273556", shade: "#1f2a45", flare: 1.4 }, legs: "#ffffff", shoes: "#1b1b20" },
+    aje: { top: "#2f5d50", shade: "#284f44", sleeve: "long", collar: "v", under: "#e9d6b8", buttons: true, skirt: { to: -44, color: "#6b3f74", shade: "#5b3563", flare: 1.25 }, legs: "#8a7a6c", shoes: "#2a2228" },
+    apa: { top: "#7a5ea8", shade: "#6a5092", sleeve: "long", collar: "round", skirt: { to: -70, color: "#7a5ea8", shade: "#6a5092", flare: 1.2 }, legs: "#efe3d6", shoes: "#3a2a2a" },
+    ata: { top: "#4b4a52", shade: "#3f3e46", sleeve: "long", collar: "v", under: "#f3efe6", buttons: true, legs: "#3e3d44", shoes: "#2a2522" },
+    boy: { top: "#e98a3a", shade: "#d47a2e", sleeve: "short", collar: "round", legs: "#4a6fa5", shoes: "#d9d9de" },
     director: { base: "school", pal: { blazer: "#555a66", blazerShade: "#474b56", tie: "#9b2c2c", trousers: "#4a4e59" } },
   };
   let OF = null;
@@ -871,14 +973,19 @@
       // мең: кейіпкердің оң беті (экранда сол жақ)
       const mole = proj(-36, 36, TH);
       if (LK.mole && mole.c > 0.2) head += `<circle cx="${f(mole.x)}" cy="${f(mole.y)}" r="4.6" fill="${C.mole}"/>`;
+      if (LK.wrinkles) head += drawWrinkles(TH);
       head += drawMouth(TH, p.mouth);
+      if (LK.beard) head += drawBeard(TH);
       if (LK.mustache) head += drawMustache(TH);
     }
+    if (HS.peek) head += drawPeek(TH);
     head += drawHair(TH);
+    if (HS.dots) head += drawDots(TH);
+    if (HS.cap) head += drawCap(TH);
     if (LK.glasses) head += drawGlasses(TH);
     head += drawBrow(-1, TH, p.brow) + drawBrow(1, TH, p.brow);
     head += drawHairFront(TH);
-    head += drawFx(TH, p.fx);
+    head += drawFx(TH, LK.blushK ? Object.assign({}, p.fx, { blush: Math.max(p.fx.blush || 0, LK.blushK) }) : p.fx);
 
     const torso = drawTorso(T, outfit);
     // юбка / халат етегі

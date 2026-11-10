@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>cast auyl</title>
+<style>body{margin:0;background:#e9e4da}svg{display:block}</style></head>
+<body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+<script src="../assets/characters/artur/artur-rig.js"></script>
+<script>
+// «Әжемнің ауылы» кейіпкерлері: толық бой (төменгі қатар) + бастар (жоғарғы қатар)
+const R = ArturRig, q = new URLSearchParams(location.search);
+const turn = +(q.get("turn") || 0.25);
+const cast = [
+  ["artur", "tee", "happy", {}],
+  ["aje", "aje", "happy", { armR: { sh: 120, el: 30, hand: "open" } }],
+  ["ata", "ata", "calm", {}],
+  ["boy", "boy", "smug", { armR: { sh: 50, el: -94, hand: "fist" } }],
+  ["apa", "apa", "angry", { armR: { sh: 84, el: 2, hand: "point" } }],
+];
+let s = "", heads = "";
+cast.forEach(([look, outfit, ex, extra], i) => {
+  const p = Object.assign({}, R.EXPR[ex], extra, { look, outfit, turn: i % 2 ? -turn : turn });
+  s += `<g transform="translate(${190 + i * 385},${1040}) scale(0.5)">${R.draw(p, { seed: 3, id: "c" + i })}</g>`;
+  const ph = Object.assign({}, R.EXPR[ex], { look, outfit, turn: (i % 2 ? turn : -turn) * 1.6 });
+  heads += `<g transform="translate(${190 + i * 385},${975}) scale(0.9)">${R.draw(ph, { seed: 5, id: "h" + i })}</g>`;
+});
+document.getElementById("s").innerHTML = `<svg x="0" y="0" width="1920" height="470" overflow="hidden">${heads}</svg>` + s;
+</script>
+</body></html>

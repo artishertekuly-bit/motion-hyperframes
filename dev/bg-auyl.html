@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>bg auyl</title>
+<style>body{margin:0;background:#222;display:grid;grid-template-columns:repeat(4,480px)}svg{display:block}.c{position:relative}.c b{position:absolute;left:4px;top:2px;color:#ff0;font:700 14px monospace;text-shadow:0 0 3px #000}</style></head>
+<body>
+<script src="../assets/characters/artur/artur-rig.js"></script>
+<script src="../assets/songy/bg.js"></script>
+<script src="../assets/auyl/bg.js"></script>
+<script>
+// фондар мен жануарлардың жылдам тексеру парағы
+const B = SONGY_BG, A = AUYL_BG, R = ArturRig;
+const q = new URLSearchParams(location.search);
+const z = +(q.get("z") || 0.25);
+function cell(name, L, extra, cx, cy, zz) {
+  zz = zz || z; cx = cx || 0; cy = cy == null ? -380 : cy;
+  const d = document.createElement("div"); d.className = "c";
+  d.innerHTML = `<svg width="480" height="270" viewBox="0 0 1920 1080"><g transform="translate(960,540) scale(${zz}) translate(${-cx},${-cy})">${L.far || ""}${L.mid || ""}${extra || ""}${L.near || ""}</g></svg><b>${name}</b>`;
+  document.body.appendChild(d);
+}
+const artur = (x, y, s, p) => `<g transform="translate(${x},${y}) scale(${s})">${R.draw(Object.assign({ look: "artur", outfit: "tee", turn: 0.3 }, p || {}), { seed: 3, id: "a" + x })}</g>`;
+const show = (q.get("show") || "all");
+if (show === "all" || show === "bg") {
+  cell("aulRoad", B.BG.aulRoad(), artur(0, 0, 0.75) + A.gateAt(1180, -380, 0.6), 0, -600, 0.35);
+  cell("room", B.BG.room(), B.BG.table(0, 120, 1) + A.plate(0, -40, 1, 3) + A.platter(400, -60, 0.7) + A.FOOD.teapot(-400, -40, 1), 0, -600, 0.4);
+  cell("bedroomV", B.BG.bedroomV(), A.rooster(600, -700, 1, { crow: 1 }), 0, -600, 0.4);
+  cell("yardV day", B.BG.yardV("day", { well: 700, bench: -300 }), artur(0, 0, 0.75) + A.bucket(300, 0, 1, true), 0, -700, 0.3);
+  cell("yardV night", B.BG.yardV("night", { bench: 0 }), "", 0, -700, 0.3);
+  cell("hayfield day", B.BG.hayfield("day"), A.haystack(0, 0, 1) + artur(0, -700, 0.6), 0, -700, 0.3);
+  cell("hayfield sunset", B.BG.hayfield("sunset"), A.haystack(0, 0, 1), 0, -900, 0.22);
+  cell("pasture", B.BG.pasture(), A.cow(-600, 0, 0.8, { horns: true }) + A.cow(400, 100, 0.8, { col: "#f4f1ea", spots: "#2d2522", uid: 2 }), 0, -700, 0.3);
+  cell("street evening", B.BG.street("evening"), A.goose(300, 0, 1, {}) + A.rooster(-300, 0, 1, { run: 0.2 }), 0, -700, 0.3);
+  cell("street night", B.BG.street("night"), "", 0, -900, 0.25);
+  cell("barn", B.BG.barn(), B.BG.lamp(400, -1000, 0) + A.cow(900, 0, 0.9, { col: "#a0623a", chew: true, lashes: true }) + B.BG.stool(300, 0), 0, -700, 0.3);
+  cell("city", B.BG.city(), artur(0, 0, 0.75) + A.bag(400, 0, 0.8), 0, -700, 0.3);
+}
+if (show === "all" || show === "animals") {
+  const d = document.createElement("div"); d.style.gridColumn = "span 4";
+  let s = A.cow(-1300, 0, 0.75, { horns: true, lashes: true, bell: true }) + A.cow(-200, 0, 0.95, { col: "#3a2d2a", bull: true, horns: true, ring: "#d6b04a", angry: true, steam: 1, head: 0.6 }, 0.3);
+  s += A.cowFace(800, -400, 1, "#a0623a", { horns: true }) + A.cowFace(1150, -400, 1, "#3a3a3a") + A.rooster(1500, 0, 1.4, { crow: 1 }) + A.goose(1850, 0, 1.2, { flap: 1 }, 0.1) + A.sheep(2300, 0, 1.4, { baa: 1 });
+  d.innerHTML = `<svg width="1920" height="540" viewBox="0 0 1920 540" style="background:#e9e4da"><g transform="translate(560,500) scale(0.4)">${s}</g></svg>`;
+  document.body.appendChild(d);
+}
+</script>
+</body></html>
+<script>
+// ?show=one&a=cow|bull|rooster — бір жануар үлкен
+if (show === "one") {
+  const k = q.get("a") || "cow", t = +(q.get("t") || 0);
+  const o = { cow: () => A.cow(0, 0, 1, { horns: true, lashes: true, bell: true, chew: true }, t), bull: () => A.cow(0, 0, 1, { col: "#3a2d2a", bull: true, horns: true, ring: "#d6b04a", angry: true, steam: 1, head: +(q.get("h") || 0) }, t), spotted: () => A.cow(0, 0, 1, { col: "#f4f1ea", spots: "#2d2522", uid: 2, walk: t }, t), rooster: () => A.rooster(0, 0, 3, { crow: +(q.get("c") || 0), run: q.get("run") ? t : null }, t) }[k]();
+  const d = document.createElement("div"); d.style.gridColumn = "span 4";
+  d.innerHTML = `<svg width="1920" height="1080" viewBox="0 0 1920 1080" style="background:#e9e4da"><g transform="translate(960,980) scale(1.1)">${o}</g></svg>`;
+  document.body.appendChild(d);
+}
+</script>

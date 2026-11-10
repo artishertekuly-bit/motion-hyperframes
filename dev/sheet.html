@@ -6,10 +6,12 @@
 .c b{position:absolute;left:4px;top:2px;color:#ff0;font:700 16px monospace;text-shadow:0 0 3px #000}</style></head>
 <body>
 <script>
-const ts = (new URLSearchParams(location.search).get("t") || "0").split(",").map(Number);
+const qs = new URLSearchParams(location.search);
+const ts = (qs.get("t") || "0").split(",").map(Number);
+const comp = qs.get("c") || "songy";
 for (const t of ts) {
   const d = document.createElement("div"); d.className = "c";
-  const f = document.createElement("iframe"); f.src = "../songy.html?t=" + t;
+  const f = document.createElement("iframe"); f.src = "../" + comp + ".html?t=" + t;
   f.onload = () => { try { f.contentWindow.__renderAt(t); } catch (e) { d.style.outline = "4px solid red"; } };
   d.appendChild(f); const b = document.createElement("b"); b.textContent = t.toFixed(1); d.appendChild(b);
   document.body.appendChild(d);

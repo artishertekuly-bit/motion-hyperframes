@@ -1,0 +1,19 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>focus</title>
+<style>body{margin:0;background:#e9e4da}svg{display:block}</style></head>
+<body>
+<svg id="s" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+<script src="../assets/characters/artur/artur-rig.js"></script>
+<script>
+// бір кейіпкердің басы үлкен: ?look=aje&outfit=aje&ex=happy&turns=0.25,-0.6,0.9
+const R = ArturRig, q = new URLSearchParams(location.search);
+const look = q.get("look") || "aje", outfit = q.get("outfit") || look, ex = q.get("ex") || "calm";
+const turns = (q.get("turns") || "0.2,-0.6,0.95").split(",").map(Number);
+let s = "";
+turns.forEach((turn, i) => {
+  const p = Object.assign({}, R.EXPR[ex], { look, outfit, turn });
+  s += `<svg x="${i * 640}" y="0" width="640" height="1080" overflow="hidden"><g transform="translate(320,1560) scale(1.25)">${R.draw(p, { seed: 5, id: "f" + i })}</g></svg>`;
+});
+document.getElementById("s").innerHTML = s;
+</script>
+</body></html>
