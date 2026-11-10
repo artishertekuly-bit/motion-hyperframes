@@ -253,7 +253,7 @@
   };
   add({
     t0: BEN, bg: "yardV", bgArgs: ["night", { bench: 0 }], bgKey: "yardNight", c0: { x: 0, y: -600 },
-    cam: [[BEN, { x: 0, y: -1100, z: 0.7 }], [ATAIN, { x: 0, y: -700, z: 1.0 }, eio], [SIT + 1, { x: 0, y: -640, z: 1.25 }], [S("L55") - 0.2, { x: 40, y: -640, z: 1.35 }], [FLASH, { x: -380, y: -640, z: 1.4 }], [REC, { x: -300, y: -640, z: 1.5 }]],
+    cam: [[BEN, { x: 0, y: -1100, z: 0.7 }], [ATAIN, { x: 0, y: -700, z: 1.0 }, eio], [SIT + 1, { x: 0, y: -640, z: 1.25 }], [S("L55") - 0.2, { x: 40, y: -640, z: 1.35 }], [FLASH, { x: 400, y: -640, z: 1.4 }], [REC, { x: 360, y: -640, z: 1.45 }], [REC + 1.8, { x: 40, y: -650, z: 1.5 }]],
     actors: [
       Object.assign(benchAta([[BEN, { hide: true }], [ATAIN, { hide: false, x: 1300, turn: -0.5, walk: 0.8, walkAmp: 10, legL: { a: 3, k: 0 }, legR: { a: 3, k: 0 }, ...RIG.EXPR.calm }], [ATAIN + 0.01, { x: 190 }, SIT - ATAIN - 0.2, (k) => k], [SIT - 0.2, { walk: 0, turn: -0.15, ...POSES.sitFloor }, 0.4], [S("L55") - 0.3, { ...RIG.EXPR.calm, eye: { lidTop: 0.3 } }, 0.4], [MET, { ...POSES.warm }, 0.4]]), { talk: ["L55"] }),
       artur({ x: -190, y: -2, keys: [[BEN, { turn: 0.1, ...POSES.sitFloor, ...RIG.EXPR.calm, ...POSES.lookUp }], [SIT, { ...POSES.lookR }, 0.4], [Wt("L55", 3), { ...RIG.EXPR.shock, mouth: "oh", ...POSES.lookR }, 0.15], [REC + 0.2, { ...RIG.EXPR.shock, mouth: "shock", ...POSES.lookR }, 0.1]] }),
@@ -283,7 +283,7 @@
   });
   add({
     t0: CITY, bg: "city", c0: { x: 0, y: -560 }, flashIn: 0.2,
-    cam: [[CITY, { x: 0, y: -620, z: 1.05 }], [DIAL, { x: -120, y: -600, z: 1.3 }], [SPLIT, { x: -400, y: -600, z: 1.35 }], [HOSTE, { x: -420, y: -610, z: 1.4 }]],
+    cam: [[CITY, { x: 0, y: -620, z: 1.05 }], [DIAL, { x: 120, y: -600, z: 1.3 }], [SPLIT, { x: 250, y: -600, z: 1.35 }], [HOSTE, { x: 270, y: -610, z: 1.4 }]],
     actors: [artur({ x: -100, y: 60, talk: ["L58"], keys: [[CITY, { turn: 0.2, ...RIG.EXPR.calm }], [S("L58") + 0.6, { ...POSES.phoneUp, ...POSES.lookL }, 0.3], [DIAL, { ...RIG.EXPR.happy, armL: { sh: 30, el: -150, hand: "fist", propFront: B.PROPS.phone() } }, 0.3], [SPLIT + 0.4, { ...RIG.EXPR.laugh }, 0.3]] })],
     world: (t) => bag(260, 60, 0.55),
     over: (t) => {
@@ -292,8 +292,8 @@
       const x0 = lerp(1920, 1000, k);
       let s = `<clipPath id="spl"><path d="M${f(x0)},0 L1920,0 L1920,1080 L${f(x0 - 120)},1080Z"/></clipPath><g clip-path="url(#spl)">`;
       s += RF(800, 0, 1200, 1080, "#bfe3fb") + RF(800, 760, 1200, 320, "#9fbf72");
-      s += `<g transform="translate(1500,760) scale(0.32)">${house(0, 0, 1)}</g>`;
-      s += `<g transform="translate(1420,1060) scale(0.62)">${RIG.draw(Object.assign({}, RIG.EXPR.happy, { look: "aje", outfit: "aje", turn: -0.2, armR: { sh: 30, el: -150, hand: "fist", propFront: B.PROPS.phone() }, mouth: (() => { const l = LN.L59; if (!l || t < l.start || t > l.end + 0.05) return "smile"; for (const [c, s0, e0] of l.chars) if (t >= s0 && t < e0) return RIG.letterViseme(c); return "rest"; })() }), { id: "spa", seed: Math.floor(t * 12) })}</g>`;
+      s += `<g transform="translate(1600,760) scale(0.32)">${house(0, 0, 1)}</g>`;
+      s += `<g transform="translate(1460,1230) scale(0.9)">${RIG.draw(Object.assign({}, RIG.EXPR.happy, { look: "aje", outfit: "aje", turn: -0.2, armR: { sh: 30, el: -150, hand: "fist", propFront: B.PROPS.phone() }, mouth: (() => { const l = LN.L59; if (!l || t < l.start || t > l.end + 0.05) return "smile"; for (const [c, s0, e0] of l.chars) if (t >= s0 && t < e0) return RIG.letterViseme(c); return "rest"; })() }), { id: "spa", seed: Math.floor(t * 12) })}</g>`;
       s += `</g>` + `<path d="M${f(x0)},0 L${f(x0 - 120)},1080" stroke="${INK}" stroke-width="10"/>`;
       return s;
     },
