@@ -62,11 +62,11 @@
   // 1-әрекет: 412-бөлме (бетіне жасыл маска мен қияр қойған қыздар!)
   add({
     t0: ACT1, bg: "dormRoom", c0: { x: 0, y: -520 }, flashIn: 0.15,
-    cam: [[ACT1, { x: -120, y: -520, z: 1.15 }], [SCRM, { x: 60, y: -540, z: 1.45, r: -3 }], [S("L40"), { x: -240, y: -520, z: 1.38, r: 2 }]],
+    cam: [[ACT1, { x: -40, y: -520, z: 1.1 }], [SCRM, { x: 40, y: -520, z: 1.25, r: -2 }], [S("L40"), { x: -120, y: -520, z: 1.18, r: 1 }]],
     shake: (t) => (t >= SCRM && t < SCRM + 0.5 ? 20 * (1 - win(t, SCRM, SCRM + 0.5)) : 0),
     actors: [
       artur({
-        x: -540, y: 60, talk: ["L38", "L40"],
+        x: -440, y: 60, talk: ["L38", "L40"],
         keys: [
           [ACT1, { turn: 0.4, ...RIG.EXPR.happy }],
           [SCRM, { ...RIG.EXPR.scared, mouth: "aa", lean: -16, ...RIG.POSES.cheer }, 0.08],
@@ -89,13 +89,13 @@
       }),
     ],
     world: (t) => {
-      // жасыл маска мен ұшып кеткен қияр тілімдері
+      // жасыл маска мен ұшып кеткен қияр тілімдері (беттің ортасы y ≈ -532)
       const k = win(t, SCRM, SCRM + 0.8);
-      let s = `<circle cx="240" cy="-648" r="112" fill="#66bb6a" opacity="0.55"/><circle cx="620" cy="-648" r="112" fill="#66bb6a" opacity="0.55"/>`;
-      for (const cx of [210, 270, 590, 650]) {
-        s += C(cx + (cx % 20 === 10 ? -1 : 1) * k * 220, -660 - k * 260 + k * k * 520, 24, "#81c784", 4);
+      let s = `<ellipse cx="222" cy="-532" rx="86" ry="74" fill="#66bb6a" opacity="0.52"/><ellipse cx="600" cy="-532" rx="86" ry="74" fill="#66bb6a" opacity="0.52"/>`;
+      for (const [cx, dir] of [[192, -1], [248, 1], [570, -1], [626, 1]]) {
+        s += C(cx + dir * k * 190, -532 - k * 220 + k * k * 480, 22, "#81c784", 4);
       }
-      s += shout(240, -720, 120, t, SCRM, E("L39"), 3);
+      s += shout(222, -620, 120, t, SCRM, E("L39"), 3);
       return s;
     },
     type: (t) => TY.stamp(t, ACT1 + 0.1, "1-ӘРЕКЕТ: 412-БӨЛМЕ", 960, 180, { size: 84, color: "#e85d75", rot: -4, t1: SCRM }) + TY.pop(t, SCRM, "ҚЫЗДАР БӨЛМЕСІ!", 960, 200, { size: 102, color: "#ff8fa3", rot: 5, t1: ACT2 - 0.1 }),
@@ -320,6 +320,7 @@
     t0: HOSTE, bg: "host", bgArgs: [["#d4ecff", "#7ab8f5"]], bgKey: "hostUni2", c0: { x: 0, y: -560 }, flashIn: 0.2,
     cam: [
       [HOSTE, { x: 0, y: -600, z: 1.05 }],
+      [PHOTO, { x: 140, y: -600, z: 1.02 }],
       [TIP1, { x: -60, y: -600, z: 1.1 }],
       [CTA, { x: 0, y: -590, z: 1.02 }],
       [SERIN, { x: 150, y: -580, z: 0.96 }],
@@ -355,7 +356,7 @@
       let s = "";
       if (t >= PHOTO && t < TIP1 - 0.1) {
         const k = spring((t - PHOTO) / 0.6, 12, 6) * (1 - win(t, TIP1 - 0.4, TIP1 - 0.1));
-        s += `<g transform="translate(1420,460) scale(${f(Math.max(0, k))}) translate(-1420,-460)">${card(1420, 420, 660, 520, -4, groupPhoto())}${TX(1420, 780, "312-БӨЛМЕ · ДОСТАР", 44, INK, ' transform="rotate(-4 1420 780)"')}</g>`;
+        s += `<g transform="translate(1480,460) scale(${f(Math.max(0, k * 0.9))}) translate(-1480,-460)">${card(1480, 420, 660, 520, -4, groupPhoto())}${TX(1480, 780, "312-БӨЛМЕ · ДОСТАР", 44, INK, ' transform="rotate(-4 1480 780)"')}</g>`;
       }
       const box = (t0, t1, x, y, title, icon, col) => {
         if (t < t0 || t > t1 + 0.3) return "";

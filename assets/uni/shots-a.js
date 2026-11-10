@@ -213,13 +213,13 @@
   // Кадр 5: 512-бөлме — Серіктің сұрағы және Артурдың қапшыққа құлауы («ГҮРС!»)
   add({
     t0: RM0, bg: "dormRoom", c0: { x: -300, y: -540 }, flashIn: 0.2,
-    cam: [[RM0, { x: -380, y: -580, z: 1.05 }], [S("L05"), { x: -620, y: -720, z: 1.38 }], [S("L06"), { x: -180, y: -480, z: 1.3 }], [LAND, { x: -160, y: -420, z: 1.45, r: 3 }]],
+    cam: [[RM0, { x: -420, y: -540, z: 0.92 }], [S("L05"), { x: -580, y: -640, z: 1.05 }], [S("L06"), { x: -220, y: -480, z: 1.15 }], [LAND, { x: -160, y: -420, z: 1.3, r: 3 }]],
     shake: (t) => (t >= LAND && t < LAND + 0.55 ? 32 * (1 - win(t, LAND, LAND + 0.55)) : 0),
     actors: [
       serik({
-        x: -980, y: -720, talk: ["L05"],
+        x: -980, y: -350, talk: ["L05"],
         keys: [
-          [RM0, { turn: 0.35, ...POSES.sitFloor, ...RIG.EXPR.sleepy, lean: 14 }],
+          [RM0, { turn: 0.35, ...POSES.sitFloor, ...RIG.EXPR.sleepy, lean: 10 }],
           [Wt("L05", 5), { ...RIG.EXPR.happy, brow: { lift: 10, angle: 0, liftL: 0, liftR: 0 } }, 0.25],
         ],
       }),
@@ -232,7 +232,7 @@
         ],
       }),
     ],
-    world: (t) => bag(40, 80, 0.65, { sqY: t >= LAND ? 0.72 : 1, sqX: t >= LAND ? 1.22 : 1, tagText: "312" }) + puff(40, 40, t, LAND, 0.6, 12, "#fff3d6"),
+    world: (t) => RR(-1420, -760, 840, 82, "#7a3b52", 6, 12) + RR(-1560, -700, 900, 36, "#5d667a", 6, 4) + RR(-1370, -790, 500, 22, "#5d667a", 5, 4) + bag(40, 80, 0.65, { sqY: t >= LAND ? 0.72 : 1, sqX: t >= LAND ? 1.22 : 1, tagText: "312" }) + puff(40, 40, t, LAND, 0.6, 12, "#fff3d6"),
     type: (t) => TY.pop(t, Wt("L05", 5), "ҚАЗЫ БАР МА?", 1220, 230, { size: 88, color: "#f6d55c", rot: 5, t1: S("L06") }) + TY.stamp(t, LAND, "ГҮРС!", 960, 260, { size: 130, color: "#e85d75", rot: -8, t1: TITLE - 0.05 }),
     fx: () => ({ vig: 0.3 }),
   });
@@ -314,11 +314,11 @@
   // 1-заң: Көршілер (Серік және Дәурен)
   add({
     t0: LAW1, bg: "dormRoom", c0: { x: -450, y: -580 }, flashIn: 0.15,
-    cam: [[LAW1, { x: -380, y: -560, z: 1.05 }], [S("L13"), { x: -780, y: -740, z: 1.48 }], [S("L14"), { x: -860, y: -780, z: 1.65 }]],
+    cam: [[LAW1, { x: -480, y: -560, z: 0.95 }], [S("L13"), { x: -640, y: -650, z: 1.08 }], [S("L14"), { x: -720, y: -680, z: 1.15 }]],
     actors: [
       artur({ x: -180, y: 60, talk: ["L12", "L13"], keys: [[LAW1, { turn: -0.3, ...RIG.EXPR.happy, armL: { sh: 120, el: 20, hand: "point" } }]] }),
       serik({
-        x: -980, y: -720, talk: ["L14"],
+        x: -980, y: -350, talk: ["L14"],
         keys: [
           [LAW1, { turn: 0.3, ...POSES.sitFloor, ...POSES.sleepClosed }],
           [S("L14"), { armR: { sh: 120, el: 10, hand: "point" } }, 0.2],
@@ -326,7 +326,7 @@
         ],
       }),
     ],
-    world: (t) => TX(-760, -1020 - ((t * 40) % 90), "Zzz...", 52, "#ffffff", ` stroke="${INK}" stroke-width="8" paint-order="stroke"`),
+    world: (t) => RR(-1420, -760, 840, 82, "#7a3b52", 6, 12) + RR(-1560, -700, 900, 36, "#5d667a", 6, 4) + RR(-1370, -790, 500, 22, "#5d667a", 5, 4) + TX(-760, -980 - ((t * 36) % 70), "Zzz...", 52, "#ffffff", ` stroke="${INK}" stroke-width="8" paint-order="stroke"`),
     type: (t) => TY.stamp(t, Wt("L12", 8), "1-ЗАҢ: КӨРШІЛЕР", 1320, 210, { size: 80, color: "#3f6fb5", rot: 4, t1: DAU - 0.1 }) + TY.pop(t, Wt("L13", 5), "20 САҒАТ ҰЙҚЫ", 1320, 360, { size: 78, color: "#f6d55c", t1: DAU - 0.1 }),
     fx: () => ({ vig: 0.25 }),
   });
