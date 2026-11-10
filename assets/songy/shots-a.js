@@ -321,10 +321,10 @@
   const LAST = RUN1;
   add({
     t0: LAST, bg: "canteen", c0: { x: 0, y: -600 },
-    cam: [[LAST, { x: 200, y: -430, z: 1.5 }], [E("L21") + 0.3, { x: 200, y: -400, z: 1.85 }], [S("L22") - 0.5, { x: 220, y: -390, z: 2.0 }]],
+    cam: [[LAST, { x: 200, y: -380, z: 1.45 }], [E("L21") + 0.3, { x: 210, y: -360, z: 1.75 }], [S("L22") - 0.5, { x: 220, y: -350, z: 1.9 }]],
     shake: (t) => (t > Wt("L21", 9) && t < Wt("L21", 9) + 0.6 ? 14 : 0),
     actors: [{ look: "artur", outfit: "school", x: 200, y: 260, s: 0.75, seed: 5,
-      keys: [[LAST, { turn: 0.1, ...RIG.EXPR.happy, armR: { sh: 70, el: -60, hand: "fist", prop: PROPS.pastry() } }], [Wt("L21", 9), { ...RIG.EXPR.shock, mouth: "oh" }, 0.08], [Wt("L21", 9) + 0.5, { armR: { sh: 40, el: -150 }, mouth: "mbp", eye: { scale: 1.2, lidTop: 0, pupil: 0.5 }, fx: { blush: 1, sweat: 1 } }, 0.15]] }],
+      keys: [[LAST, { turn: 0.1, ...RIG.EXPR.happy, armR: { sh: 58, el: -168, hand: "fist", propFront: PROPS.pastry() } }], [Wt("L21", 9), { ...RIG.EXPR.shock, mouth: "oh" }, 0.08], [Wt("L21", 9) + 0.45, { armR: { sh: 60, el: -205 }, mouth: "mbp", eye: { scale: 1.2, lidTop: 0, pupil: 0.5 }, fx: { blush: 1, sweat: 1 } }, 0.12], [Wt("L21", 9) + 0.6, { squash: 0.95 }, 0.06], [Wt("L21", 9) + 0.72, { squash: 1 }, 0.15]] }],
     type: (t) => TY.pop(t, Wt("L21", 9), "ТАМАҚ = 0 мин", 1380, 220, { size: 96, color: "#ff6b5b", rot: 12, fr: 22 }),
   });
   // Гүлнар апай: супер күш

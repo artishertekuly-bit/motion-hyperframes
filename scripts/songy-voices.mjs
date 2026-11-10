@@ -6,7 +6,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 
 const HF = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const MOTION = resolve(HF, "..", "..");
@@ -50,7 +50,14 @@ function proc(line) {
   let af = "aresample=48000";
   if (v.pitch) af += `,rubberband=pitch=${v.pitch}:formant=shifted`;
   if (v.pa) af += ",highpass=f=260,lowpass=f=3600,aecho=0.8:0.55:110|230:0.32|0.18,volume=1.25";
-  execFileSync("ffmpeg", ["-v", "error", "-y", "-i", src, "-af", af, "-ac", "1", "-ar", String(SR), dst]);
+  const tmp = dst.replace(/.wav$/, ".pre.wav");
+  execFileSync("ffmpeg", ["-v", "error", "-y", "-i", src, "-af", af, "-ac", "1", "-ar", String(SR), tmp]);
+  // әр репликаны бір деңгейге: әдепкі −20 LUFS (айғай/сыбыр — сценарийдегі lufs)
+  const m = spawnSync("ffmpeg", ["-hide_banner", "-nostats", "-i", tmp, "-af", "ebur128=framelog=quiet", "-f", "null", "-"], { encoding: "utf8" }).stderr;
+  const I = parseFloat((m.slice(m.lastIndexOf("Summary:")).match(/I:\s+(-?[\d.]+) LUFS/) || [0, "-20"])[1]);
+  const target = line.lufs != null ? line.lufs : -20;
+  const g = Math.max(-12, Math.min(18, target - I));
+  execFileSync("ffmpeg", ["-v", "error", "-y", "-i", tmp, "-af", `volume=${g.toFixed(2)}dB`, "-ac", "1", "-ar", String(SR), dst]);
   return dst;
 }
 function pcm(file) {
