@@ -398,8 +398,8 @@
     far += RF(-4200, -560, 8400, 3000, night ? "#3a4a3a" : "#9fbf72") + Ln("M-4200,-560 L4200,-560", 6);
     let mid = "";
     if (opts.fence !== false) mid += fence(-4000, 4000, -560, night ? "#2f4f7a" : "#3f7fc4", null, 260);
-    if (opts.well) mid += well(opts.well, -100, 1.1);
-    if (opts.bench) mid += bench(opts.bench, -40, 1.1);
+    if (opts.well != null) mid += well(opts.well, -100, 1.1);
+    if (opts.bench != null) mid += bench(opts.bench, -40, 1.1);
     if (night) mid += `<circle cx="-1100" cy="-1000" r="900" fill="#ffd27a" opacity="0.08"/>`;
     return { far, mid, near: "" };
   };

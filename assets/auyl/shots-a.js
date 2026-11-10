@@ -139,7 +139,7 @@
   MK.LAND = LAND; MK.TITLE = TITLE;
   add({
     t0: TL1, bg: "room", c0: { x: 0, y: -500 },
-    cam: [[TL1, { x: -160, y: -400, z: 1.8 }], [MEAT, { x: -150, y: -410, z: 1.95 }], [MEAT + 0.6, { x: 160, y: -440, z: 1.1 }, eout], [LAND, { x: 100, y: -400, z: 1.15 }], [LAND + 0.25, { x: -150, y: -400, z: 1.8 }, eout], [ATA1, { x: -150, y: -400, z: 1.9 }]],
+    cam: [[TL1, { x: -160, y: -330, z: 1.75 }], [MEAT, { x: -150, y: -340, z: 1.9 }], [MEAT + 0.6, { x: 160, y: -440, z: 1.1 }, eout], [LAND, { x: 100, y: -400, z: 1.15 }], [LAND + 0.5, { x: -20, y: -330, z: 1.4 }, eout], [ATA1, { x: -40, y: -340, z: 1.5 }]],
     shake: (t) => (t > LAND && t < LAND + 0.6 ? 34 * (1 - win(t, LAND, LAND + 0.6)) : 0),
     worldBack: () => BG.korpe(-170, 60, 520) + BG.korpe(700, 60, 420, "#7a2f45"),
     actors: [
@@ -258,15 +258,15 @@
   });
   add({
     t0: S("L15") - 0.15, bg: "bedroomV", c0: { x: 0, y: -560 },
-    cam: [[S("L15") - 0.15, { x: -40, y: -560, z: 2.1 }], [CROW2, { x: -60, y: -560, z: 2.3 }], [CROW2 + 0.15, { x: -40, y: -570, z: 2.7 }, eout], [S("L16") - 0.1, { x: -40, y: -570, z: 2.8 }]],
+    cam: [[S("L15") - 0.15, { x: -110, y: -640, z: 1.75 }], [CROW2, { x: -120, y: -650, z: 1.9 }], [CROW2 + 0.15, { x: -100, y: -660, z: 2.2 }, eout], [S("L16") - 0.1, { x: -100, y: -660, z: 2.25 }]],
     shake: (t) => (t > CROW2 && t < CROW2 + 1.3 ? 22 * (1 - 0.6 * win(t, CROW2, CROW2 + 1.3)) : 0),
     worldBack: () => pillow(),
     actors: [bedArtur([[S("L15") - 0.15, { ...POSES.sleepClosed, mouth: "frown" }], [SNZ - 0.2, { armR: { sh: 150, el: -40, hand: "open" } }, 0.25], [SNZ + 0.4, { armR: { sh: 11, el: -7, hand: "rest" } }, 0.3], [CROW2, { ...RIG.EXPR.shock, mouth: "shock", shakeEyes: true }, 0.05]])],
     world: (t) => {
       let s = blanket();
       const sq = t > SNZ && t < SNZ + 0.35 ? 0.75 : 1;
-      s += `<g transform="translate(150,-540) scale(1,${f(sq)}) translate(-150,540)">${rooster(150, -540, 0.95, { crow: t > CROW2 && t < CROW2 + 1.6 ? 1 : 0, flip: true, angry: t > SNZ + 0.3 }, t)}</g>`;
-      s += shout(-10, -790, 90, t, CROW2, CROW2 + 1.4, 4);
+      s += `<g transform="translate(90,-540) scale(1,${f(sq)}) translate(-90,540)">${rooster(90, -540, 0.85, { crow: t > CROW2 && t < CROW2 + 1.6 ? 1 : 0, flip: true, angry: t > SNZ + 0.3 }, t)}</g>`;
+      s += shout(-60, -770, 90, t, CROW2, CROW2 + 1.4, 4);
       return s;
     },
     type: (t) => TY.pop(t, SNZ + 0.05, "ӨШІРУ", 1300, 200, { size: 80, color: "#ffffff", rot: 6, t1: SNZ + 0.9 }) + TY.pop(t, CROW2 + 0.05, "КУ-КА-РЕ-КУ!!!", 960, 200, { size: 150, color: "#ff8a5b", rot: -6, wob: 4, t1: S("L16") - 0.2 }),
@@ -342,7 +342,7 @@
   MK.LIFT2 = LIFT2; MK.GO = GO; MK.STR = STR;
   add({
     t0: BEK, bg: "yardV", bgArgs: ["day", { well: 1400 }], bgKey: "yardDay", c0: { x: 0, y: -560 },
-    cam: [[BEK, { x: 600, y: -640, z: 0.9 }], [S("L21") - 0.2, { x: 440, y: -560, z: 1.35 }], [E("L21"), { x: 420, y: -560, z: 1.45 }], [LIFT2 - 0.3, { x: 520, y: -560, z: 1.1 }], [GO + 1.2, { x: 700, y: -560, z: 1.05 }], [STR, { x: 120, y: -560, z: 1.35 }], [E("L22"), { x: 60, y: -600, z: 1.9 }]],
+    cam: [[BEK, { x: 600, y: -640, z: 0.9 }], [S("L21") - 0.2, { x: 440, y: -560, z: 1.35 }], [E("L21"), { x: 420, y: -560, z: 1.45 }], [LIFT2 - 0.3, { x: 520, y: -560, z: 1.1 }], [GO + 1.2, { x: 700, y: -560, z: 1.05 }], [STR, { x: 140, y: -460, z: 1.3 }], [E("L22"), { x: 110, y: -400, z: 1.5 }]],
     actors: [
       artur({ x: 60, y: 40,
         mod: (t, p) => { if (t > STR) { p.squash = 1 + Math.sin(t * 30) * 0.02; p.lean = 30 + Math.sin(t * 25) * 2; } return p; },

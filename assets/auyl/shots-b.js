@@ -237,7 +237,7 @@
   barnShot(AQ, [[AQ, { x: -480, y: -620, z: 2.0 }], [AJ, { x: -470, y: -630, z: 2.1 }]]);
   barnShot(AJ, [[AJ, { x: 530, y: -540, z: 2.1 }], [AR2, { x: 520, y: -550, z: 2.25 }]]);
   barnShot(AR2, [[AR2, { x: -480, y: -620, z: 2.2 }], [TWO, { x: -480, y: -630, z: 2.35 }]]);
-  barnShot(TWO, [[TWO, { x: 0, y: -600, z: 1.3 }], [E("L53") + 1.6, { x: 20, y: -620, z: 1.45 }]]);
+  barnShot(TWO, [[TWO, { x: 60, y: -600, z: 1.25 }], [E("L53") + 1.6, { x: 90, y: -620, z: 1.4 }]]);
   // орындық, түн, ата
   const BEN = E("L53") + 1.6, ATAIN = S("L54") + 0.2, SIT = Wt("L54", 4) + 0.2, FLASH = Wt("L55", 3), MET = Wt("L55", 10), REC = S("L56") - 0.3;
   MK.BEN = BEN; MK.FLASH = FLASH; MK.MET = MET; MK.REC = REC;
