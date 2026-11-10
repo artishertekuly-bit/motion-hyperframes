@@ -28,6 +28,7 @@ async function gen(kind, name, [dur, prompt]) {
     return;
   }
 }
-const jobs = [...Object.entries(MUSIC).map(([n, v]) => ["music", n, v]), ...Object.entries(SFX).map(([n, v]) => ["sfx", n, v])];
+for (const [n, v] of Object.entries(MUSIC)) await gen("music", n, v);
+const jobs = Object.entries(SFX).map(([n, v]) => ["sfx", n, v]);
 await Promise.all([0, 1, 2].map(async () => { while (jobs.length) await gen(...jobs.shift()); }));
 console.log("done");
