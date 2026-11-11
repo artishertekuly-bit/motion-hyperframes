@@ -49,7 +49,7 @@
   const FB = E("L02") + 0.75, TITLE = FB + 0.85, RW = S("L03") + 1.15;
   MK.FB = FB; MK.TITLE = TITLE; MK.RW = RW;
   add({
-    t0: 0, bg: "toiStage", c0: { x: 0, y: -620 }, fadeIn: 0.4, mbScale: 0.3,
+    t0: 0, bg: "toiStage", c0: { x: 0, y: -620 }, fadeIn: 0.4, mbScale: 0.3, capTop: 1480,
     cam: [[0, { x: 0, y: -640, z: 2.9 }], [Wt("L01", 5), { x: 0, y: -560, z: 2.05 }], [Wt("L01", 6) + 0.25, { x: 30, y: -470, z: 2.35, r: -1 }], [Wt("L01", 9), { x: 0, y: -720, z: 2.2, r: 0 }], [S("L02") - 0.2, { x: 0, y: -620, z: 2.8 }], [FB, { x: 0, y: -620, z: 3.1 }], [TITLE, { x: 0, y: -620, z: 3.4 }]],
     shake: (t) => (t > FB ? 22 * (1 - win(t, FB, FB + 0.8)) : 0),
     worldBack: (t) => spot(0, 1),
@@ -135,7 +135,8 @@
       if (t > FILL) s += crowdHall(t, () => 0, {});
       return s;
     },
-    over: (t) => { const k = win(t, FILL - 0.2, FILL + 0.6); const hh = 6 + 3 * k; return g(860, 330, 0.75, C(0, 0, 150, "#ffffff", 9) + BG.clockHands(0, 0, (hh / 12) * 6.283, k * 3 * 6.283)) + TY.pop(t, L1b + 0.3, k > 0.5 ? "21:00" : "18:00", 860, 520, { size: 64, color: "#ffffff", stroke: 10 }); },
+    over: (t) => { const k = win(t, FILL - 0.2, FILL + 0.6); const hh = 6 + 3 * k; return g(860, 330, 0.75, C(0, 0, 150, "#ffffff", 9) + BG.clockHands(0, 0, (hh / 12) * 6.283, k * 3 * 6.283)); },
+    type: (t) => TY.pop(t, L1b + 0.3, win(t, FILL - 0.2, FILL + 0.6) > 0.5 ? "21:00" : "18:00", 860, 500, { size: 64, color: "#ffffff", stroke: 10 }),
     shake: (t) => (t > FILL && t < FILL + 0.4 ? 8 : 0),
     fx: () => ({ vig: 0.25 }),
   });

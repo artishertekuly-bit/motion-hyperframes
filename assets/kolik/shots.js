@@ -16,8 +16,9 @@
 
   // ---------- көлік ішіндегі кадр ----------
   const carBg = (loc, opts) => ({ bg: () => BG.carInt(loc, opts), bgKey: "car-" + loc + (opts && opts.night ? "N" : "") });
-  const inCar = (t, ang, o) => RB.freshener(ang) + RB.carFront(o || {});
-  const fresh = (t, t0, amp) => Math.sin((t - t0) * 7) * amp * Math.exp(-(t - t0) * 0.9);
+  // шырша бет-әлпетті жаппасын: тербелу [-20°, 6°] аралығында (толық айналым — тек 3-өшуде)
+  const inCar = (t, ang, o) => RB.freshener(Math.abs(ang) > 90 ? ang : clamp(ang * 0.45 - 6, -20, 6)) + RB.carFront(o || {});
+  const fresh = (t, t0, amp) => (t < t0 ? 0 : Math.sin((t - t0) * 7) * amp * Math.exp(-(t - t0) * 0.9));
   // жүргізуші (экранның оң жағы) мен жолаушы (сол жағы)
   const PAS = -175, DRV = 175;
 
@@ -132,7 +133,7 @@
   const PED = S("L12") - 0.2;
   MK.PED = PED;
   add({
-    t0: PED, bg: () => ({ far: RB.pedals([0, 0, 0]), mid: "", near: "" }), bgKey: "pedals", c0: { x: 0, y: -100 }, flashIn: 0.15,
+    t0: PED, bg: () => ({ far: RB.pedals([0, 0, 0]), mid: "", near: "" }), bgKey: "pedals", c0: { x: 0, y: -100 }, flashIn: 0.15, capTop: 1480,
     cam: [[PED, { x: 0, y: -100, z: 1.0 }], [S("L13") - 0.2, { x: 0, y: -60, z: 1.15 }]],
     world: (t) => { const k = t - PED; return sneaker(-200 + Math.sin(k * 3.1) * 230, -380 + Math.abs(Math.sin(k * 2.3)) * 60, Math.sin(k * 2) * 10) + sneaker(200 + Math.sin(k * 2.6 + 1) * 200, -400 + Math.abs(Math.sin(k * 2.9 + 1)) * 60, Math.sin(k * 2.4) * 10); },
     type: (t) => TY.pop(t, Wt("L12", 3), "3 ПЕДАЛЬ", 540, 300, { size: 96, color: "#f6d55c" }) + TY.pop(t, Wt("L12", 7), "2 АЯҚ", 540, 430, { size: 96, color: "#ff8a5b" }),
@@ -184,8 +185,8 @@
     cam: [[LAP, { x: 0, y: -380, z: 0.85 }], [GR, { x: -100, y: -360, z: 1.0 }], [PASS, { x: 120, y: -360, z: 1.05 }], [S("L19") - 0.2, { x: 220, y: -360, z: 1.0 }]],
     actors: [ACT.aje({ x: -1100, y: 420, s: 0.66, keys: [[0, { hide: true }], [GR, { hide: false, x: -1100, turn: 0.6, walk: 2.2, ...X.calm, armsLocked: true, armL: { sh: 14, el: -6, hand: "fist", prop: bagP }, armR: { sh: 14, el: -6, hand: "fist", prop: bagP } }], [GR + 0.05, { x: 900 }, S("L19") - GR, (k) => k], [PASS, ex("smug", { turn: 0.2 }), 0.3]] })],
     worldBack: (t) => { const x = -350 + (t - LAP) * 45; return RB.car6(x, 420, 0.6, { wheel: x * 0.4, inside: inside() }); },
-    over: (t) => (t > Wt("L17", 7) - 0.2 && t < GR ? g(540, 1380, 0.9 * spring(win(t, Wt("L17", 7) - 0.2, Wt("L17", 7) + 0.4)), RB.speedo(0, 0, 1, 5 + Math.sin(t * 3) * 1.5)) : ""),
-    type: (t) => TY.pop(t, Wt("L17", 4), "× 10", 540, 300, { size: 110, color: "#f6d55c", t1: GR }) + TY.pop(t, Wt("L17", 8), "5 КМ/САҒ", 540, 420, { size: 84, color: "#ffffff", t1: GR }) + TY.stamp(t, PASS + 0.2, "ӘЖЕ: 1 — АҚБОЗ: 0", 540, 330, { size: 60, rot: -4 }),
+    over: (t) => (t > Wt("L17", 7) - 0.2 && t < GR ? g(540, 640, 0.75 * spring(win(t, Wt("L17", 7) - 0.2, Wt("L17", 7) + 0.4)), RB.speedo(0, 0, 1, 5 + Math.sin(t * 3) * 1.5)) : ""),
+    type: (t) => TY.pop(t, Wt("L17", 4), "× 10", 540, 230, { size: 110, color: "#f6d55c", t1: GR }) + TY.pop(t, Wt("L17", 8), "5 КМ/САҒ", 540, 360, { size: 84, color: "#ffffff", t1: GR }) + TY.stamp(t, PASS + 0.2, "ӘЖЕ: 1 — АҚБОЗ: 0", 540, 330, { size: 60, rot: -4 }),
     fx: () => ({ vig: 0.2 }),
   });
   // «Енді нағыз көшеге шығамыз» → ЕҢ ҮЛКЕН ҚАТЕЛІК
@@ -207,7 +208,7 @@
   MK.HILL = HILL;
   add({
     t0: HILL, bg: "hill", c0: { x: 0, y: -500 }, flashIn: 0.2,
-    cam: [[HILL, { x: 760, y: -1000, z: 0.95 }], [Wt("L20", 4), { x: 360, y: -420, z: 0.85 }], [Wt("L20", 6), { x: -100, y: -260, z: 0.7 }], [S("L21") - 0.2, { x: -260, y: -200, z: 0.75 }]],
+    cam: [[HILL, { x: 760, y: -1000, z: 0.95 }], [Wt("L20", 4), { x: 360, y: -420, z: 0.85 }], [Wt("L20", 6), { x: -300, y: -120, z: 0.85 }], [S("L21") - 0.2, { x: -380, y: -80, z: 0.9 }]],
     world: (t) => busW() + truckW() + carOn(CAR_X0, { inside: inside() }) + lightW("r"),
     type: (t) => TY.pop(t, Wt("L20", 1), "ӨР", 300, 300, { size: 120, color: "#ffffff", rot: -15, t1: Wt("L20", 6) }) + TY.pop(t, Wt("L20", 7), "ҚАРБЫЗ!", 540, 330, { size: 110, color: "#3f9f5a", rot: -6 }),
     fx: () => ({ vig: 0.2 }),
@@ -249,7 +250,7 @@
   // артқа жылжу
   const ROLL = S("L23") - 0.2, ROLL1 = S("L24") + 2.2;
   MK.ROLL = ROLL;
-  const carX = (t) => (t < Wt("L23", 5) ? CAR_X0 : lerp(CAR_X0, CAR_X0 - 130, sm(win(t, Wt("L23", 5), ROLL1))));
+  const carX = (t) => lerp(CAR_X0, CAR_X0 - 130, sm(win(t, Wt("L23", 2), S("L24") - 0.2)));
   add({
     t0: ROLL, bg: "hill", c0: { x: 0, y: -400 },
     cam: [[ROLL, { x: -60, y: -260, z: 1.1 }], [S("L24") - 0.2, { x: -120, y: -230, z: 1.35 }]],
@@ -275,7 +276,7 @@
   const STOMP = S("L26") + 0.05, CM = Wt("L26", 7);
   MK.STOMP = STOMP; MK.CM = CM;
   add({
-    t0: S("L26") - 0.3, bg: () => ({ far: RB.pedals([0, 0, 0]), mid: "", near: "" }), bgKey: "pedals", c0: { x: 0, y: -100 },
+    t0: S("L26") - 0.3, bg: () => ({ far: RB.pedals([0, 0, 0]), mid: "", near: "" }), bgKey: "pedals", c0: { x: 0, y: -100 }, capTop: 1480,
     cam: [[S("L26") - 0.3, { x: 0, y: -100, z: 1.2 }], [STOMP, { x: 0, y: -60, z: 1.35 }]],
     shake: (t) => (t > STOMP && t < STOMP + 0.4 ? 18 : 0),
     world: (t) => sneaker(-300, -420, -4) + sneaker(lerp(220, 0, eout(win(t, S("L26") - 0.3, STOMP))), lerp(-420, -150, eout(win(t, STOMP - 0.15, STOMP))), 0),
@@ -284,8 +285,8 @@
   });
   add({
     t0: Wt("L26", 4), bg: "hill", c0: { x: 0, y: -300 },
-    cam: [[Wt("L26", 4), { x: -330, y: -140, z: 1.6, r: ANG * 0.6 }], [CM, { x: -320, y: -120, z: 2.6, r: ANG * 0.6 }], [S("L27") - 0.3, { x: -320, y: -120, z: 2.8, r: ANG * 0.6 }]],
-    world: (t) => truckW() + carOn(CAR_X1, { inside: inside() }) + (t > CM ? g(-320, -150, 1, RR(-110, -50, 220, 60, "#f6d55c", 5, 6) + Ln("M-90,-50 L-90,-28 M-60,-50 L-60,-36 M-30,-50 L-30,-28 M0,-50 L0,-36 M30,-50 L30,-28 M60,-50 L60,-36 M90,-50 L90,-28", 4)) : ""),
+    cam: [[Wt("L26", 4), { x: -460, y: -120, z: 1.5, r: ANG * 0.6 }], [CM, { x: -450, y: -130, z: 2.1, r: ANG * 0.6 }], [S("L27") - 0.3, { x: -450, y: -130, z: 2.25, r: ANG * 0.6 }]],
+    world: (t) => truckW() + carOn(CAR_X1, { inside: inside() }) + (t > CM ? g(-448, -150, 1, RR(-110, -50, 220, 60, "#f6d55c", 5, 6) + Ln("M-90,-50 L-90,-28 M-60,-50 L-60,-36 M-30,-50 L-30,-28 M0,-50 L0,-36 M30,-50 L30,-28 M60,-50 L60,-36 M90,-50 L90,-28", 4)) : ""),
     type: (t) => TY.pop(t, CM, "1 СМ", 540, 330, { size: 140, color: "#f6d55c", wob: 3 }),
     fx: () => ({ vig: 0.3, dof: 3 }),
   });
@@ -314,11 +315,11 @@
     if (i % 4 === 1 || i === 24) return [x0 - 160, roadY(x0 - 160), r, 0, true]; // жарылды
     return [x, roadY(x) - r - Math.abs(Math.sin(dt * 9 + i)) * 26 * Math.exp(-dt), r, -120 - (d / r) * 57.3];
   };
-  const drawMelons = (t) => { let s = ""; for (let i = 0; i < MEL.length; i++) { const m = melonAt(i, t); if (!m) continue; s += m[4] ? RB.wmelon(m[0], m[1], m[2], 0, { smash: true }) : RB.wmelon(m[0], m[1], m[2], m[3]); } return s; };
+  const drawMelons = (t) => { let s = ""; for (let i = 0; i < MEL.length; i++) { const m = melonAt(i, t); if (!m) continue; s += m[4] ? RB.wmelon(m[0], m[1] - m[2] * 0.5, m[2] * 1.5, 0, { smash: true }) : RB.wmelon(m[0], m[1] - m[2] * 0.5, m[2] * 1.5, m[3]); } return s; };
   const skipAt = (t) => { const a = []; for (let i = 0; i < MEL.length; i++) if (t >= launch(i)) a.push(i); return a; };
   add({
     t0: Wt("L27", 3), bg: "hill", c0: { x: 0, y: -300 },
-    cam: [[Wt("L27", 3), { x: TRK_X - 60, y: -500, z: 1.7, r: ANG * 0.5 }], [F1 + 0.3, { x: TRK_X - 160, y: -360, z: 1.45, r: ANG * 0.5 }], [F2 + 0.4, { x: TRK_X - 260, y: -340, z: 1.2, r: ANG * 0.3 }], [AV, { x: TRK_X - 260, y: -380, z: 0.95 }], [AV + 3.2, { x: TRK_X - 1500, y: -60, z: 0.62 }, (k) => sm(k)], [S("L29") - 0.3, { x: TRK_X - 1700, y: 0, z: 0.6 }]],
+    cam: [[Wt("L27", 3), { x: TRK_X - 40, y: -260, z: 1.7, r: ANG * 0.5 }], [F1 + 0.3, { x: TRK_X - 160, y: -170, z: 1.45, r: ANG * 0.5 }], [F2 + 0.4, { x: TRK_X - 260, y: -160, z: 1.2, r: ANG * 0.3 }], [AV, { x: TRK_X - 300, y: -200, z: 1.0 }], [AV + 3.2, { x: TRK_X - 1300, y: 60, z: 0.78 }, (k) => sm(k)], [S("L29") - 0.3, { x: TRK_X - 1450, y: 120, z: 0.75 }]],
     shake: (t) => (t > AV && t < AV + 3.5 ? 6 : 0),
     world: (t) => { const wob = t > Wt("L27", 4) && t < F1 ? Math.sin(t * 30) * 4 : 0; return busW() + truckW({ skip: skipAt(t) }).replace("<g transform", `<g data-w="${f(wob)}" transform`) + carOn(CAR_X1, { inside: inside(t > F1 ? "shout" : null) }) + drawMelons(t) + (t > AV + 0.6 ? B.crowdPerson(BUS_X - 500, roadY(BUS_X - 500) + 20 - Math.abs(Math.sin(t * 7)) * 90, 0.6, "#5a7fc4", 77, {}) : ""); },
     type: (t) => TY.pop(t, F1 + 0.42, "ТАРС!", 300, 330, { size: 100, color: "#ff5b6e", rot: -8, t1: AV - 0.2 }) + TY.pop(t, F2 + 0.42, "ТАРС!", 760, 420, { size: 100, color: "#ff5b6e", rot: 8, t1: AV }) + TY.pop(t, AV + 0.2, "СОСЫН — БӘРІ!", 540, 330, { size: 100, color: "#f6d55c", wob: 4 }),
@@ -335,7 +336,7 @@
       ACT.dad({ x: -480, y: roadY(-480), keys: [[0, ex("deadpan", { turn: 0.45, armR: { sh: 70, el: -30, hand: "fist", prop: K.PROP.bill } })]] }),
       ACT.driver({ x: -160, y: roadY(-160), keys: [[0, ex("angry", "hips", { turn: -0.45 })], [MATH1, ex("smug", { turn: -0.45, armL: { sh: 70, el: -30, hand: "open" } }), 0.3]] }),
     ],
-    world: (t) => { let s = ""; for (let i = 0; i < 8; i++) { const t0 = Wt("L29", 4) + i * 0.32; const k = win(t, t0, t0 + 0.4); if (k <= 0) continue; s += RB.money(lerp(-380, -220, k), lerp(-560, -560, k) - Math.sin(k * Math.PI) * 120, 0.5, k * 200 + i * 20); } return s; },
+    world: (t) => { let s = ""; for (let i = 0; i < 8; i++) { const t0 = Wt("L29", 4) + i * 0.32; const k = win(t, t0, t0 + 0.4); if (k <= 0) continue; s += RB.money(lerp(-380, -220, k), -430 - Math.sin(k * Math.PI) * 120, 0.5, k * 200 + i * 20); } return s; },
     type: (t) => TY.pop(t, PAY + 0.6, "ҮНЕМДЕЛДІ: +150 000 ₸", 540, 280, { size: 56, color: "#7cc47a" }) + TY.pop(t, MATH1, "ҚАРБЫЗҒА: −150 000 ₸", 540, 380, { size: 56, color: "#ff5b4b" }) + TY.stamp(t, E("L29") + 0.3, "= 0 ₸", 540, 520, { size: 100, rot: -6 }),
     fx: () => ({ vig: 0.3, dof: 2 }),
   });
@@ -401,7 +402,7 @@
   MK.HOST = HOST; MK.TIP1 = TIP1; MK.TIP2 = TIP2; MK.CTA = CTA; MK.BUMP = BUMP; MK.END = END;
   add({
     t0: HOST, bg: "host", bgArgs: [["#cfe9ff", "#9cc9f0"]], bgKey: "hostBlue", c0: { x: 0, y: -560 }, flashIn: 0.2,
-    cam: [[HOST, { x: 0, y: -560, z: 1.55 }], [CTA, { x: 0, y: -560, z: 1.45 }], [ROLLIN, { x: 0, y: -500, z: 1.3 }], [END, { x: 0, y: -500, z: 1.35 }]],
+    cam: [[HOST, { x: 0, y: -600, z: 2.0 }], [CTA, { x: 0, y: -600, z: 1.9 }], [ROLLIN, { x: 0, y: -500, z: 1.4 }], [END, { x: 0, y: -500, z: 1.45 }]],
     shake: (t) => (t > BUMP && t < BUMP + 0.3 ? 10 : 0),
     actors: [ACT.artur({ x: 0, y: 30, pos: (t) => ({ y: 30 - (t > BUMP ? Math.sin(Math.min(1, (t - BUMP) / 0.5) * Math.PI) * 160 : 0) }), keys: [[0, ex("happy")], [S("L36") + 0.3, ex("calm", "fingerUp"), 0.3], [TIP2, ex("smug", "stop"), 0.3], [CTA, ex("happy", "wave"), 0.3], [BUMP, ex("shock", "cheer", { squash: 1.08 }), 0.1], [BUMP + 0.6, ex("laugh", { turn: -0.3, ...PO.lookD }), 0.3]], talk: ["L36", "L37"] })],
     world: (t) => (t > ROLLIN ? RB.wmelon(lerp(-700, -150, eout(win(t, ROLLIN, BUMP))), -60, 70, (t - ROLLIN) * 360) : ""),

@@ -15,7 +15,7 @@
   const ex = (...a) => Object.assign({}, ...a.map((k) => (typeof k === "string" ? X[k] || PO[k] || RIG.POSES[k] : k)));
 
   // ---------- телефон экраны (экран координаттары) ----------
-  const PHY = 820, PHS = 0.72, CAPP = 1440;
+  const PHY = 790, PHS = 0.82, CAPP = 1510;
   const shade = (k) => `<rect width="1080" height="1920" fill="#0b0d16" opacity="${f(0.45 * k)}"/>`;
   const phoneAt = (t, t0, inner, o) => { const k = spring(win(t, t0, t0 + 0.6)); return shade(Math.min(1, k)) + g(540, PHY, PHS * k, phoneBig(0, 0, 1, inner, o)); };
   const GROUP = (sub) => chatHead("АҒАЙЫН", sub || "143 қатысушы", { flower: true, av: "#ffd1dc" });
@@ -89,8 +89,8 @@
   add({
     t0: L1, bg: "kitchen", c0: { x: 0, y: -600 }, capTop: CAPP,
     cam: [[L1, { x: 0, y: -600, z: 1.3 }], [S("L05") - 0.1, { x: 0, y: -600, z: 1.35 }]],
-    over: (t) => { const sec = t < REC ? 0 : Math.min(10, (t - REC) * 4.2); return phoneAt(t, L1, DADCHAT() + voiceMsg(130, -380, 520, "2:58", { seed: 5 }) + recBar(t, sec, { flat: true })) + TY.pop(t, REC + 0.6, "ТЫНЫШТЫҚ...", 540, 1500, { size: 60, color: "#9aa1ab" }); },
-    type: (t) => law(t, L1 + 0.1, 1, "10 СЕКУНД ТЫНЫШТЫҚ", null, 150),
+    over: (t) => { const sec = t < REC ? 0 : Math.min(10, (t - REC) * 4.2); return phoneAt(t, L1, DADCHAT() + voiceMsg(130, -380, 520, "2:58", { seed: 5 }) + recBar(t, sec, { flat: true })); },
+    type: (t) => law(t, L1 + 0.1, 1, "10 СЕКУНД ТЫНЫШТЫҚ", null, 150) + TY.pop(t, REC + 0.6, "...ТЫНЫШТЫҚ...", 540, 1000, { size: 64, color: "#9aa1ab" }),
     fx: () => ({ vig: 0.3, dof: 5 }),
   });
   // әкем (Ақбозда) тыңдап отыр
@@ -202,11 +202,11 @@
     cam: [[DEL, { x: 0, y: -600, z: 1.3 }], [S("L15") - 0.2, { x: 0, y: -600, z: 1.35 }]],
     over: (t) => {
       let inner = GROUP() + voiceMsg(130, -380, 560, "0:47", { seed: 2, ticks: "#9aa1ab" }) + `<rect x="-410" y="-780" width="820" height="1560" fill="#0b0d16" opacity="0.35"/>`;
-      inner += RR(-330, -100, 660, 360, "#ffffff", 5, 30) + `<text x="-280" y="-20" font-size="40" font-family="Montserrat" font-weight="800" fill="${INK}">Өшіру?</text><text x="-280" y="80" font-size="40" font-family="Montserrat" font-weight="700" fill="#2f7d6a">Өзім үшін өшіру</text><text x="-280" y="170" font-size="40" font-family="Montserrat" font-weight="700" fill="#2f7d6a">Бас тарту</text>`;
-      if (t > NOALL) inner += `<g opacity="${f(win(t, NOALL, NOALL + 0.3))}">${RR(-330, 290, 660, 110, "#fff3f5", 5, 26)}<text x="-280" y="362" font-size="38" font-family="Montserrat" font-weight="800" fill="#c9cdd4">Барлығы үшін өшіру</text>${Ln("M-300,345 L300,345", 10, "#e85d75")}</g>`;
-      return phoneAt(t, DEL, inner, { old: true }) + (t > OLD ? TY.stamp(t, OLD, "5 ЖЫЛ ЖАҢАРТЫЛМАҒАН", 540, 1520, { size: 54, rot: -4 }) : "");
+      inner += RR(-330, -100, 660, 360, "#ffffff", 5, 30) + `<text x="-280" y="-10" font-size="52" font-family="Montserrat" font-weight="800" fill="${INK}">Өшіру?</text><text x="-280" y="90" font-size="50" font-family="Montserrat" font-weight="700" fill="#2f7d6a">Өзім үшін өшіру</text><text x="-280" y="185" font-size="50" font-family="Montserrat" font-weight="700" fill="#2f7d6a">Бас тарту</text>`;
+      if (t > NOALL) inner += `<g opacity="${f(win(t, NOALL, NOALL + 0.3))}">${RR(-330, 290, 660, 110, "#fff3f5", 5, 26)}<text x="-290" y="364" font-size="44" font-family="Montserrat" font-weight="800" fill="#c9cdd4">Барлығы үшін өшіру</text>${Ln("M-300,345 L300,345", 10, "#e85d75")}</g>`;
+      return phoneAt(t, DEL, inner, { old: true });
     },
-    type: (t) => TY.pop(t, NOALL + 0.2, "ЖОҚ!", 540, 190, { size: 120, color: "#ff5b4b", rot: -6 }),
+    type: (t) => TY.pop(t, NOALL + 0.2, "ЖОҚ!", 540, 190, { size: 120, color: "#ff5b4b", rot: -6, t1: OLD - 0.1 }) + TY.stamp(t, OLD, "5 ЖЫЛ ЖАҢАРТЫЛМАҒАН", 540, 200, { size: 58, rot: -4 }),
     fx: () => ({ vig: 0.3, dof: 5 }),
   });
   const ONLY = S("L15") - 0.2;
@@ -260,7 +260,7 @@
   }));
   const RACE = S("L19") - 0.2;
   MK.RACE = RACE;
-  const raceX = (t) => (t - RACE) * 1900 - 900;
+  const raceX = (t) => -2200 + 4400 * win(t, RACE, S("L20") - 0.3);
   add({
     t0: RACE, bg: "road", c0: { x: 0, y: -500 }, mbScale: 0.5, mbMid: 0.15,
     cam: [[RACE, { x: -900, y: -380, z: 0.9 }], [S("L20") - 0.3, { x: raceX(S("L20") - 0.3) - 100, y: -380, z: 0.95 }, (k) => k]],
