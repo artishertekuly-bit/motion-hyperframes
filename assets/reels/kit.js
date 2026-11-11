@@ -48,7 +48,7 @@
     reachBoth: { armL: { sh: 96, el: 6, hand: "open" }, armR: { sh: 96, el: 6, hand: "open" } },
     hands1: { armR: { sh: 150, el: 10, hand: "point" } },
     stop: { armR: { sh: 92, el: -50, hand: "open" } },
-    fingerUp: { armR: { sh: 60, el: -128, hand: "point" } },
+    fingerUp: { armR: { sh: 26, el: -162, hand: "point" } },
     steer: { armL: { sh: 34, el: -52, hand: "fist" }, armR: { sh: 34, el: -52, hand: "fist" } },
     sitFloor: { legL: { a: 38, k: 30 }, legR: { a: 38, k: 30 } },
     sitChair: { legL: { a: 70, k: 80 }, legR: { a: 70, k: 80 } },
@@ -125,7 +125,7 @@
     const k = win(t, t0, t1);
     let s = `<rect x="0" y="0" width="1080" height="1920" fill="#1b2a4a" opacity="${f(0.25 * Math.sin(k * Math.PI))}"/>`;
     for (let i = 0; i < 9; i++) { const y = ((i * 251 + t * 2400) % 1920); s += `<rect x="0" y="${f(y)}" width="1080" height="${8 + (i % 3) * 6}" fill="#ffffff" opacity="0.35"/>`; }
-    s += `<g transform="translate(540,780)" opacity="${f(Math.min(1, k * 6) * (1 - win(t, t1 - 0.12, t1)))}">${P("M-150,-90 L-30,0 L-150,90Z M-10,-90 L110,0 L-10,90Z", "#ffffff", 9)}</g>`;
+    s += `<g transform="translate(540,780) scale(-1,1)" opacity="${f(Math.min(1, k * 6) * (1 - win(t, t1 - 0.12, t1)))}">${P("M-150,-90 L-30,0 L-150,90Z M-10,-90 L110,0 L-10,90Z", "#ffffff", 9)}</g>`;
     return s;
   };
   // «Х-ЗАҢ» мөрі (экран)

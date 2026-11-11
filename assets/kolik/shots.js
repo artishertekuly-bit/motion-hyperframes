@@ -53,7 +53,7 @@
       ACT.dad({ x: PAS, y: 0, keys: [[0, ex("calmSmile", { turn: 0.25 })], [SHOUT - 0.05, ex("angry", { turn: 0.45, mouth: "shock", squash: 1.12, eye: { scale: 1.3, pupil: 0.5 } }), 0.08]], talk: ["L02"] }),
       ACT.artur({ x: DRV, y: 0, keys: [[0, ex("nervous", "steer", { turn: -0.1 })], [SHOUT + 0.05, ex("scared", "steer", { headTilt: -14, squash: 0.94, turn: -0.2 }), 0.1]] }),
     ],
-    world: (t) => inCar(t, t > SHOUT ? 40 * Math.sin(t * 30) : fresh(t, 0, 10)) + sweat(DRV - 50, -760, t, 0.8, 2) + shout(PAS + 80, -560, 240, t, SHOUT, FRZ0, 4),
+    world: (t) => inCar(t, t > SHOUT ? -40 - 18 * Math.sin(t * 30) : fresh(t, 0, 10)) + sweat(DRV - 50, -760, t, 0.8, 2) + shout(PAS + 80, -560, 240, t, SHOUT, FRZ0, 4),
     type: (t) => TY.pop(t, Wt("L01", 2), "АЙҚАЙ: 0", 540, 290, { size: 84, color: "#7cc47a", t1: SHOUT - 0.1 }) + TY.pop(t, SHOUT, "ТЕЖЕГІШ!!!", 540, 330, { size: 130, color: "#ff5b4b", rot: -6, wob: 5 }) + TY.stamp(t, FRZ0 + 0.1, "АЙҚАЙ: 1", 540, 520, { size: 80, rot: 6 }),
     fx: (t) => K.freezeFx(t, FRZ0, { vig: 0.3 }),
   }));
@@ -86,7 +86,7 @@
   add({
     t0: AKB, bg: "courtyard", c0: { x: 0, y: -500 }, flashIn: 0.2,
     cam: [[AKB, { x: 0, y: -420, z: 1.05 }], [NAME, { x: 120, y: -380, z: 1.2 }], [RANK, { x: 60, y: -440, z: 1.0 }], [KISS, { x: 300, y: -420, z: 1.35 }], [S("L07") - 0.3, { x: 320, y: -420, z: 1.45 }]],
-    actors: [ACT.dad({ x: 520, y: 260, mod: (t, p) => { if (t < RANK) p.armR = { sh: 60 + Math.sin(t * 8) * 20, el: -50, hand: "fist", prop: K.PROP.cloth }; return p; },
+    actors: [ACT.dad({ x: 380, y: 260, mod: (t, p) => { if (t < RANK) p.armR = { sh: 60 + Math.sin(t * 8) * 20, el: -50, hand: "fist", prop: K.PROP.cloth }; return p; },
       keys: [[0, ex("happy", { turn: -0.5 })], [KISS - 0.3, ex("closed", { turn: -0.7, lean: -12, mouth: "oh" }), 0.3], [KISS + 0.9, ex("happy", { turn: -0.4, lean: 0 }), 0.3]] })],
     worldBack: (t) => RB.car6(0, 260, 0.6, {}) + (t > AKB + 0.3 ? RB.sparkle(-250, -20, 34) + RB.sparkle(200, 60, 26) : ""),
     world: (t) => (t > KISS ? RB.heart(400, -420 - (t - KISS) * 80, spring(win(t, KISS, KISS + 0.5)), "#ff6f91") : ""),
@@ -237,7 +237,7 @@
   MK.DRVR = DRVR;
   add({
     t0: DRVR, bg: "hill", c0: { x: 0, y: -500 },
-    cam: [[DRVR, { x: 160, y: -560, z: 1.7, r: ANG * 0.4 }], [E("L22"), { x: 160, y: -560, z: 1.95, r: ANG * 0.4 }], [S("L23") - 0.2, { x: 120, y: -560, z: 1.8, r: ANG * 0.4 }]],
+    cam: [[DRVR, { x: -20, y: -600, z: 1.6, r: ANG * 0.4 }], [E("L22"), { x: -40, y: -600, z: 1.9, r: ANG * 0.4 }], [S("L23") - 0.2, { x: -60, y: -590, z: 1.75, r: ANG * 0.4 }]],
     shake: (t) => (t > S("L22") && t < E("L22") + 0.3 ? 8 : 0),
     worldBack: () => `<g transform="rotate(${f(ANG)})">${RB.truck(TX0, 0, 1, {})}</g>`,
     actors: [ACT.driver({ x: 110, y: 20, keys: [[0, ex("angry", { turn: 0.4, armR: { sh: 150, el: 20, hand: "fist" } })]], talk: ["L22"], rot: ANG })],
@@ -267,7 +267,7 @@
       ACT.dad({ x: PAS, y: 0, mod: (t, p) => { if (t > SLO && t < SH2) p.headTurn = lerp(0, 0.5, sm(win(t, SLO + 0.5, SH2))); return p; }, keys: [[0, ex("shock", { turn: 0.1, eye: { scale: 1.3, pupil: 0.45 } })], [SH2 - 0.05, ex("angry", { turn: 0.45, mouth: "shock", squash: 1.1, eye: { scale: 1.35, pupil: 0.45 } }), 0.4]], talk: ["L25"] }),
       ACT.artur({ x: DRV, y: 0, keys: [[0, ex("scared", "steer")], [SH2 + 0.1, ex("scared", "steer", { headTilt: -16, squash: 0.92, turn: -0.2 }), 0.5]] }),
     ],
-    world: (t) => inCar(t, t > SH2 ? 70 : Math.sin(t * 2) * 10) + shout(PAS + 80, -560, 260, t, SH2, E("L25") + 0.2, 4),
+    world: (t) => inCar(t, t > SH2 ? -62 + Math.sin(t * 9) * 6 : Math.sin(t * 2) * 10) + shout(PAS + 80, -560, 260, t, SH2, E("L25") + 0.2, 4),
     type: (t) => TY.pop(t, SLO + 0.4, "SLOW-MO", 540, 260, { size: 54, color: "#ffffff", t1: SH2 - 0.2 }) + TY.pop(t, SH2 + 0.1, "ТЕ-ЖЕ-ГІШ!!!", 540, 330, { size: 112, color: "#ff5b4b", wob: 3, from: 0.6 }),
     fx: () => ({ vig: 0.45, dof: 5, tint: "#9fc6ff", tintA: 0.12 }),
   }));
@@ -384,13 +384,13 @@
   MK.BRAG = BRAG; MK.FLIP = FLIP;
   add({
     t0: BRAG, bg: "kitchen", c0: { x: 0, y: -620 }, flashIn: 0.15,
-    cam: [[BRAG, { x: 0, y: -620, z: 1.3 }], [S("L35"), { x: 80, y: -620, z: 1.55 }], [FLIP, { x: 260, y: -700, z: 1.7 }], [S("L36") - 0.4, { x: 200, y: -660, z: 1.6 }]],
+    cam: [[BRAG, { x: 0, y: -620, z: 1.3 }], [S("L35"), { x: 0, y: -640, z: 1.45 }], [FLIP, { x: 180, y: -760, z: 1.6 }], [S("L36") - 0.4, { x: 120, y: -700, z: 1.5 }]],
     actors: [
-      ACT.mom({ x: -340, y: 0, keys: [[0, ex("deadpan", { turn: 0.4, ...PO.lookR })], [Wt("L35", 3), ex("smug", { turn: 0.4, ...PO.lookR }), 0.3]] }),
-      ACT.artur({ x: -80, y: 0, keys: [[0, ex("deadpan", { turn: 0.2, ...PO.lookL })], [Wt("L35", 3), ex("deadpan", { turn: 0.3, ...PO.lookR }), 0.3]] }),
+      ACT.mom({ x: -270, y: 0, keys: [[0, ex("deadpan", { turn: 0.4, ...PO.lookR })], [Wt("L35", 3), ex("smug", { turn: 0.4, ...PO.lookR }), 0.3]] }),
+      ACT.artur({ x: -20, y: 0, keys: [[0, ex("deadpan", { turn: 0.2, ...PO.lookL })], [Wt("L35", 3), ex("deadpan", { turn: 0.3, ...PO.lookR }), 0.3]] }),
       ACT.dad({ x: 280, y: 0, keys: [[0, ex("proud", "phoneEar", { turn: -0.2 })], [FLIP - 0.2, ex("calmSmile", { turn: -0.6, armL: { sh: 120, el: -20, hand: "open" } }), 0.2], [FLIP + 0.6, ex("proud", "phoneEar", { turn: -0.2 }), 0.3]], talk: ["L35"] }),
     ],
-    world: (t) => note(520, -1020, t > FLIP ? "АЙҚАЙ: 0" : "АЙҚАЙ: 1", t > FLIP && t < FLIP + 0.3 ? 30 * Math.sin((t - FLIP) * 20) : -4),
+    world: (t) => note(230, -1090, t > FLIP ? "АЙҚАЙ: 0" : "АЙҚАЙ: 1", t > FLIP && t < FLIP + 0.3 ? 30 * Math.sin((t - FLIP) * 20) : -4),
     type: (t) => TY.pop(t, Wt("L35", 1), "«ӨЗІМ ҮЙРЕТТІМ!»", 540, 300, { size: 72, color: "#f6d55c", rot: -3 }),
     fx: () => ({ vig: 0.2, dof: 2 }),
   });

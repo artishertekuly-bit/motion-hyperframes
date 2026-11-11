@@ -134,13 +134,13 @@
     for (const id in LN) {
       const l = LN[id];
       if (l.noCap) continue;
-      const text = l.text.replace(/.../g, "…");
-      const words = text.split(/s+/).filter(Boolean);
-      const letters = l.chars.filter(([c]) => /[p{L}p{N}]/u.test(c));
+      const text = l.text.replace(/\.\.\./g, "…");
+      const words = text.split(/\s+/).filter(Boolean);
+      const letters = l.chars.filter(([c]) => /[\p{L}\p{N}]/u.test(c));
       if (!letters.length) continue;
       let li = 0;
       const ws = words.map((w) => {
-        const n = (w.match(/[p{L}p{N}]/gu) || []).length;
+        const n = (w.match(/[\p{L}\p{N}]/gu) || []).length;
         if (!n) return { w, s: null, e: null };
         const a = letters[Math.min(li, letters.length - 1)], b = letters[Math.min(li + n - 1, letters.length - 1)];
         li += n;

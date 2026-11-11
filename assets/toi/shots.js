@@ -49,7 +49,7 @@
   const FB = E("L02") + 0.75, TITLE = FB + 0.85, RW = S("L03") + 1.15;
   MK.FB = FB; MK.TITLE = TITLE; MK.RW = RW;
   add({
-    t0: 0, bg: "toiStage", c0: { x: 0, y: -620 }, fadeIn: 0.4,
+    t0: 0, bg: "toiStage", c0: { x: 0, y: -620 }, fadeIn: 0.4, mbScale: 0.3,
     cam: [[0, { x: 0, y: -640, z: 2.9 }], [Wt("L01", 5), { x: 0, y: -560, z: 2.05 }], [Wt("L01", 6) + 0.25, { x: 30, y: -470, z: 2.35, r: -1 }], [Wt("L01", 9), { x: 0, y: -720, z: 2.2, r: 0 }], [S("L02") - 0.2, { x: 0, y: -620, z: 2.8 }], [FB, { x: 0, y: -620, z: 3.1 }], [TITLE, { x: 0, y: -620, z: 3.4 }]],
     shake: (t) => (t > FB ? 22 * (1 - win(t, FB, FB + 0.8)) : 0),
     worldBack: (t) => spot(0, 1),
@@ -95,7 +95,7 @@
       ACT.mom({ x: 300, y: 0, mod: (t, p) => { if (t > S("L05") && t < E("L05")) p.armR = { sh: 70 + Math.sin(t * 9) * 8, el: -60, hand: "point" }; return p; },
         keys: [[0, ex("calm", { turn: -0.35, armL: { sh: 40, el: -90, hand: "fist" } })], [S("L05"), ex("angry", { turn: -0.4, fx: { vein: 0 } }), 0.2], [S("L06") + 0.3, ex("sad", { turn: -0.4 }), 0.3]], talk: ["L05"] }),
     ],
-    world: (t) => suitHanger(470, -640) + BG.kitchenTable(-150, 0, 0.9) + (t > S("L05") ? "" : ""),
+    world: (t) => BG.kitchenTable(-150, 0, 0.9),
     type: (t) => TY.stamp(t, S("L04") + 0.2, "1 КҮН БҰРЫН", 540, 300, { size: 60, color: "#5a7fc4", t1: S("L05") - 0.3 }) + TY.pop(t, Wt("L06", 6), "17 ЖАС", 300, 380, { size: 100, color: "#f6d55c", rot: -10, t1: FRZ - 0.05 }) + TY.stamp(t, Wt("L07", 4), "ЕҢ ҮЛКЕН ҚАТЕЛІК", 540, 420, { size: 74, rot: -7 }),
     fx: (t) => K.freezeFx(t, FRZ, { vig: 0.2, dof: 1.5 }),
   });
@@ -198,11 +198,11 @@
   MK.ME = ME;
   add({
     t0: ME, bg: "toiTable", c0: { x: 0, y: -560 },
-    cam: [[ME, { x: -40, y: -560, z: 2.1 }], [S("L17") + 1.2, { x: -40, y: -600, z: 2.4 }], [S("L18") - 0.2, { x: -40, y: -620, z: 2.6 }]],
+    cam: [[ME, { x: -40, y: -620, z: 1.75 }], [S("L17") + 1.2, { x: -40, y: -640, z: 1.9 }], [S("L18") - 0.2, { x: -40, y: -640, z: 2.0 }]],
     actors: [ACT.arturSuit({ x: -60, y: -40, keys: [[0, ex("shock", "stand", "reach", { turn: 0.3, lean: 6, shakeEyes: true })], [S("L17") + 0.5, ex("scared", "stand", "reach", { turn: 0.1 }), 0.3]] })],
     worldBack: () => spot(-60, 1),
-    world: (t) => TT() + A.platter(0, -130, 1) + sweat(-100, -780, t, ME, 3) + (t > Wt("L17", 3) ? thought(260, -1080, 380, 300, g(260, -1080, 1, P("M-40,-60 Q0,-120 40,-60 Q60,-10 0,10 Q-60,-10 -40,-60Z", "#e85d75", 5) + g(30, 70, 0.16, RIG.draw(Object.assign({ look: "artur", outfit: "suit" }, X.sleepy, PO.closed, { lean: 80 }), { seed: 3, id: "faint" }))), -40, -820) : ""),
-    type: (t) => TY.pop(t, S("L17"), "ДӘРІГЕР? ЖОҚ!", 540, 330, { size: 90, color: "#ff8a5b", rot: -5 }),
+    world: (t) => TT() + A.platter(0, -130, 1) + sweat(-100, -780, t, ME, 3) + (t > Wt("L17", 3) ? thought(-20, -960, 360, 210, g(-20, -960, 0.8, P("M-40,-60 Q0,-120 40,-60 Q60,-10 0,10 Q-60,-10 -40,-60Z", "#e85d75", 5) + g(30, 70, 0.16, RIG.draw(Object.assign({ look: "artur", outfit: "suit" }, X.sleepy, PO.closed, { lean: 80 }), { seed: 3, id: "faint" }))), -60, -800) : ""),
+    type: (t) => TY.pop(t, S("L17"), "ДӘРІГЕР? ЖОҚ!", 540, 190, { size: 90, color: "#ff8a5b", rot: -5 }),
     fx: () => ({ vig: 0.35, dof: 3 }),
   });
   // 400 бас бұрылды
@@ -254,8 +254,8 @@
   add({
     t0: DIVE, bg: "headRoom", c0: { x: 0, y: -700 }, flashIn: 0.3,
     cam: [[DIVE, { x: 0, y: -800, z: 1.1 }], [S("L21") - 0.2, { x: 0, y: -760, z: 1.25 }]],
-    world: (t) => { const k = win(t, DIVE, DIVE + 3.2); const fl = Math.sin(t * 40) > 0.3 || t < DIVE + 1.4; return tumble(lerp(-900, 900, k), -110 - Math.abs(Math.sin(k * 9)) * 120, 100, k * 900) + (fl ? `<circle cx="0" cy="-1180" r="${f(120)}" fill="#fff3b0" opacity="0.6"/>` : ""); },
-    type: (t) => TY.pop(t, DIVE + 0.4, "...", 540, 700, { size: 160, color: "#9aa1ab" }) + TY.pop(t, DIVE + 0.9, "БОС", 540, 330, { size: 120, color: "#3b3f4a", stroke: 0 }),
+    world: (t) => { const k = win(t, DIVE, DIVE + 3.2); const fl = Math.sin(t * 40) > 0.3 || t < DIVE + 1.4; return tumble(lerp(-900, 900, k), -180 - Math.abs(Math.sin(k * 9)) * 140, 170, k * 900) + (fl ? `<circle cx="0" cy="-1180" r="${f(120)}" fill="#fff3b0" opacity="0.6"/>` : ""); },
+    type: (t) => TY.pop(t, DIVE + 0.4, "...", 540, 700, { size: 160, color: "#9aa1ab" }) + TY.pop(t, DIVE + 0.9, "БОС", 540, 1050, { size: 140, color: "#3b3f4a", stroke: 0 }),
     fx: () => ({ vig: 0.2 }),
   });
   // 2) телефоннан тост
@@ -263,19 +263,19 @@
   MK.PH = PH; MK.TYPE0 = TYPE0;
   const query = "тойға тост";
   add({
-    t0: PH, bg: "toiStage", c0: { x: 0, y: -640 }, capTop: 1560,
+    t0: PH, bg: "toiStage", c0: { x: 0, y: -640 }, capTop: 1450,
     cam: [[PH, { x: 0, y: -600, z: 2.0 }], [S("L22"), { x: 0, y: -600, z: 2.1 }]],
     actors: [ACT.arturSuit({ x: 0, y: 30, keys: [[0, ex("nervous", "phoneUp", "mic", { ...PO.lookD })]] })],
     worldBack: () => spot(0, 1),
     over: (t) => {
       const k = spring(win(t, PH, PH + 0.7));
       const n = Math.floor(clamp((t - TYPE0) / 0.09, 0, query.length));
-      let inner = RF(-410, -780, 820, 1560, "#ffffff") + RR(-360, -660, 720, 100, "#f1f3f6", 4, 50) + `<text x="-310" y="-596" font-size="42" font-family="Montserrat" font-weight="700" fill="${INK}">${query.slice(0, n)}${Math.floor(t * 3) % 2 ? "|" : ""}</text>`;
-      if (t > RES) [["ЗЕЙНЕТКЕ ШЫҒАРЫП САЛУ", "ТОСТЫ — ҮЗДІК №1", "#e85d75"], ["ТУҒАН КҮНГЕ ТОСТ", "ӘЖЕГЕ, АТАҒА...", "#5a7fc4"], ["ҮЙЛЕНУ ТОЙЫНА", "ҚЫСҚА ТІЛЕКТЕР", "#5a7fc4"]].forEach(([a, b, c], i) => { inner += RR(-360, -500 + i * 240, 720, 200, i ? "#ffffff" : "#fff3f5", 4, 20) + `<text x="-320" y="${-430 + i * 240}" font-size="38" font-family="Montserrat" font-weight="800" fill="${c}">${a}</text><text x="-320" y="${-374 + i * 240}" font-size="32" font-family="Montserrat" font-weight="600" fill="#667">${b}</text>`; });
+      let inner = RF(-410, -780, 820, 1560, "#ffffff") + RR(-360, -660, 720, 100, "#f1f3f6", 4, 50) + `<text x="-320" y="-592" font-size="56" font-family="Montserrat" font-weight="700" fill="${INK}">${query.slice(0, n)}${Math.floor(t * 3) % 2 ? "|" : ""}</text>`;
+      if (t > RES) [["ЗЕЙНЕТКЕ ШЫҒАРЫП САЛУ", "ТОСТЫ — ҮЗДІК №1", "#e85d75"], ["ТУҒАН КҮНГЕ ТОСТ", "ӘЖЕГЕ, АТАҒА...", "#5a7fc4"], ["ҮЙЛЕНУ ТОЙЫНА", "ҚЫСҚА ТІЛЕКТЕР", "#5a7fc4"]].forEach(([a, b, c], i) => { inner += RR(-380, -500 + i * 250, 760, 220, i ? "#ffffff" : "#fff3f5", 4, 20) + `<text x="-350" y="${-420 + i * 250}" font-size="44" font-family="Montserrat" font-weight="800" fill="${c}">${a}</text><text x="-350" y="${-350 + i * 250}" font-size="40" font-family="Montserrat" font-weight="600" fill="#667">${b}</text>`; });
       if (t > RES + 0.6) inner += g(-200, -380, 1, P("M0,0 L0,70 L20,52 L34,84 L46,78 L32,48 L58,48Z", "#ffffff", 5));
-      return g(540, 980, 0.95 * k, phoneBig(0, 0, 1, inner, { bg: "#ffffff" }));
+      return `<rect width="1080" height="1920" fill="#0b0d16" opacity="${f(0.45 * k)}"/>` + g(540, 830, 0.7 * k, phoneBig(0, 0, 1, inner, { bg: "#ffffff" }));
     },
-    fx: () => ({ vig: 0.3, dof: 5, dim: 0.3 }),
+    fx: () => ({ vig: 0.3, dof: 5 }),
   });
   const READ = S("L22") - 0.1;
   MK.READ = READ;
@@ -289,14 +289,14 @@
     fx: () => ({ vig: 0.3, dof: 2.5, nearBlur: 1.5 }),
   });
   add({
-    t0: S("L23") - 0.2, bg: "toiStage", c0: { x: 0, y: -640 }, capTop: 1560,
+    t0: S("L23") - 0.2, bg: "toiStage", c0: { x: 0, y: -640 }, capTop: 1450,
     cam: [[S("L23") - 0.2, { x: 0, y: -620, z: 2.4 }], [S("L24") - 0.2, { x: 0, y: -640, z: 2.7 }]],
     actors: [ACT.arturSuit({ x: 0, y: 30, keys: [[0, ex("shock", "phoneUp", "mic", { ...PO.lookD })]] })],
     worldBack: () => spot(0, 1),
     world: (t) => sweat(-60, -770, t, S("L23"), 3),
-    over: (t) => { const k = spring(win(t, S("L23") - 0.2, S("L23") + 0.5)); return g(540, 1010, 0.8 * k, phoneBig(0, 0, 1, RF(-410, -780, 820, 1560, "#ffffff") + RR(-360, -500, 720, 260, "#fff3f5", 6, 20) + `<text x="0" y="-395" font-size="72" font-family="Montserrat" font-weight="900" fill="#e85d75" text-anchor="middle">ЗЕЙНЕТКЕ</text><text x="0" y="-300" font-size="60" font-family="Montserrat" font-weight="900" fill="#e85d75" text-anchor="middle">ШЫҒАРЫП САЛУ</text>` + `<rect x="-370" y="-510" width="740" height="280" fill="none" stroke="#e85d75" stroke-width="12" rx="24"/>`, { bg: "#ffffff" }), 4); },
+    over: (t) => { const k = spring(win(t, S("L23") - 0.2, S("L23") + 0.5)); return `<rect width="1080" height="1920" fill="#0b0d16" opacity="${f(0.45 * k)}"/>` + g(540, 830, 0.7 * k, phoneBig(0, 0, 1, RF(-410, -780, 820, 1560, "#ffffff") + RR(-360, -500, 720, 260, "#fff3f5", 6, 20) + `<text x="0" y="-395" font-size="72" font-family="Montserrat" font-weight="900" fill="#e85d75" text-anchor="middle">ЗЕЙНЕТКЕ</text><text x="0" y="-300" font-size="60" font-family="Montserrat" font-weight="900" fill="#e85d75" text-anchor="middle">ШЫҒАРЫП САЛУ</text>` + `<rect x="-370" y="-510" width="740" height="280" fill="none" stroke="#e85d75" stroke-width="12" rx="24"/>`, { bg: "#ffffff" }), 4); },
     type: (t) => TY.stamp(t, Wt("L23", 2), "ЗЕЙНЕТКЕ?!", 540, 300, { size: 90, rot: -6 }),
-    fx: () => ({ vig: 0.3, dof: 5, dim: 0.25 }),
+    fx: () => ({ vig: 0.3, dof: 5 }),
   });
   // 3) апалар: «Әнмен айт!»
   const AUN = S("L24") - 0.2;
@@ -320,14 +320,14 @@
   MK.SYN = SYN; MK.ICE = ICE;
   add({
     t0: SYN, bg: "toiStage", c0: { x: 0, y: -640 },
-    cam: [[SYN, { x: 820, y: -560, z: 1.7 }], [Wt("L26", 3) - 0.2, { x: 700, y: -560, z: 1.6 }], [ICE, { x: 0, y: -580, z: 1.6 }, eio], [S("L27") - 0.3, { x: 0, y: -600, z: 1.8 }]],
+    cam: [[SYN, { x: 820, y: -560, z: 1.7 }], [Wt("L26", 1), { x: 760, y: -560, z: 1.6 }], [ICE - 0.05, { x: 0, y: -580, z: 1.6 }, eio], [S("L27") - 0.3, { x: 0, y: -600, z: 1.8 }]], mbScale: 0.4,
     shake: (t) => (t > ICE + 0.3 && t < ICE + 0.6 ? 8 : 0),
     actors: [
       Object.assign(B.crowdPerson ? { look: "dad", outfit: "teen", s: 0.75, seed: 71 } : {}, { x: 900, y: 30, mod: (t, p) => { p.armL = { sh: 40, el: -60 + Math.sin(t * 14) * 10, hand: "open" }; p.armR = { sh: 40, el: -60 + Math.cos(t * 13) * 10, hand: "open" }; return p; }, keys: [[0, ex("happy", { turn: -0.2, headTilt: 6 })]] }),
       ACT.arturSuit({ x: 0, y: 30, keys: [[0, ex("nervous", "mic")], [ICE, ex("scared", "mic", { eye: { pupil: 0.4 } }), 0.2]], blink: false }),
     ],
     worldBack: () => spot(0, 1),
-    world: (t) => RB.synth(900, -140, 1.2) + notes(700, -820, t, SYN, S("L27")) + RB.ice(0, 40, 520, 860, eout(win(t, ICE, ICE + 0.5))),
+    world: (t) => RB.synth(900, 50, 1.0) + notes(700, -820, t, SYN, S("L27")) + RB.ice(0, 40, 520, 860, eout(win(t, ICE, ICE + 0.5))),
     type: (t) => TY.pop(t, ICE + 0.3, "ҚАТЫП ҚАЛДЫМ", 540, 330, { size: 82, color: "#bfe8ff" }),
     fx: () => ({ vig: 0.3, dof: 2.5 }),
   });
@@ -354,9 +354,9 @@
     t0: MEM, bg: "bazaar", c0: { x: 0, y: -600 }, flashIn: 0.4,
     cam: [[MEM, { x: -60, y: -420, z: 1.6 }], [Wt("L28", 5), { x: 120, y: -520, z: 1.45 }], [LIFT, { x: 160, y: -780, z: 1.35 }], [S("L29") - 0.2, { x: 160, y: -820, z: 1.3 }]],
     actors: [
-      ACT.teen({ x: 900, y: 40, keys: [[0, ex("calm", { x: 900, turn: -0.6, walk: 2, ...PO.lookL })], [MEM + 0.1, { x: 260 }, Wt("L28", 6) - MEM - 0.1, (k) => sm(k)], [Wt("L28", 6), ex("warm", { walk: 0, turn: -0.3, armL: { sh: 70, el: -20, hand: "open" }, armR: { sh: 70, el: -20, hand: "open" } }), 0.3], [LIFT + 0.4, ex("happy", { turn: 0, armL: { sh: 160, el: 20, hand: "fist" }, armR: { sh: 160, el: 20, hand: "fist" } }), 0.3]] }),
-      ACT.kid({ x: 60, y: 40, pos: (t) => (t > LIFT ? { x: lerp(60, 260, eout(win(t, LIFT, LIFT + 0.6))), y: lerp(40, -420, eout(win(t, LIFT, LIFT + 0.6))) } : {}),
+      ACT.kid({ x: 60, y: 40, pos: (t) => (t > LIFT ? { x: lerp(60, 260, eout(win(t, LIFT, LIFT + 0.6))), y: lerp(40, -510, eout(win(t, LIFT, LIFT + 0.6))) } : {}),
         keys: [[0, ex("sad", { turn: 0.2 })], [Wt("L28", 6), ex("shock", { turn: 0.4 }), 0.2], [LIFT, ex("laugh", "sitFloor", "cheer", { turn: 0 }), 0.3]] }),
+      ACT.teen({ x: 900, y: 40, keys: [[0, ex("calm", { x: 900, turn: -0.6, walk: 2, ...PO.lookL })], [MEM + 0.1, { x: 260 }, Wt("L28", 6) - MEM - 0.1, (k) => sm(k)], [Wt("L28", 6), ex("warm", { walk: 0, turn: -0.3, armL: { sh: 70, el: -20, hand: "open" }, armR: { sh: 70, el: -20, hand: "open" } }), 0.3], [LIFT + 0.4, ex("happy", { turn: 0, armL: { sh: 160, el: 20, hand: "fist" }, armR: { sh: 160, el: 20, hand: "fist" } }), 0.3]] }),
     ],
     world: (t) => (t < Wt("L28", 6) ? tears(60, -480, t, 2) : ""),
     type: (t) => TY.pop(t, MEM + 0.3, "5 ЖАС", 540, 300, { size: 100, color: "#fff3d6", t1: Wt("L28", 6) }),
@@ -401,7 +401,7 @@
     worldBack: () => spot(0, 1),
     world: (t) => confetti(t, CLAP - 0.2, 70, -700, -1800, 1400, 2400),
     nearWorld: (t) => { let s = ""; for (let i = 0; i < 5; i++) { const up = t > CLAP ? Math.abs(Math.sin(t * 9 + i)) * 40 : 0; s += RB.guest((i - 2) * 380, 900 - up, 1.25, 51 + i * 9, 0); } return s; },
-    type: (t) => TY.pop(t, BOOM, "МІНЕ!", 540, 330, { size: 140, color: "#f6d55c", rot: -6 }) + TY.pop(t, CLAP, "ҚОЛ ШАПАЛАҚ!", 540, 330, { size: 96, color: "#ffffff", wob: 4 }),
+    type: (t) => TY.pop(t, BOOM, "МІНЕ!", 540, 560, { size: 140, color: "#f6d55c", rot: -6 }) + TY.pop(t, CLAP, "ҚОЛ ШАПАЛАҚ!", 540, 560, { size: 96, color: "#ffffff", wob: 4 }),
     fx: () => ({ vig: 0.25, dof: 2.5, nearBlur: 2 }),
   });
   // иыққа көтерді
@@ -475,11 +475,11 @@
   MK.END = END;
   add({
     t0: HOST, bg: "host", bgArgs: [["#ffe0b8", "#ffb98a"]], bgKey: "hostWarm", c0: { x: 0, y: -560 }, flashIn: 0.2,
-    cam: [[HOST, { x: 0, y: -560, z: 1.55 }], [TIP, { x: 0, y: -580, z: 1.7 }], [CTA, { x: 0, y: -560, z: 1.5 }], [asabaIn, { x: 80, y: -560, z: 1.3 }], [END, { x: 120, y: -560, z: 1.35 }]],
+    cam: [[HOST, { x: 0, y: -600, z: 2.0 }], [TIP, { x: 0, y: -620, z: 2.15 }], [CTA, { x: 0, y: -600, z: 1.9 }], [asabaIn, { x: 100, y: -580, z: 1.5 }], [END, { x: 110, y: -580, z: 1.55 }]],
     shake: (t) => (t > TIP && t < TIP + 0.25 ? 6 : 0),
     actors: [
       ACT.arturSuit({ x: 0, y: 30, keys: [[0, ex("happy", { turn: 0 })], [S("L36") + 0.2, ex("calm", "fingerUp"), 0.3], [TIP, ex("smug", "point"), 0.2], [CTA, ex("happy", "wave"), 0.3], [asabaIn + 0.4, ex("deadpan", "armsDown", { turn: 0.3, ...PO.lookR }), 0.3]], talk: ["L36", "L37"] }),
-      ACT.asaba({ x: 900, y: 30, keys: [[0, { hide: true }], [asabaIn, { hide: false, x: 900, ...ex("laugh", "mic", { turn: -0.5 }) }], [asabaIn + 0.05, { x: 470 }, 0.35, eout], [Wt("L38", 4), ex("laugh", "mic", { turn: -0.2, armL: { sh: 90, el: 0, hand: "point" } }), 0.2]], talk: ["L38"] }),
+      ACT.asaba({ x: 900, y: 30, keys: [[0, { hide: true }], [asabaIn, { hide: false, x: 900, ...ex("laugh", "mic", { turn: -0.5 }) }], [asabaIn + 0.05, { x: 340 }, 0.35, eout], [Wt("L38", 4), ex("laugh", "mic", { turn: -0.2, armL: { sh: 90, el: 0, hand: "point" } }), 0.2]], talk: ["L38"] }),
     ],
     type: (t) => TY.pop(t, S("L36") + 0.6, "ЕШКІМ СӨЗ", 540, 290, { size: 84, color: "#ffffff", t1: CTA - 0.2 }) + TY.pop(t, S("L36") + 0.8, "БЕРМЕЙДІ ДЕП ОЙЛАМА", 540, 390, { size: 60, color: "#ffffff", t1: CTA - 0.2 }) + TY.stamp(t, TIP, "БЕРЕДІ.", 330, 530, { size: 70, rot: -6, t1: CTA - 0.2 }) + TY.stamp(t, TIP2, "ӘРҚАШАН!", 740, 600, { size: 70, rot: 5, color: "#5a7fc4", t1: CTA - 0.2 }) +
       TY.pop(t, Wt("L37", 8), "КОММЕНТАРИЙГЕ ЖАЗ!", 540, 330, { size: 66, color: "#f6d55c", t1: asabaIn }) + TY.swing(t, E("L38") + 0.3, "САУ БОЛЫҢДАР!", 540, 400, { size: 96, color: "#f6d55c" }),

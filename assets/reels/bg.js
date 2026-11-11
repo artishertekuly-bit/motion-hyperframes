@@ -42,7 +42,7 @@
     let o = R(x - w / 2 - 20, y - h / 2 - 20, w + 40, h + 40, "#2a2c35", 8, 16);
     o += `<rect x="${f(x - w / 2)}" y="${f(y - h / 2)}" width="${f(w)}" height="${f(h)}" fill="url(#ledG)"/>`;
     for (let i = 0; i < 26; i++) { const k = ((t || 0) * 0.07 + i * 0.037) % 1; o += `<circle cx="${f(x - w / 2 + ((i * 197) % w))}" cy="${f(y + h / 2 - k * h)}" r="${f(6 + (i % 4) * 3)}" fill="#ffe7f0" opacity="${f(0.5 * Math.sin(k * Math.PI))}"/>`; }
-    o += TB(x - w * 0.26, y + 30, l1, 96, "#ffffff") + heart(x, y + 6, 1.1, "#ff6f91") + TB(x + w * 0.26, y + 30, l2, 96, "#ffffff");
+    o += `<g opacity="0.55">${TB(x - w * 0.26, y + 30, l1, 96, "#ffffff") + heart(x, y + 6, 1.1, "#ff6f91") + TB(x + w * 0.26, y + 30, l2, 96, "#ffffff")}</g>`;
     return `<defs>${grad("ledG", [[0, "#6a2c8f"], [0.55, "#c2408f"], [1, "#f08a5d"]])}</defs>` + o;
   }
   // үстел (дөңгелек, ақ дастарқан) — алдыңғы жағы
@@ -421,7 +421,7 @@
   // асаба сахнасы (жақын): экран + гүлдер, синтезатор
   BG.toiStage = () => {
     const L = BG.toiHall();
-    return { far: L.far, mid: L.mid + synth(900, -140, 1.2), near: "" };
+    return { far: L.far, mid: L.mid + synth(900, 50, 1.0), near: "" };
   };
   // үстел (жақын план): дастарқан, салаттар
   function tableTop() {
