@@ -66,9 +66,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // басқа сессиялардың жаңа (untracked) файлдары кедергі жасамайды — тек осы композиция сілтейтіндері
 const dirtyAll = git("status", "--porcelain");
 const compSrc = (() => { try { return readFileSync(opts.composition, "utf8"); } catch { return ""; } })();
-const dirty = dirtyAll.split("
-").filter((l) => l && (!l.startsWith("??") || l.slice(3) === opts.composition || compSrc.includes(l.slice(3).replace(//$/, "")))).join("
-");
+const dirty = dirtyAll.split("\n").filter((l) => l && (!l.startsWith("??") || l.slice(3) === opts.composition || compSrc.includes(l.slice(3).replace(/\/$/, "")))).join("\n");
 if (dirty) die(`Uncommitted changes — commit them first, the server renders what is pushed:\n${dirty}`);
 const branch = git("rev-parse", "--abbrev-ref", "HEAD");
 const upstream = run("git", ["rev-parse", "--abbrev-ref", "@{u}"], { allowFail: true });
