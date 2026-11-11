@@ -89,12 +89,12 @@ console.log(`→ gh workflow run ${WORKFLOW}  [${mode} ${opts.composition} ${opt
 gh("workflow", "run", WORKFLOW, "--ref", branch, ...Object.entries(fields).flatMap(([k, v]) => ["-f", `${k}=${v}`]));
 
 let runInfo;
-for (let t = 0; t < 40 && !runInfo; t++) {
+for (let t = 0; t < 300 && !runInfo; t++) { // GitHub кезегі баяу болса — 15 минутқа дейін күтеміз
   await sleep(3000);
   const list = JSON.parse(gh("run", "list", "--workflow", WORKFLOW, "--limit", "20", "--json", "databaseId,displayTitle,url"));
   runInfo = list.find((r) => r.displayTitle.includes(rid));
 }
-if (!runInfo) die(`Run ${rid} did not appear on GitHub within 2 minutes`);
+if (!runInfo) die(`Run ${rid} did not appear on GitHub within 15 minutes`);
 console.log(`→ run ${runInfo.databaseId}: ${runInfo.url}`);
 
 // ---------- 3. ожидание ----------
