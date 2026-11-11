@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>bg reels</title>
+<style>body{margin:0;background:#222;display:grid;grid-template-columns:repeat(6,300px);gap:4px}svg{display:block}.c{position:relative}.c b{position:absolute;left:4px;top:2px;color:#ff0;font:700 13px monospace;text-shadow:0 0 3px #000}</style></head>
+<body>
+<script src="../assets/characters/artur/artur-rig.js"></script>
+<script src="../assets/toi/timing.js"></script>
+<script src="../assets/songy/bg.js"></script>
+<script src="../assets/auyl/bg.js"></script>
+<script src="../assets/reels/bg.js"></script>
+<script src="../assets/reels/engine.js"></script>
+<script src="../assets/reels/kit.js"></script>
+<script>
+// Reels фондары мен кейіпкерлерінің тік кадрдағы тексеру парағы (300×533 ұяшық = 1080×1920)
+const BG = SONGY_BG.BG, RB = REELS_BG, K = REELS_KIT, R = ArturRig;
+const q = new URLSearchParams(location.search);
+const ONLY = q.get("f"), BIG = ONLY ? 1 : 0;
+if (BIG) document.body.style.gridTemplateColumns = "repeat(3,540px)";
+function cell(name, L, extra, cx, cy, z) {
+  if (ONLY && !ONLY.split(",").some((o) => name.startsWith(o))) return;
+  z = z || 1; cx = cx || 0; cy = cy == null ? -600 : cy;
+  const d = document.createElement("div"); d.className = "c";
+  d.innerHTML = `<svg width="${BIG ? 540 : 300}" height="${BIG ? 960 : 533}" viewBox="0 0 1080 1920"><g transform="translate(540,960) scale(${z}) translate(${-cx},${-cy})">${L.far || ""}${L.mid || ""}${extra || ""}${L.near || ""}</g><rect x="0" y="1500" width="1080" height="420" fill="#f00" opacity="0.12"/><rect x="960" y="900" width="120" height="700" fill="#f00" opacity="0.12"/></svg><b>${name}</b>`;
+  document.body.appendChild(d);
+}
+const actor = (a, x, y, p) => `<g transform="translate(${x},${y}) scale(${a.s || 0.75})">${R.draw(Object.assign({ look: a.look, outfit: a.outfit, turn: 0.3 }, p || {}), { seed: 3, id: "a" + Math.round(x) + a.look })}</g>`;
+const A = K.ACT;
+const show = q.get("show") || "bg";
+if (show === "bg") {
+  cell("toiHall", BG.toiHall(), "", 0, -900, 0.55);
+  cell("toiHall tables", BG.toiHall({ tables: true }), "", 0, -500, 0.7);
+  cell("toiStage", BG.toiStage(), actor(A.asaba(), 0, -140, Object.assign({}, K.POSES.mic, R.EXPR.happy)), 0, -700, 1.0);
+  cell("toiTable", BG.toiTable(), RB.cat(500, -150, 1, { turn: 1 }), 0, -300, 0.8);
+  cell("headRoom", BG.headRoom(), "", 0, -800, 0.8);
+  cell("bazaar", BG.bazaar(), actor(A.kid(), 0, 0), 0, -600, 0.9);
+  cell("courtyard", BG.courtyard(), RB.car6(0, 0, 0.6, {}), 0, -700, 0.6);
+  cell("lot", BG.lot(), RB.car6(-100, 300, 0.5, {}) + RB.pigeon(400, 500, 1, 0), 0, -500, 0.6);
+  cell("hill", BG.hill(), RB.car6(400, -BG.SLOPE * 400 - 40, 0.5, { rot: -15 }) + RB.truck(-500, BG.SLOPE * 500 - 40, 0.55, { rot: -15 }) + RB.trafficLight(1000, -BG.SLOPE * 1000 - 80, 0.8, "r"), 0, -400, 0.45);
+  cell("road", BG.road(), RB.car6(0, 300, 0.5, {}), 0, -500, 0.6);
+  cell("road night", BG.road({ night: true }), "", 0, -500, 0.6);
+  cell("carInt road", BG.carInt("road"), actor(A.dad(), -150, 0, R.EXPR.calm) + actor(A.artur(), 150, 0, K.POSES.nervous) + RB.carFront({}) + RB.freshener(12), 0, -480, 1.0);
+  cell("kitchen", BG.kitchen(), actor(A.mom(), 200, 0, Object.assign({}, K.POSES.phoneMouth, R.EXPR.happy)) + BG.kitchenTable(0, 300, 1), 0, -700, 0.75);
+  cell("living", BG.living(), actor(A.saule(), 0, -40, Object.assign({}, K.POSES.phoneEar, K.POSES.sitChair)), 0, -700, 0.6);
+  cell("cityNight", BG.cityNight(), "", 0, -900, 0.5);
+  cell("host", BG.host(["#c9e6ff", "#9fd0f5"]), actor(A.artur(), 0, 0, R.EXPR.happy), 0, -560, 1.4);
+  cell("pedals", { far: RB.pedals([0, 0.6, 0]) }, "", 0, -300, 1.0);
+  cell("invite + phone", { far: RF0() }, RB.invite(0, -600, 1, { cross: 1 }), 0, -600, 1);
+} else {
+  // кейіпкерлер
+  const cast = [["artur suit", A.arturSuit()], ["mom", A.mom()], ["momFest", A.momFest()], ["dad", A.dad()], ["asaba", A.asaba()], ["groom", A.groom()], ["bride", A.bride()], ["aunt1", A.aunt1()], ["aunt2", A.aunt2()], ["aunt3", A.aunt3()], ["saule", A.saule()], ["driver", A.driver()], ["aje", A.aje()], ["kid", A.kid()], ["teen", A.teen()], ["hoodie", A.arturHood()]];
+  for (const [n, a] of cast) cell(n, { far: `<rect x="-2000" y="-3000" width="4000" height="4000" fill="#e9dcc7"/>` }, actor(a, 0, 0, Object.assign({ turn: 0.3 }, R.EXPR.happy, n === "asaba" ? K.POSES.mic : {})), 0, -450, 1.25);
+}
+function RF0() { return `<rect x="-2000" y="-3000" width="4000" height="4000" fill="#3b3f4a"/>`; }
+</script>
+</body></html>

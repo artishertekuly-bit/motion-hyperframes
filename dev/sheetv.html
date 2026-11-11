@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>sheet v</title>
+<style>body{margin:0;background:#222;display:grid;grid-template-columns:repeat(6,270px);gap:2px}
+.c{position:relative;width:270px;height:480px;overflow:hidden}
+.c iframe{width:1080px;height:1920px;border:0;transform:scale(0.25);transform-origin:0 0}
+.c b{position:absolute;left:4px;top:2px;color:#ff0;font:700 15px monospace;text-shadow:0 0 3px #000}</style></head>
+<body>
+<script>
+// тік (9:16) композицияның таңдалған сәттері: ?c=toi&t=1,2,3  (big=1 → 2 баған, үлкен)
+const qs = new URLSearchParams(location.search);
+const ts = (qs.get("t") || "0").split(",").map(Number);
+const comp = qs.get("c") || "toi";
+const W = +(qs.get("w") || 0);
+if (W) { const H = Math.round(W * 16 / 9), cols = Math.floor(1024 / (W + 2)); document.body.style.gridTemplateColumns = "repeat(" + cols + "," + W + "px)"; document.head.insertAdjacentHTML("beforeend", "<style>.c{width:" + W + "px;height:" + H + "px}.c iframe{transform:scale(" + (W / 1080) + ")}</style>"); }
+else if (qs.get("big")) { document.body.style.gridTemplateColumns = "repeat(3,405px)"; document.head.insertAdjacentHTML("beforeend", "<style>.c{width:405px;height:720px}.c iframe{transform:scale(0.375)}</style>"); }
+for (const t of ts) {
+  const d = document.createElement("div"); d.className = "c";
+  const f = document.createElement("iframe"); f.src = "../" + comp + ".html?t=" + t;
+  f.onload = () => { try { f.contentWindow.__renderAt(t); } catch (e) { d.style.outline = "4px solid red"; d.title = e.message; } };
+  d.appendChild(f); const b = document.createElement("b"); b.textContent = t.toFixed(1); d.appendChild(b);
+  document.body.appendChild(d);
+}
+</script>
+</body></html>

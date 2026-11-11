@@ -3,7 +3,7 @@
 // бала дауысы / микрофон эффектісі, уақыт шкаласы → assets/songy/timing.js, дауыс жолы → voice.wav.
 //   node scripts/story-voices.mjs auyl       (materials/<жоба>/script.json бойынша)
 // Кілт Motion/.env ішінен алынады және ешқашан шығарылмайды.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -20,6 +20,7 @@ mkdirSync(PROC, { recursive: true });
 const SR = 48000;
 
 async function tts(line) {
+  if (!line) return;
   const out = resolve(RAW, line.id);
   if (existsSync(out + ".mp3")) return;
   const v = SCRIPT.voices[line.who];
@@ -41,8 +42,9 @@ async function tts(line) {
 }
 
 // 3 параллель сұраныс (Starter тарифінің шегі)
-const queue = SCRIPT.lines.slice();
+const queue = SCRIPT.lines.filter((l) => !l.reuse); // reuse — басқа репликаның дыбысы (кредит үнемі)
 await Promise.all([0, 1, 2].map(async () => { while (queue.length) await tts(queue.shift()); }));
+for (const l of SCRIPT.lines) if (l.reuse) for (const ext of [".mp3", ".chars.json"]) if (!existsSync(resolve(RAW, l.id + ext))) copyFileSync(resolve(RAW, l.reuse + ext), resolve(RAW, l.id + ext));
 
 // өңдеу: 48 кГц моно WAV (+ бала дауысы / микрофон)
 function proc(line) {
@@ -50,6 +52,7 @@ function proc(line) {
   const src = resolve(RAW, line.id + ".mp3"), dst = resolve(PROC, line.id + ".wav");
   let af = "aresample=48000";
   if (v.pitch) af += `,rubberband=pitch=${v.pitch}:formant=shifted`;
+  if (line.slow) af += `,asetrate=${Math.round(SR * line.slow)},aresample=${SR}`; // slow-mo айғай
   if (v.phone) af += ",highpass=f=320,lowpass=f=3400,acompressor=threshold=-20dB:ratio=3,volume=1.1";
   if (v.pa) af += ",highpass=f=260,lowpass=f=3600,aecho=0.8:0.55:110|230:0.32|0.18,volume=1.25";
   const tmp = dst.replace(/.wav$/, ".pre.wav");
@@ -72,7 +75,7 @@ const timing = {};
 const parts = [];
 for (const line of SCRIPT.lines) {
   const wav = proc(line);
-  const raw = JSON.parse(readFileSync(resolve(RAW, line.id + ".chars.json"), "utf8"));
+  const raw = JSON.parse(readFileSync(resolve(RAW, line.id + ".chars.json"), "utf8")).map(([c, a, b]) => [c, a / (line.slow || 1), b / (line.slow || 1)]);
   // тегтерді ([shouting] т.б.) ауыз үшін «rest» деп белгілеу; сөйлеудің басы мен соңы — алғашқы/соңғы әріп
   let inTag = false;
   const chars = raw.map(([ch, s, e]) => {
