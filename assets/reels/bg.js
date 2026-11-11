@@ -195,7 +195,8 @@
     d += R(-110, 52, 220, 60, "#ffffff", 5, 6) + T(0, 96, o.plateText || "777 ABZ 02", 30, INK);
     d += R(-470, 130, 140, 90, "#2a2b31", 6, 14) + R(330, 130, 140, 90, "#2a2b31", 6, 14);
     // бүйір айналар
-    d += P("M-470,-360 L-560,-380 L-560,-300 L-480,-300Z", col, 6) + P("M470,-360 L560,-380 L560,-300 L480,-300Z", col, 6);
+    if (o.mirrorL !== false) d += P("M-470,-360 L-560,-380 L-560,-300 L-480,-300Z", col, 6);
+    if (o.mirrorR !== false) d += P("M470,-360 L560,-380 L560,-300 L480,-300Z", col, 6);
     // тазалағыштар
     d += Ln("M-340,-344 L-60,-372 M60,-344 L330,-372", 8, "#2a2b31");
     return d;
@@ -218,6 +219,13 @@
     d += Ln(`M${f(-r * 0.5)},${f(-r * 0.55)} Q${f(-r * 0.3)},${f(-r * 0.75)} 0,${f(-r * 0.8)}`, Math.max(3, r * 0.08), "#9fd39a", ' opacity="0.8"');
     return g(x, y, 1, d, rot);
   }
+  // кузовтағы қарбыздар: [x, y, r, rot] (жүк көлігінің жергілікті координаттары, төменнен жоғары)
+  function truckMelons() {
+    const r = rng(17);
+    const m = [];
+    for (let row = 0; row < 5; row++) for (let i = 0; i < 7 - row; i++) m.push([-880 + 70 + i * 120 + row * 60 + (r() - 0.5) * 20, -470 - row * 96 + (r() - 0.5) * 10, 64 + r() * 10, r() * 360]);
+    return m;
+  }
   // жүк көлігі (кабинасы алдында, оңға қарайды) + қарбыз үйіндісі
   function truck(x, y, s, o) {
     o = o || {};
@@ -225,9 +233,7 @@
     let d = "";
     // қарбыз үйіндісі (кузовта)
     const pile = o.pile == null ? 1 : o.pile;
-    const r = rng(17);
-    const melons = [];
-    for (let row = 0; row < 5; row++) for (let i = 0; i < 7 - row; i++) melons.push([-880 + 70 + i * 120 + row * 60 + (r() - 0.5) * 20, -470 - row * 96 + (r() - 0.5) * 10, 64 + r() * 10, r() * 360]);
+    const melons = truckMelons();
     const keep = Math.round(melons.length * pile);
     for (let i = 0; i < keep; i++) { const m = melons[i]; if (o.skip && o.skip.includes(i)) continue; d += wmelon(m[0], m[1], m[2], m[3]); }
     d += P("M-900,-420 L-80,-420 L-80,-200 L-900,-200Z", "#5a7fc4", 7) + Ln("M-900,-330 L-80,-330", 4, "#4a6cad");
@@ -527,5 +533,5 @@
   };
   // студия (жүргізуші) — тік кадрға арналған (songy host бар)
 
-  G.REELS_BG = { tableTop, horn, ornRow, ornBorder, sparkle, heart, chandelier, ledScreen, roundTable, guest, cat, synth, folder, invite, ice, CAR, car6, carCabin, carFront, freshener, wmelon, truck, bus, trafficLight, pedals, radio, speedo, money, flyer, grandmaBags, pigeon, plov, manty, wallCarpet, sofa, tv, panelBlock, kiosk, tree, streetLamp, cloud, sky, E, g, TB, SLOPE, grad };
+  G.REELS_BG = { truckMelons, tableTop, horn, ornRow, ornBorder, sparkle, heart, chandelier, ledScreen, roundTable, guest, cat, synth, folder, invite, ice, CAR, car6, carCabin, carFront, freshener, wmelon, truck, bus, trafficLight, pedals, radio, speedo, money, flyer, grandmaBags, pigeon, plov, manty, wallCarpet, sofa, tv, panelBlock, kiosk, tree, streetLamp, cloud, sky, E, g, TB, SLOPE, grad };
 })(typeof window !== "undefined" ? window : globalThis);
