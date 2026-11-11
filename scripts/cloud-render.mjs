@@ -10,7 +10,7 @@
 // Существующие файлы не перезаписываются: к имени добавляется id запуска.
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, renameSync, rmSync, statSync, writeFileSync , readFileSync } from "node:fs";
 import { basename, dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -63,7 +63,12 @@ const gh = (...args) => run(GH, args).stdout.trim();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // ---------- 1. код на GitHub совпадает с локальным ----------
-const dirty = git("status", "--porcelain");
+// басқа сессиялардың жаңа (untracked) файлдары кедергі жасамайды — тек осы композиция сілтейтіндері
+const dirtyAll = git("status", "--porcelain");
+const compSrc = (() => { try { return readFileSync(opts.composition, "utf8"); } catch { return ""; } })();
+const dirty = dirtyAll.split("
+").filter((l) => l && (!l.startsWith("??") || l.slice(3) === opts.composition || compSrc.includes(l.slice(3).replace(//$/, "")))).join("
+");
 if (dirty) die(`Uncommitted changes — commit them first, the server renders what is pushed:\n${dirty}`);
 const branch = git("rev-parse", "--abbrev-ref", "HEAD");
 const upstream = run("git", ["rev-parse", "--abbrev-ref", "@{u}"], { allowFail: true });
