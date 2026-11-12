@@ -30,11 +30,13 @@ const S = (id) => LN[id].start, E = (id) => LN[id].end;
 const TOTAL = Math.ceil(win.SONGY_T.total * 100) / 100;
 
 function findAudio(relPath) {
-  for (const proj of ["courier", "uni", "auyl", "songy"]) {
+  const local = resolve(AUD, relPath);
+  if (existsSync(local)) return local;
+  for (const proj of ["uni", "auyl", "songy"]) {
     const p = resolve(MAT, proj, "audio", relPath);
     if (existsSync(p)) return p;
   }
-  return resolve(AUD, relPath);
+  return local;
 }
 
 const cache = {};
@@ -78,7 +80,7 @@ const mus = (f, at, end, g, o) => place("music", Object.assign({ f: "music/" + f
 const fx = (f, at, g, o) => place("sfx", Object.assign({ f: "sfx/" + f + ".mp3", at, g }, o || {}));
 
 // 1. Дауыс
-place("voice", { f: "voice.wav", at: 0, g: 0 });
+place("voice", { f: resolve(AUD, "voice.wav"), at: 0, g: 0 });
 
 // 2. Музыкалық композиция
 mus("intro", 0.2, S("L03") + 0.1, -10, { fi: 0.8, fo: 0.8 });
