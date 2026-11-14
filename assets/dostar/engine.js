@@ -92,6 +92,7 @@
     if (bl > 0) p.eye = Object.assign({}, p.eye || {}, { lidTop: Math.max(p.eye?.lidTop || 0, bl), lidBot: Math.max(p.eye?.lidBot || 0, bl * 0.7) });
     const x = p.x || 0, y = p.y || 0, s = p.s == null ? 1 : p.s;
     const rot = p.rot || 0;
+    p.x = 0; p.y = 0; p.scale = 1;
     const bodySvg = RIG.draw(p, { seed: Math.floor(t * 12) + (a.seed || idx * 101), id: "a" + idx });
     return `<g transform="translate(${f(x)},${f(y)}) rotate(${f(rot)}) scale(${f(s)})">${bodySvg}</g>`;
   }
