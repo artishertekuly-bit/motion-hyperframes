@@ -178,11 +178,11 @@
     let i = 0;
     while (i < keys.length - 1 && keys[i + 1][0] <= t) i++;
     const a = keys[i][1];
-    if (i >= keys.length - 1 || t <= keys[0][0]) return Object.assign({ x: 0, y: -380, z: 1, r: 0 }, t <= keys[0][0] ? keys[0][1] : a);
+    if (i >= keys.length - 1 || t <= keys[0][0]) return Object.assign({ x: 0, y: -450, z: 1, r: 0 }, t <= keys[0][0] ? keys[0][1] : a);
     const b = keys[i + 1][1];
     const e = keys[i + 1][2] || eio;
     const k = e((t - keys[i][0]) / (keys[i + 1][0] - keys[i][0]));
-    const A = Object.assign({ x: 0, y: -380, z: 1, r: 0 }, a), Bc = Object.assign({}, A, b);
+    const A = Object.assign({ x: 0, y: -450, z: 1, r: 0 }, a), Bc = Object.assign({}, A, b);
     return { x: lerp(A.x, Bc.x, k), y: lerp(A.y, Bc.y, k), z: Math.exp(lerp(Math.log(A.z), Math.log(Bc.z), k)), r: lerp(A.r, Bc.r, k) };
   }
 
@@ -223,7 +223,7 @@
       c.y += noise(t * 18, 2) * shk;
       c.r += noise(t * 12, 3) * shk * 0.02;
     }
-    const c0 = sh.c0 || { x: 0, y: -380 };
+    const c0 = sh.c0 || { x: 0, y: -450 };
 
     const dt = 1 / 120;
     const ca = camAt(sh.cam, Math.max(sh.t0, t - dt)), cb = camAt(sh.cam, t + dt);

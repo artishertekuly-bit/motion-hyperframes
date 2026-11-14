@@ -58,7 +58,7 @@ async function main() {
   const status = runCmd("git", ["status", "--porcelain"]).stdout.trim();
   if (status) {
     console.log("Commit жасалуда...");
-    runCmd("git", ["commit", "-m", "feat(dostar): add dostar storytime 16:9 animation project"]);
+    runCmd("git", ["commit", "-m", "fix(dostar): fix character framing and camera heights across all shots"]);
   }
   console.log("Push origin main...");
   runCmd("git", ["push", "origin", "main"]);

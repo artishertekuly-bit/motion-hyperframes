@@ -17,16 +17,17 @@
       id: "sh01_tent_night",
       t0: 0,
       bg: "tentNight",
+      c0: { x: 0, y: -450 },
       cam: [
-        [0, { x: 0, y: -280, z: 1.1, r: 0 }],
-        [S("L03"), { x: 180, y: -260, z: 1.25, r: 1.5 }],
-        [S("L05"), { x: -160, y: -240, z: 1.35, r: -2 }]
+        [0, { x: 0, y: -450, z: 1.0, r: 0 }],
+        [S("L03"), { x: 120, y: -450, z: 1.06, r: 1 }],
+        [S("L05"), { x: -120, y: -450, z: 1.1, r: -1 }]
       ],
       actors: [
         // Артур
         {
           seed: 1,
-          base: { x: -280, y: 40, s: 0.82, look: "artur", outfit: "casual" },
+          base: { x: -330, y: 0, s: 0.70, look: "artur", outfit: "casual" },
           lines: ["L01", "L05"],
           keys: [
             [0, "scared+crouch"],
@@ -36,7 +37,7 @@
         // Бекзат
         {
           seed: 2,
-          base: { x: -90, y: 50, s: 0.85, look: "boy", outfit: "casual" },
+          base: { x: -110, y: 0, s: 0.70, look: "boy", outfit: "casual" },
           lines: ["L02"],
           keys: [
             [0, "sleepy+shrug"],
@@ -46,7 +47,7 @@
         // Данияр
         {
           seed: 3,
-          base: { x: 140, y: 40, s: 0.82, look: "boy", outfit: "casual" },
+          base: { x: 110, y: 0, s: 0.70, look: "boy", outfit: "casual" },
           lines: ["L03"],
           keys: [
             [0, "scared+holdPhone"],
@@ -56,7 +57,7 @@
         // Диас
         {
           seed: 4,
-          base: { x: 330, y: 45, s: 0.8, look: "arturSwept", outfit: "casual" },
+          base: { x: 330, y: 0, s: 0.70, look: "arturSwept", outfit: "casual" },
           lines: ["L04"],
           keys: [
             [0, "scared+shrug"],
@@ -78,14 +79,15 @@
       t0: S("L06") - 0.2,
       bg: "tentOutsideNight",
       flashIn: 0.2,
+      c0: { x: 0, y: -450 },
       cam: [
-        [S("L06") - 0.2, { x: 0, y: -260, z: 1.15, r: 0 }],
-        [S("L06") + 1.2, { x: 60, y: -200, z: 1.5, r: -1 }]
+        [S("L06") - 0.2, { x: 0, y: -450, z: 1.02, r: 0 }],
+        [S("L06") + 1.2, { x: -60, y: -460, z: 1.12, r: -1 }]
       ],
       actors: [
         {
           seed: 1,
-          base: { x: -220, y: 0, s: 0.95, look: "artur", outfit: "casual" },
+          base: { x: -180, y: 0, s: 0.72, look: "artur", outfit: "casual" },
           lines: ["L06"],
           keys: [
             [S("L06") - 0.2, "shock+holdSkewer"],
@@ -106,9 +108,10 @@
       t0: E("L06") + 0.1,
       bg: "host",
       flashIn: 0.35,
+      c0: { x: 0, y: -450 },
       cam: [
-        [E("L06") + 0.1, { x: 0, y: -380, z: 1, r: 0 }],
-        [S("L07") - 0.2, { x: 0, y: -380, z: 1.05, r: 0 }]
+        [E("L06") + 0.1, { x: 0, y: -450, z: 1, r: 0 }],
+        [S("L07") - 0.2, { x: 0, y: -450, z: 1.05, r: 0 }]
       ],
       type: (t) => {
         let s = "";
@@ -123,14 +126,15 @@
       id: "sh03_host_intro",
       t0: S("L07") - 0.2,
       bg: "host",
+      c0: { x: 0, y: -560 },
       cam: [
-        [S("L07") - 0.2, { x: 0, y: -380, z: 1.15, r: 0 }],
-        [E("L07"), { x: 0, y: -400, z: 1.25, r: 0 }]
+        [S("L07") - 0.2, { x: 0, y: -560, z: 1.0, r: 0 }],
+        [E("L07"), { x: 0, y: -580, z: 1.06, r: 0 }]
       ],
       actors: [
         {
           seed: 1,
-          base: { x: 0, y: 0, s: 1.15, look: "artur", outfit: "casual" },
+          base: { x: 0, y: 320, s: 1.15, look: "artur", outfit: "casual" },
           lines: ["L07"],
           keys: [
             [S("L07") - 0.2, "happy+wave"],
@@ -146,14 +150,15 @@
       id: "sh04_stats",
       t0: S("L08") - 0.1,
       bg: "host",
+      c0: { x: 0, y: -560 },
       cam: [
-        [S("L08") - 0.1, { x: -180, y: -380, z: 1.2, r: 0 }],
-        [E("L08"), { x: -220, y: -380, z: 1.25, r: 0 }]
+        [S("L08") - 0.1, { x: -140, y: -560, z: 1.05, r: 0 }],
+        [E("L08"), { x: -160, y: -570, z: 1.08, r: 0 }]
       ],
       actors: [
         {
           seed: 1,
-          base: { x: -350, y: 0, s: 1.1, look: "artur", outfit: "casual" },
+          base: { x: -360, y: 320, s: 1.15, look: "artur", outfit: "casual" },
           lines: ["L08"],
           keys: [
             [S("L08") - 0.1, "laugh+shrug"],
@@ -177,15 +182,16 @@
       id: "sh05_expectations",
       t0: S("L09") - 0.1,
       bg: "bonfire",
+      c0: { x: 0, y: -450 },
       cam: [
-        [S("L09") - 0.1, { x: 0, y: -320, z: 1.05, r: 0 }],
-        [E("L09"), { x: 0, y: -300, z: 1.12, r: 0 }]
+        [S("L09") - 0.1, { x: 0, y: -450, z: 1.0, r: 0 }],
+        [E("L09"), { x: 0, y: -460, z: 1.06, r: 0 }]
       ],
       fx: (t) => ({ lb: 0.85, tint: "#fef08a", tintA: 0.15 }),
       actors: [
         {
           seed: 1,
-          base: { x: 0, y: 0, s: 1.0, look: "artur", outfit: "casual" },
+          base: { x: 0, y: 0, s: 0.72, look: "artur", outfit: "casual" },
           lines: ["L09"],
           keys: [[S("L09"), "happy+idle"]]
         }
@@ -197,15 +203,16 @@
       t0: S("L10") - 0.1,
       bg: "mudRoad",
       flashIn: 0.2,
+      c0: { x: 0, y: -450 },
       cam: [
-        [S("L10") - 0.1, { x: 0, y: -320, z: 1.1, r: -2 }],
-        [E("L10"), { x: 0, y: -320, z: 1.25, r: 2 }]
+        [S("L10") - 0.1, { x: 0, y: -450, z: 1.02, r: -1 }],
+        [E("L10"), { x: 0, y: -460, z: 1.08, r: 1 }]
       ],
       shake: (t) => 5,
       actors: [
         {
           seed: 1,
-          base: { x: -280, y: 0, s: 0.95, look: "artur", outfit: "casual" },
+          base: { x: -220, y: 0, s: 0.72, look: "artur", outfit: "casual" },
           lines: ["L10", "L11"],
           keys: [
             [S("L10") - 0.1, "shock+shrug"],
@@ -214,7 +221,7 @@
         },
         {
           seed: 3,
-          base: { x: 180, y: 0, s: 0.9, look: "boy", outfit: "casual" },
+          base: { x: 200, y: 0, s: 0.70, look: "boy", outfit: "casual" },
           keys: [[S("L10") - 0.1, "cryingMud"]]
         }
       ],
@@ -226,28 +233,29 @@
       id: "sh07_law1_chat",
       t0: S("L12") - 0.1,
       bg: "chat",
+      c0: { x: 0, y: -450 },
       cam: [
-        [S("L12") - 0.1, { x: 0, y: -340, z: 1.05, r: 0 }],
-        [S("L13"), { x: -160, y: -380, z: 1.15, r: 0 }],
-        [S("L14"), { x: 160, y: -380, z: 1.15, r: 0 }],
-        [S("L15"), { x: 0, y: -320, z: 1.2, r: 0 }]
+        [S("L12") - 0.1, { x: 0, y: -450, z: 1.0, r: 0 }],
+        [S("L13"), { x: -140, y: -450, z: 1.05, r: 0 }],
+        [S("L14"), { x: 140, y: -450, z: 1.05, r: 0 }],
+        [S("L15"), { x: 0, y: -450, z: 1.06, r: 0 }]
       ],
       actors: [
         {
           seed: 2,
-          base: { x: -440, y: 0, s: 0.88, look: "boy", outfit: "casual" },
+          base: { x: -330, y: 0, s: 0.70, look: "boy", outfit: "casual" },
           lines: ["L13"],
           keys: [[S("L12"), "smug+idle"], [S("L13"), "laugh+point", 0.2]]
         },
         {
           seed: 3,
-          base: { x: 440, y: 0, s: 0.88, look: "boy", outfit: "casual" },
+          base: { x: 330, y: 0, s: 0.70, look: "boy", outfit: "casual" },
           lines: ["L14"],
           keys: [[S("L12"), "happy+holdPhone"], [S("L14"), "happy+cheer", 0.2]]
         },
         {
           seed: 1,
-          base: { x: 0, y: 0, s: 0.95, look: "artur", outfit: "casual" },
+          base: { x: 0, y: 0, s: 0.72, look: "artur", outfit: "casual" },
           lines: ["L12", "L15"],
           keys: [[S("L12"), "calm+point"], [S("L15"), "shock+shrug", 0.3]]
         }
@@ -261,30 +269,31 @@
       t0: S("L16") - 0.1,
       bg: "mudRoad",
       flashIn: 0.2,
+      c0: { x: 0, y: -450 },
       cam: [
-        [S("L16") - 0.1, { x: 0, y: -300, z: 1.1, r: 0 }],
-        [S("L17"), { x: 180, y: -300, z: 1.22, r: 0 }],
-        [S("L19"), { x: -160, y: -260, z: 1.35, r: 0 }]
+        [S("L16") - 0.1, { x: 0, y: -450, z: 1.0, r: 0 }],
+        [S("L17"), { x: 160, y: -450, z: 1.06, r: 0 }],
+        [S("L19"), { x: -160, y: -450, z: 1.06, r: 0 }]
       ],
       actors: [
         // Диас навигатор
         {
           seed: 4,
-          base: { x: 260, y: 0, s: 0.95, look: "arturSwept", outfit: "casual" },
+          base: { x: 300, y: 0, s: 0.70, look: "arturSwept", outfit: "casual" },
           lines: ["L17"],
           keys: [[S("L16"), "smug+point"], [S("L18"), "shy+shrug", 0.3]]
         },
         // Данияр жылап отыр
         {
           seed: 3,
-          base: { x: -260, y: 0, s: 0.95, look: "boy", outfit: "casual" },
+          base: { x: -300, y: 0, s: 0.70, look: "boy", outfit: "casual" },
           lines: ["L19"],
           keys: [[S("L16"), "calm+idle"], [S("L18"), "cryingMud", 0.2]]
         },
         // Артур баяндаушы
         {
           seed: 1,
-          base: { x: 0, y: 0, s: 0.95, look: "artur", outfit: "casual" },
+          base: { x: 0, y: 0, s: 0.72, look: "artur", outfit: "casual" },
           lines: ["L16", "L18"],
           keys: [[S("L16"), "calm+idle"], [S("L18"), "shock+shrug", 0.2]]
         }
@@ -298,23 +307,24 @@
       t0: S("L20") - 0.1,
       bg: "tentBuild",
       flashIn: 0.2,
+      c0: { x: 0, y: -450 },
       cam: [
-        [S("L20") - 0.1, { x: 0, y: -300, z: 1.05, r: 0 }],
-        [S("L21"), { x: 220, y: -280, z: 1.25, r: 0 }],
-        [S("L22"), { x: 0, y: -280, z: 1.2, r: 0 }]
+        [S("L20") - 0.1, { x: 0, y: -450, z: 1.0, r: 0 }],
+        [S("L21"), { x: 140, y: -450, z: 1.06, r: 0 }],
+        [S("L22"), { x: 0, y: -450, z: 1.04, r: 0 }]
       ],
       actors: [
         // Бекзат мақтанады
         {
           seed: 2,
-          base: { x: 300, y: 0, s: 0.95, look: "boy", outfit: "casual" },
+          base: { x: 240, y: 0, s: 0.72, look: "boy", outfit: "casual" },
           lines: ["L21"],
           keys: [[S("L20"), "smug+idle"], [S("L21"), "laugh+point", 0.2], [S("L22"), "shock+shrug", 0.3]]
         },
         // Артур
         {
           seed: 1,
-          base: { x: -320, y: 0, s: 0.95, look: "artur", outfit: "casual" },
+          base: { x: -240, y: 0, s: 0.72, look: "artur", outfit: "casual" },
           lines: ["L20", "L22"],
           keys: [[S("L20"), "calm+point"], [S("L22"), "laugh+shrug", 0.25]]
         }
@@ -328,23 +338,24 @@
       t0: S("L23") - 0.1,
       bg: "tree4G",
       flashIn: 0.2,
+      c0: { x: 0, y: -450 },
       cam: [
-        [S("L23") - 0.1, { x: 0, y: -450, z: 1.1, r: 0 }],
-        [S("L24"), { x: -160, y: -520, z: 1.35, r: 0 }],
-        [S("L26"), { x: 0, y: -380, z: 1.15, r: 0 }]
+        [S("L23") - 0.1, { x: 0, y: -450, z: 1.0, r: 0 }],
+        [S("L24"), { x: -140, y: -500, z: 1.08, r: 0 }],
+        [S("L26"), { x: 0, y: -450, z: 1.02, r: 0 }]
       ],
       actors: [
         // Данияр талдың басында
         {
           seed: 3,
-          base: { x: -220, y: -420, s: 0.75, look: "boy", outfit: "casual" },
+          base: { x: -220, y: -320, s: 0.58, look: "boy", outfit: "casual" },
           lines: ["L24"],
           keys: [[S("L23"), "scared+holdPhone"], [S("L24"), "laugh+cheer", 0.2]]
         },
         // Артур жерде
         {
           seed: 1,
-          base: { x: 260, y: 0, s: 0.95, look: "artur", outfit: "casual" },
+          base: { x: 240, y: 0, s: 0.72, look: "artur", outfit: "casual" },
           lines: ["L23", "L25", "L26"],
           keys: [[S("L23"), "calm+point"], [S("L25"), "laugh+shrug", 0.25], [S("L26"), "calm+idle", 0.2]]
         }
