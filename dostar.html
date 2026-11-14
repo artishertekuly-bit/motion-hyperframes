@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="kk" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="assets/characters/artur/artur-rig.js"></script>
+    <script src="assets/dostar/timing.js"></script>
+    <script src="assets/dostar/bg.js"></script>
+    <script src="assets/dostar/engine.js"></script>
+    <script src="assets/dostar/shots-a.js"></script>
+    <script src="assets/dostar/shots-b.js"></script>
+    <style>
+      /* «Достар және Поход» — Артурдың storytime-видеосы (16:9, ~6:16). */
+      :root { --font-display: "Montserrat", sans-serif; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0c101c; }
+      #root { position: absolute; inset: 0; overflow: hidden; background: #0c101c; }
+      #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; }
+      #stage text { font-family: var(--font-display); }
+      #fontwarm { position: absolute; left: -3000px; top: 0; font-family: var(--font-display); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="377" data-width="1920" data-height="1080">
+      <div id="stage" class="clip" data-start="0" data-duration="377"></div>
+      <div id="fontwarm"><b style="font-weight:900">ДОСТАР ЖӘНЕ ПОХОД ӘҒҚҢӨҰҮҺІ әғқңөұүһі «»—…</b><b style="font-weight:800">Аа</b><b style="font-weight:700">Аа</b></div>
+    </div>
+    <script>
+      (function () {
+        const DUR = 377;
+        const stage = document.getElementById("stage");
+        const renderAt = (t) => window.DOSTAR.renderAt(Math.max(0, Math.min(DUR - 1 / 120, t)), stage);
+        window.__renderAt = renderAt;
+        window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+        renderAt(0);
+        window.__timelines = window.__timelines || {};
+        const proxy = { t: 0 };
+        const tl = gsap.timeline({ paused: true });
+        tl.to(proxy, { t: DUR, duration: DUR, ease: "none", onUpdate: () => renderAt(proxy.t) }, 0);
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
