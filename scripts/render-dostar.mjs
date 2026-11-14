@@ -101,13 +101,7 @@ async function main() {
     const activeRaw = await ghRetry(["run", "list", "--workflow", WORKFLOW, "--limit", "15", "--json", "databaseId,displayTitle,url,status,conclusion"]);
     const activeList = JSON.parse(activeRaw);
     for (const t of allTasks) {
-      if (existsSync(t.outputMp4) && statSync(t.outputMp4).size > 5 * 1024 * 1024) {
-        console.log(`⏩ [${t.chunkName}] Файл бар: ${t.outputMp4}`);
-        t.status = "completed";
-        t.downloaded = true;
-        continue;
-      }
-      const existing = activeList.find((r) => r.displayTitle.includes(t.chunkName) && (r.status !== "completed" || r.conclusion === "success"));
+      const existing = activeList.find((r) => r.displayTitle.includes(t.chunkName) && r.status === "in_progress");
       if (existing) {
         t.runId = existing.databaseId;
         t.url = existing.url;
@@ -217,7 +211,7 @@ async function main() {
     const tmpDir = join(OUT_DIR, `tmp-${t.chunkName}`);
     mkdirSync(tmpDir, { recursive: true });
 
-    await ghRetry(["run", "download", String(t.runId), "--dir", tmpDir], 5, 5000);
+    await ghRetry(["run", "download", String(t.runId), "--dir", tmpDir], 8, 8000);
 
     const findMp4 = (dir) => {
       for (const entry of readdirSync(dir, { withFileTypes: true })) {
