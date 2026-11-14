@@ -34,6 +34,22 @@ const git = (...args) => runCmd("git", args).stdout.trim();
 const gh = (...args) => runCmd(GH, args).stdout.trim();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+const ghRetry = async (args, maxAttempts = 6, delay = 5000) => {
+  let lastErr = null;
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const res = runCmd(GH, args, { allowFail: true });
+      if (res.status === 0) return res.stdout.trim();
+      lastErr = new Error(res.stderr || res.stdout);
+    } catch (e) {
+      lastErr = e;
+    }
+    console.warn(`[gh ${args[0]} ${args[1] || ""}] Байланыс қайталанады (${i + 1}/${maxAttempts})...`);
+    await sleep(delay);
+  }
+  throw lastErr;
+};
+
 const VIDEO = {
   id: "dostar",
   title: "Достар және Поход: Қалай аман қалдық?",
@@ -77,16 +93,34 @@ async function main() {
     downloaded: false,
   }));
 
-  console.log("\n--- 2. GitHub Actions тапсырмаларын жіберу ---");
+  console.log("\n--- 2. GitHub Actions тапсырмаларын тексеру және жіберу ---");
   const stamp = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
 
-  for (const t of allTasks) {
-    if (existsSync(t.outputMp4) && statSync(t.outputMp4).size > 5 * 1024 * 1024) {
-      console.log(`⏩ [${t.chunkName}] Файл бар: ${t.outputMp4}`);
-      t.status = "completed";
-      t.downloaded = true;
-      continue;
+  // Алдымен белсенді немесе жаңа аяқталған run-дарды тексеру
+  try {
+    const activeRaw = await ghRetry(["run", "list", "--workflow", WORKFLOW, "--limit", "15", "--json", "databaseId,displayTitle,url,status,conclusion"]);
+    const activeList = JSON.parse(activeRaw);
+    for (const t of allTasks) {
+      if (existsSync(t.outputMp4) && statSync(t.outputMp4).size > 5 * 1024 * 1024) {
+        console.log(`⏩ [${t.chunkName}] Файл бар: ${t.outputMp4}`);
+        t.status = "completed";
+        t.downloaded = true;
+        continue;
+      }
+      const existing = activeList.find((r) => r.displayTitle.includes(t.chunkName) && (r.status !== "completed" || r.conclusion === "success"));
+      if (existing) {
+        t.runId = existing.databaseId;
+        t.url = existing.url;
+        t.rid = existing.displayTitle;
+        console.log(`🔗 [${t.chunkName}] Бар run-ға қосылды: #${t.runId} (${existing.status})`);
+      }
     }
+  } catch (e) {
+    console.warn("Active runs тексеру ескертуі:", e.message?.split("\n")[0]);
+  }
+
+  for (const t of allTasks) {
+    if (t.downloaded || t.runId) continue;
 
     const rand = Math.random().toString(36).slice(2, 6);
     t.rid = `${stamp}-${t.chunkName}-${rand}`;
@@ -102,7 +136,7 @@ async function main() {
     };
 
     console.log(`→ [${t.chunkName}] Workflow жіберу (range ${t.range}, rid ${t.rid})...`);
-    gh("workflow", "run", WORKFLOW, "--ref", branch, ...Object.entries(fields).flatMap(([k, v]) => ["-f", `${k}=${v}`]));
+    await ghRetry(["workflow", "run", WORKFLOW, "--ref", branch, ...Object.entries(fields).flatMap(([k, v]) => ["-f", `${k}=${v}`])]);
     await sleep(2500);
   }
 
@@ -112,7 +146,7 @@ async function main() {
     if (pendingWithoutRun.length === 0) break;
 
     await sleep(4000);
-    const listRaw = gh("run", "list", "--workflow", WORKFLOW, "--limit", "30", "--json", "databaseId,displayTitle,url");
+    const listRaw = await ghRetry(["run", "list", "--workflow", WORKFLOW, "--limit", "30", "--json", "databaseId,displayTitle,url"]);
     const list = JSON.parse(listRaw);
 
     for (const t of pendingWithoutRun) {
@@ -126,7 +160,7 @@ async function main() {
   }
 
   for (const t of allTasks) {
-    if (t.rid && !t.runId) {
+    if (!t.downloaded && !t.runId) {
       throw new Error(`[${t.chunkName}] үшін runId табылмады (${t.rid})`);
     }
   }
@@ -136,7 +170,7 @@ async function main() {
   let allDone = false;
 
   while (!allDone) {
-    await sleep(15000);
+    await sleep(12000);
     const elapsed = Math.round((Date.now() - startTime) / 1000);
 
     let completedCount = 0;
@@ -146,8 +180,14 @@ async function main() {
         continue;
       }
 
-      const viewRaw = gh("run", "view", String(t.runId), "--json", "status,conclusion");
-      const view = JSON.parse(viewRaw);
+      let view = null;
+      try {
+        const viewRaw = await ghRetry(["run", "view", String(t.runId), "--json", "status,conclusion"], 4, 3000);
+        view = JSON.parse(viewRaw);
+      } catch (e) {
+        console.warn(`[${t.chunkName}] run view байлану ескертуі: ${e.message?.split("\n")[0]}`);
+        continue;
+      }
 
       if (view.status === "completed") {
         if (view.conclusion === "success") {
@@ -177,7 +217,7 @@ async function main() {
     const tmpDir = join(OUT_DIR, `tmp-${t.chunkName}`);
     mkdirSync(tmpDir, { recursive: true });
 
-    gh("run", "download", String(t.runId), "--dir", tmpDir);
+    await ghRetry(["run", "download", String(t.runId), "--dir", tmpDir], 5, 5000);
 
     const findMp4 = (dir) => {
       for (const entry of readdirSync(dir, { withFileTypes: true })) {
