@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="kk" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Орбұлақ шайқасы (1643 ж.)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "KZAndantino";
+        src: url("assets/fonts/KZ_Andantino_script_kz.ttf") format("truetype");
+        font-weight: 400 700;
+        font-style: normal;
+        font-display: block;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #181410;
+      }
+      #root {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #181410;
+      }
+      .shot-wrap, .shot-media {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      .shot-media {
+        object-fit: cover;
+      }
+      .shot-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        will-change: transform;
+      }
+      #particles-canvas {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        pointer-events: none;
+        z-index: 20;
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        pointer-events: none;
+        z-index: 25;
+        background: radial-gradient(
+          ellipse at 50% 45%,
+          rgba(0, 0, 0, 0) 48%,
+          rgba(5, 4, 3, 0.46) 100%
+        );
+      }
+      .sub-wrap {
+        position: absolute;
+        left: 72px;
+        right: 72px;
+        bottom: 430px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        z-index: 40;
+      }
+      .sub-card {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px 34px 20px 34px;
+        max-width: 880px;
+      }
+      .paper-bg {
+        position: absolute;
+        inset: -6px -10px;
+        width: calc(100% + 20px);
+        height: calc(100% + 12px);
+        z-index: 0;
+        overflow: visible;
+      }
+      .sub-text {
+        position: relative;
+        z-index: 1;
+        font-family: "KZAndantino", Georgia, serif;
+        font-size: 46px;
+        line-height: 1.24;
+        color: #221A15;
+        text-align: center;
+        letter-spacing: 0.2px;
+      }
+      #fontwarm {
+        position: absolute;
+        left: -4000px;
+        top: 0;
+        font-family: "KZAndantino", Georgia, serif;
+        font-size: 46px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="94.000" data-width="1080" data-height="1920">
+      <video id="shot-01" class="clip shot-media" data-start="0.000" data-duration="2.600" src="assets/orbulak/orbulak-01-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-02" class="clip shot-wrap" data-start="2.600" data-duration="2.400">
+        <img id="img-02" class="shot-img" src="assets/orbulak/orbulak-02-v1.jpg" alt="" />
+      </div>
+      <div id="shot-03" class="clip shot-wrap" data-start="5.000" data-duration="2.300">
+        <img id="img-03" class="shot-img" src="assets/orbulak/orbulak-03-v1.jpg" alt="" />
+      </div>
+      <div id="shot-04" class="clip shot-wrap" data-start="7.300" data-duration="4.000">
+        <img id="img-04" class="shot-img" src="assets/orbulak/orbulak-04-v1.jpg" alt="" />
+      </div>
+      <div id="shot-05" class="clip shot-wrap" data-start="11.300" data-duration="2.500">
+        <img id="img-05" class="shot-img" src="assets/orbulak/orbulak-05-v1.jpg" alt="" />
+      </div>
+      <div id="shot-06" class="clip shot-wrap" data-start="13.800" data-duration="3.000">
+        <img id="img-06" class="shot-img" src="assets/orbulak/orbulak-06-v1.jpg" alt="" />
+      </div>
+      <div id="shot-07" class="clip shot-wrap" data-start="16.800" data-duration="3.700">
+        <img id="img-07" class="shot-img" src="assets/orbulak/orbulak-07-v1.jpg" alt="" />
+      </div>
+      <div id="shot-08" class="clip shot-wrap" data-start="20.500" data-duration="3.100">
+        <img id="img-08" class="shot-img" src="assets/orbulak/orbulak-08-v1.jpg" alt="" />
+      </div>
+      <div id="shot-09" class="clip shot-wrap" data-start="23.600" data-duration="2.900">
+        <img id="img-09" class="shot-img" src="assets/orbulak/orbulak-09-v1.jpg" alt="" />
+      </div>
+      <video id="shot-10" class="clip shot-media" data-start="26.500" data-duration="4.000" src="assets/orbulak/orbulak-10-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-11" class="clip shot-wrap" data-start="30.500" data-duration="3.800">
+        <img id="img-11" class="shot-img" src="assets/orbulak/orbulak-11-v1.jpg" alt="" />
+      </div>
+      <div id="shot-12" class="clip shot-wrap" data-start="34.300" data-duration="3.200">
+        <img id="img-12" class="shot-img" src="assets/orbulak/orbulak-12-v1.jpg" alt="" />
+      </div>
+      <div id="shot-13" class="clip shot-wrap" data-start="37.500" data-duration="2.300">
+        <img id="img-13" class="shot-img" src="assets/orbulak/orbulak-13-v1.jpg" alt="" />
+      </div>
+      <div id="shot-14" class="clip shot-wrap" data-start="39.800" data-duration="3.100">
+        <img id="img-14" class="shot-img" src="assets/orbulak/orbulak-14-v1.jpg" alt="" />
+      </div>
+      <div id="shot-15" class="clip shot-wrap" data-start="42.900" data-duration="2.800">
+        <img id="img-15" class="shot-img" src="assets/orbulak/orbulak-15-v1.jpg" alt="" />
+      </div>
+      <video id="shot-16" class="clip shot-media" data-start="45.700" data-duration="4.000" src="assets/orbulak/orbulak-16-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-17" class="clip shot-wrap" data-start="49.700" data-duration="2.400">
+        <img id="img-17" class="shot-img" src="assets/orbulak/orbulak-17-v1.jpg" alt="" />
+      </div>
+      <div id="shot-18" class="clip shot-wrap" data-start="52.100" data-duration="3.100">
+        <img id="img-18" class="shot-img" src="assets/orbulak/orbulak-18-v1.jpg" alt="" />
+      </div>
+      <video id="shot-19" class="clip shot-media" data-start="55.200" data-duration="3.600" src="assets/orbulak/orbulak-19-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-20" class="clip shot-wrap" data-start="58.800" data-duration="3.600">
+        <img id="img-20" class="shot-img" src="assets/orbulak/orbulak-20-v1.jpg" alt="" />
+      </div>
+      <video id="shot-21" class="clip shot-media" data-start="62.400" data-duration="4.000" src="assets/orbulak/orbulak-21-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-22" class="clip shot-wrap" data-start="66.400" data-duration="5.000">
+        <img id="img-22" class="shot-img" src="assets/orbulak/orbulak-22-v1.jpg" alt="" />
+      </div>
+      <div id="shot-23" class="clip shot-wrap" data-start="71.400" data-duration="3.800">
+        <img id="img-23" class="shot-img" src="assets/orbulak/orbulak-23-v1.jpg" alt="" />
+      </div>
+      <video id="shot-24" class="clip shot-media" data-start="75.200" data-duration="4.000" src="assets/orbulak/orbulak-24-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-25" class="clip shot-wrap" data-start="79.200" data-duration="4.400">
+        <img id="img-25" class="shot-img" src="assets/orbulak/orbulak-25-v1.jpg" alt="" />
+      </div>
+      <div id="shot-26" class="clip shot-wrap" data-start="83.600" data-duration="4.000">
+        <img id="img-26" class="shot-img" src="assets/orbulak/orbulak-26-v1.jpg" alt="" />
+      </div>
+      <div id="shot-27" class="clip shot-wrap" data-start="87.600" data-duration="3.400">
+        <img id="img-27" class="shot-img" src="assets/orbulak/orbulak-27-v1.jpg" alt="" />
+      </div>
+      <div id="shot-28" class="clip shot-wrap" data-start="91.000" data-duration="3.000">
+        <img id="img-28" class="shot-img" src="assets/orbulak/orbulak-28-v1.jpg" alt="" />
+      </div>
+      <canvas id="particles-canvas" class="clip" width="1080" height="1920" data-start="0" data-duration="94.000"></canvas>
+      <div id="vignette" class="clip" data-start="0" data-duration="94.000"></div>
+      <div id="sub-001" class="clip sub-wrap" data-start="0.260" data-duration="1.580">
+        <div id="sub-card-001" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-001" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-001)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Мың алты жүз қырық үшінші</span>
+        </div>
+      </div>
+      <div id="sub-002" class="clip sub-wrap" data-start="1.860" data-duration="0.620">
+        <div id="sub-card-002" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-002" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-002)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">жыл</span>
+        </div>
+      </div>
+      <div id="sub-003" class="clip sub-wrap" data-start="2.500" data-duration="1.980">
+        <div id="sub-card-003" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-003" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-003)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Жетісу тауына елу мың жоңғар</span>
+        </div>
+      </div>
+      <div id="sub-004" class="clip sub-wrap" data-start="4.500" data-duration="1.740">
+        <div id="sub-card-004" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-004" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-004)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">қолы қара бұлттай төніп келе</span>
+        </div>
+      </div>
+      <div id="sub-005" class="clip sub-wrap" data-start="6.260" data-duration="0.900">
+        <div id="sub-card-005" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-005" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-005)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">жатты</span>
+        </div>
+      </div>
+      <div id="sub-006" class="clip sub-wrap" data-start="7.180" data-duration="2.020">
+        <div id="sub-card-006" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-006" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-006)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Олардың алдында небәрі алты жүз</span>
+        </div>
+      </div>
+      <div id="sub-007" class="clip sub-wrap" data-start="9.220" data-duration="2.060">
+        <div id="sub-card-007" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-007" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-007)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">қазақ сарбазы ғана тұрды</span>
+        </div>
+      </div>
+      <div id="sub-008" class="clip sub-wrap" data-start="11.460" data-duration="2.140">
+        <div id="sub-card-008" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-008" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-008)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Бір адамға сексен жау</span>
+        </div>
+      </div>
+      <div id="sub-009" class="clip sub-wrap" data-start="13.620" data-duration="2.060">
+        <div id="sub-card-009" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-009" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-009)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Ашық далада бұл сөзсіз өлім</span>
+        </div>
+      </div>
+      <div id="sub-010" class="clip sub-wrap" data-start="15.700" data-duration="0.820">
+        <div id="sub-card-010" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-010" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-010)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">еді</span>
+        </div>
+      </div>
+      <div id="sub-011" class="clip sub-wrap" data-start="16.540" data-duration="2.260">
+        <div id="sub-card-011" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-011" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-011)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Бірақ жасақты бастаған Жәңгір сұлтан</span>
+        </div>
+      </div>
+      <div id="sub-012" class="clip sub-wrap" data-start="18.820" data-duration="1.420">
+        <div id="sub-card-012" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-012" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-012)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">кейін шегінбеді</span>
+        </div>
+      </div>
+      <div id="sub-013" class="clip sub-wrap" data-start="20.260" data-duration="1.700">
+        <div id="sub-card-013" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-013" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-013)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Ол жаудың ең осал тұсын</span>
+        </div>
+      </div>
+      <div id="sub-014" class="clip sub-wrap" data-start="21.980" data-duration="2.180">
+        <div id="sub-card-014" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-014" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-014)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">тапты — тау арасындағы тар</span>
+        </div>
+      </div>
+      <div id="sub-015" class="clip sub-wrap" data-start="24.180" data-duration="1.980">
+        <div id="sub-card-015" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-015" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-015)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Орбұлақ шатқалын</span>
+        </div>
+      </div>
+      <div id="sub-016" class="clip sub-wrap" data-start="26.460" data-duration="2.380">
+        <div id="sub-card-016" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-016" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-016)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Түн жамылған сарбаздар тар сайдың</span>
+        </div>
+      </div>
+      <div id="sub-017" class="clip sub-wrap" data-start="28.860" data-duration="2.140">
+        <div id="sub-card-017" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-017" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-017)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">аузына терең ор қазды</span>
+        </div>
+      </div>
+      <div id="sub-018" class="clip sub-wrap" data-start="31.020" data-duration="2.060">
+        <div id="sub-card-018" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-018" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-018)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Алдына тастан бекініс қалап</span>
+        </div>
+      </div>
+      <div id="sub-019" class="clip sub-wrap" data-start="33.100" data-duration="1.980">
+        <div id="sub-card-019" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-019" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-019)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">үстін шөппен жасырды</span>
+        </div>
+      </div>
+      <div id="sub-020" class="clip sub-wrap" data-start="35.100" data-duration="2.260">
+        <div id="sub-card-020" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-020" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-020)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Үш жүз жауынгер білтелі мылтықтарын</span>
+        </div>
+      </div>
+      <div id="sub-021" class="clip sub-wrap" data-start="37.380" data-duration="2.100">
+        <div id="sub-card-021" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-021" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-021)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">кезеніп ор ішіне түсті</span>
+        </div>
+      </div>
+      <div id="sub-022" class="clip sub-wrap" data-start="39.500" data-duration="2.220">
+        <div id="sub-card-022" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-022" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-022)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Қалған үш жүзі биік жартастың</span>
+        </div>
+      </div>
+      <div id="sub-023" class="clip sub-wrap" data-start="41.740" data-duration="3.420">
+        <div id="sub-card-023" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-023" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-023)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">тасасында тынысын ішіне тартып күтті</span>
+        </div>
+      </div>
+      <div id="sub-024" class="clip sub-wrap" data-start="45.660" data-duration="2.100">
+        <div id="sub-card-024" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-024" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-024)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Таң атысымен елу мың қол</span>
+        </div>
+      </div>
+      <div id="sub-025" class="clip sub-wrap" data-start="47.780" data-duration="2.180">
+        <div id="sub-card-025" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-025" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-025)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">тар шатқалға кіріп кептелді</span>
+        </div>
+      </div>
+      <div id="sub-026" class="clip sub-wrap" data-start="49.980" data-duration="1.900">
+        <div id="sub-card-026" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-026" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-026)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Қанат жаяр жер жоқ</span>
+        </div>
+      </div>
+      <div id="sub-027" class="clip sub-wrap" data-start="51.900" data-duration="2.060">
+        <div id="sub-card-027" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-027" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-027)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Дәл сол сәтте жер астынан</span>
+        </div>
+      </div>
+      <div id="sub-028" class="clip sub-wrap" data-start="53.980" data-duration="1.100">
+        <div id="sub-card-028" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-028" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-028)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">оқ атылды</span>
+        </div>
+      </div>
+      <div id="sub-029" class="clip sub-wrap" data-start="55.100" data-duration="3.180">
+        <div id="sub-card-029" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-029" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-029)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Білтелі мылтықтың гүрсілі тау жаңғыртты</span>
+        </div>
+      </div>
+      <div id="sub-030" class="clip sub-wrap" data-start="58.300" data-duration="1.420">
+        <div id="sub-card-030" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-030" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-030)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Алдыңғы шеп құлап</span>
+        </div>
+      </div>
+      <div id="sub-031" class="clip sub-wrap" data-start="59.740" data-duration="2.460">
+        <div id="sub-card-031" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-031" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-031)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">артқылар кері шегіне алмай састы</span>
+        </div>
+      </div>
+      <div id="sub-032" class="clip sub-wrap" data-start="62.220" data-duration="2.380">
+        <div id="sub-card-032" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-032" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-032)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Кенет төбедегі жартастан тас пен</span>
+        </div>
+      </div>
+      <div id="sub-033" class="clip sub-wrap" data-start="64.620" data-duration="1.660">
+        <div id="sub-card-033" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-033" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-033)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">жебе нөсердей жауды</span>
+        </div>
+      </div>
+      <div id="sub-034" class="clip sub-wrap" data-start="66.300" data-duration="2.540">
+        <div id="sub-card-034" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-034" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-034)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Жәңгірдің алты жүзі қалың қолды</span>
+        </div>
+      </div>
+      <div id="sub-035" class="clip sub-wrap" data-start="68.860" data-duration="2.380">
+        <div id="sub-card-035" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-035" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-035)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">екі оттың ортасында қалдырды</span>
+        </div>
+      </div>
+      <div id="sub-036" class="clip sub-wrap" data-start="71.460" data-duration="2.740">
+        <div id="sub-card-036" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-036" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-036)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Сол қысылтаяң шақта көкжиектен шаң</span>
+        </div>
+      </div>
+      <div id="sub-037" class="clip sub-wrap" data-start="74.220" data-duration="1.060">
+        <div id="sub-card-037" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-037" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-037)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">көтерілді</span>
+        </div>
+      </div>
+      <div id="sub-038" class="clip sub-wrap" data-start="75.300" data-duration="2.860">
+        <div id="sub-card-038" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-038" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-038)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Самарқаннан жиырма мың қолмен Жалаңтөс</span>
+        </div>
+      </div>
+      <div id="sub-039" class="clip sub-wrap" data-start="78.180" data-duration="1.660">
+        <div id="sub-card-039" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-039" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-039)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">баһадүр жеткен еді</span>
+        </div>
+      </div>
+      <div id="sub-040" class="clip sub-wrap" data-start="79.860" data-duration="2.060">
+        <div id="sub-card-040" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-040" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-040)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Екі жақтан қысқан темір құрсау</span>
+        </div>
+      </div>
+      <div id="sub-041" class="clip sub-wrap" data-start="81.940" data-duration="1.580">
+        <div id="sub-card-041" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-041" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-041)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">жауды түре қуды</span>
+        </div>
+      </div>
+      <div id="sub-042" class="clip sub-wrap" data-start="83.540" data-duration="2.500">
+        <div id="sub-card-042" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-042" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-042)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Осы ерліктен соң халық Жәңгірді</span>
+        </div>
+      </div>
+      <div id="sub-043" class="clip sub-wrap" data-start="86.060" data-duration="1.520">
+        <div id="sub-card-043" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-043" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-043)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">«Салқам» деп атады</span>
+        </div>
+      </div>
+      <div id="sub-044" class="clip sub-wrap" data-start="87.620" data-duration="2.140">
+        <div id="sub-card-044" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-044" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-044)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">Себебі шайқасты сан емес —</span>
+        </div>
+      </div>
+      <div id="sub-045" class="clip sub-wrap" data-start="89.780" data-duration="1.820">
+        <div id="sub-card-045" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-045" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-045)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">ақыл мен тас түйін бірлік</span>
+        </div>
+      </div>
+      <div id="sub-046" class="clip sub-wrap" data-start="91.620" data-duration="1.180">
+        <div id="sub-card-046" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <filter id="paperShadow-046" x="-10%" y="-20%" width="120%" height="150%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45"/>
+              </filter>
+            </defs>
+            <path filter="url(#paperShadow-046)" fill="#F6EFE2" d="M 10,8 Q 80,5 150,7 T 290,6 T 392,9 L 395,28 L 391,48 L 396,68 L 391,91 Q 310,94 210,92 T 90,94 T 8,90 L 4,70 L 9,49 L 5,28 Z"/>
+          </svg>
+          <span class="sub-text">шешкен еді</span>
+        </div>
+      </div>
+      <audio id="vo-01" data-start="0.300" data-duration="10.800" src="assets/orbulak/voice/v1.mp3" data-volume="1.0"></audio>
+      <audio id="vo-02" data-start="11.500" data-duration="14.480" src="assets/orbulak/voice/v2.mp3" data-volume="1.0"></audio>
+      <audio id="vo-03" data-start="26.500" data-duration="18.480" src="assets/orbulak/voice/v3.mp3" data-volume="1.0"></audio>
+      <audio id="vo-04" data-start="45.700" data-duration="25.360" src="assets/orbulak/voice/v4.mp3" data-volume="1.0"></audio>
+      <audio id="vo-05" data-start="71.500" data-duration="21.120" src="assets/orbulak/voice/v5.mp3" data-volume="1.0"></audio>
+      <audio id="bgm" data-start="0" data-duration="94.000" src="assets/orbulak/audio/bgm.mp3" data-volume="0.25"></audio>
+      <audio id="sfx-01" data-start="0.000" data-duration="6.000" src="assets/orbulak/audio/wind.mp3" data-volume="0.35"></audio>
+      <audio id="sfx-02" data-start="11.400" data-duration="3.500" src="assets/orbulak/audio/subdrop.mp3" data-volume="0.50"></audio>
+      <audio id="sfx-03" data-start="26.500" data-duration="4.000" src="assets/orbulak/audio/tension.mp3" data-volume="0.38"></audio>
+      <audio id="sfx-04" data-start="45.500" data-duration="2.700" src="assets/orbulak/audio/whoosh.mp3" data-volume="0.45"></audio>
+      <audio id="sfx-05" data-start="51.900" data-duration="3.500" src="assets/orbulak/audio/orbulak-musket.mp3" data-volume="0.62"></audio>
+      <audio id="sfx-06" data-start="62.300" data-duration="3.000" src="assets/orbulak/audio/hit.mp3" data-volume="0.55"></audio>
+      <audio id="sfx-07" data-start="75.000" data-duration="4.000" src="assets/orbulak/audio/orbulak-cavalry.mp3" data-volume="0.55"></audio>
+      <div id="fontwarm">ӘҒҚҢӨҰҮҺІ әғқңөұүһі АаБбВв</div>
+    </div>
+    <script>
+      (function () {
+        const DUR = 94.000;
+        const PARTICLE_KIND = "embers";
+        const canvas = document.getElementById("particles-canvas");
+        const ctx = canvas.getContext("2d");
+
+        function hash(n) {
+          const x = Math.sin(n * 127.1 + 311.7) * 43758.5453123;
+          return x - Math.floor(x);
+        }
+
+        const COUNT = PARTICLE_KIND === "none" ? 0 : (PARTICLE_KIND === "rain" ? 75 : 55);
+        const items = [];
+        for (let i = 0; i < COUNT; i++) {
+          items.push({
+            x0: hash(i * 3 + 1) * 1080,
+            y0: hash(i * 3 + 2) * 1920,
+            vx: (hash(i * 3 + 3) - 0.35) * (PARTICLE_KIND === "snow" ? 95 : PARTICLE_KIND === "rain" ? -140 : 28),
+            vy: PARTICLE_KIND === "embers"
+              ? -(55 + hash(i * 3 + 4) * 90)
+              : PARTICLE_KIND === "rain"
+                ? (900 + hash(i * 3 + 4) * 450)
+                : (35 + hash(i * 3 + 4) * 110),
+            r: 1.5 + hash(i * 3 + 5) * (PARTICLE_KIND === "mist" ? 28 : 4.0),
+            a: 0.14 + hash(i * 3 + 6) * 0.42,
+            phase: hash(i * 3 + 7) * 6.283
+          });
+        }
+
+        function renderParticles(t) {
+          ctx.clearRect(0, 0, 1080, 1920);
+          if (!COUNT) return;
+          for (let i = 0; i < COUNT; i++) {
+            const p = items[i];
+            const sway = Math.sin(t * 1.4 + p.phase) * (PARTICLE_KIND === "rain" ? 0 : 24);
+            const x = ((p.x0 + p.vx * t + sway) % 1080 + 1080) % 1080;
+            const y = ((p.y0 + p.vy * t) % 1920 + 1920) % 1920;
+
+            if (PARTICLE_KIND === "rain") {
+              ctx.strokeStyle = `rgba(195, 218, 240, ${p.a * 0.65})`;
+              ctx.lineWidth = 1.6;
+              ctx.beginPath();
+              ctx.moveTo(x, y);
+              ctx.lineTo(x - 6, y + 36);
+              ctx.stroke();
+            } else if (PARTICLE_KIND === "embers") {
+              ctx.fillStyle = `rgba(255, 165, 70, ${p.a})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            } else if (PARTICLE_KIND === "mist") {
+              ctx.fillStyle = `rgba(200, 220, 225, ${p.a * 0.18})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            } else if (PARTICLE_KIND === "dust") {
+              ctx.fillStyle = `rgba(255, 232, 180, ${p.a * 0.7})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r * 0.7, 0, Math.PI * 2);
+              ctx.fill();
+            } else {
+              ctx.fillStyle = `rgba(236, 244, 255, ${p.a})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+
+        const proxy = { t: 0 };
+        const tl = gsap.timeline({ paused: true });
+        tl.to(proxy, { t: DUR, duration: DUR, ease: "none", onUpdate: () => renderParticles(proxy.t) }, 0);
+        tl.fromTo("#img-02", { scale: 1.08, x: -26, y: 0 }, { scale: 1.1, x: 26, y: 0, duration: 2.400, ease: "none" }, 2.600);
+        tl.fromTo("#img-03", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 2.300, ease: "none" }, 5.000);
+        tl.fromTo("#img-04", { scale: 1.08, x: 26, y: 0 }, { scale: 1.1, x: -26, y: 0, duration: 4.000, ease: "none" }, 7.300);
+        tl.fromTo("#img-05", { scale: 1.02, x: 0, y: 8 }, { scale: 1.16, x: 0, y: -16, duration: 2.500, ease: "none" }, 11.300);
+        tl.fromTo("#img-06", { scale: 1.11, x: 0, y: -10 }, { scale: 1.0, x: 0, y: 0, duration: 3.000, ease: "none" }, 13.800);
+        tl.fromTo("#img-07", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 3.700, ease: "none" }, 16.800);
+        tl.fromTo("#img-08", { scale: 1.08, x: 26, y: 0 }, { scale: 1.1, x: -26, y: 0, duration: 3.100, ease: "none" }, 20.500);
+        tl.fromTo("#img-09", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 2.900, ease: "none" }, 23.600);
+        tl.fromTo("#img-11", { scale: 1.08, x: -26, y: 0 }, { scale: 1.1, x: 26, y: 0, duration: 3.800, ease: "none" }, 30.500);
+        tl.fromTo("#img-12", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 3.200, ease: "none" }, 34.300);
+        tl.fromTo("#img-13", { scale: 1.02, x: 0, y: 8 }, { scale: 1.16, x: 0, y: -16, duration: 2.300, ease: "none" }, 37.500);
+        tl.fromTo("#img-14", { scale: 1.08, x: 26, y: 0 }, { scale: 1.1, x: -26, y: 0, duration: 3.100, ease: "none" }, 39.800);
+        tl.fromTo("#img-15", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 2.800, ease: "none" }, 42.900);
+        tl.fromTo("#img-17", { scale: 1.08, x: -26, y: 0 }, { scale: 1.1, x: 26, y: 0, duration: 2.400, ease: "none" }, 49.700);
+        tl.fromTo("#img-18", { scale: 1.02, x: 0, y: 8 }, { scale: 1.16, x: 0, y: -16, duration: 3.100, ease: "none" }, 52.100);
+        tl.fromTo("#img-20", { scale: 1.08, x: 26, y: 0 }, { scale: 1.1, x: -26, y: 0, duration: 3.600, ease: "none" }, 58.800);
+        tl.fromTo("#img-22", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 5.000, ease: "none" }, 66.400);
+        tl.fromTo("#img-23", { scale: 1.07, x: -8, y: 18 }, { scale: 1.11, x: 8, y: -18, duration: 3.800, ease: "none" }, 71.400);
+        tl.fromTo("#img-25", { scale: 1.08, x: -26, y: 0 }, { scale: 1.1, x: 26, y: 0, duration: 4.400, ease: "none" }, 79.200);
+        tl.fromTo("#img-26", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 4.000, ease: "none" }, 83.600);
+        tl.fromTo("#img-27", { scale: 1.11, x: 0, y: -10 }, { scale: 1.0, x: 0, y: 0, duration: 3.400, ease: "none" }, 87.600);
+        tl.fromTo("#img-28", { scale: 1.0, x: 0, y: 0 }, { scale: 1.11, x: 0, y: -12, duration: 3.000, ease: "none" }, 91.000);
+        tl.fromTo("#sub-card-001", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 0.260);
+        tl.fromTo("#sub-card-002", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 1.860);
+        tl.fromTo("#sub-card-003", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 2.500);
+        tl.fromTo("#sub-card-004", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 4.500);
+        tl.fromTo("#sub-card-005", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 6.260);
+        tl.fromTo("#sub-card-006", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 7.180);
+        tl.fromTo("#sub-card-007", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 9.220);
+        tl.fromTo("#sub-card-008", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 11.460);
+        tl.fromTo("#sub-card-009", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 13.620);
+        tl.fromTo("#sub-card-010", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 15.700);
+        tl.fromTo("#sub-card-011", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 16.540);
+        tl.fromTo("#sub-card-012", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 18.820);
+        tl.fromTo("#sub-card-013", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 20.260);
+        tl.fromTo("#sub-card-014", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 21.980);
+        tl.fromTo("#sub-card-015", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 24.180);
+        tl.fromTo("#sub-card-016", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 26.460);
+        tl.fromTo("#sub-card-017", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 28.860);
+        tl.fromTo("#sub-card-018", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 31.020);
+        tl.fromTo("#sub-card-019", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 33.100);
+        tl.fromTo("#sub-card-020", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 35.100);
+        tl.fromTo("#sub-card-021", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 37.380);
+        tl.fromTo("#sub-card-022", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 39.500);
+        tl.fromTo("#sub-card-023", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 41.740);
+        tl.fromTo("#sub-card-024", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 45.660);
+        tl.fromTo("#sub-card-025", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 47.780);
+        tl.fromTo("#sub-card-026", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 49.980);
+        tl.fromTo("#sub-card-027", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 51.900);
+        tl.fromTo("#sub-card-028", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 53.980);
+        tl.fromTo("#sub-card-029", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 55.100);
+        tl.fromTo("#sub-card-030", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 58.300);
+        tl.fromTo("#sub-card-031", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 59.740);
+        tl.fromTo("#sub-card-032", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 62.220);
+        tl.fromTo("#sub-card-033", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 64.620);
+        tl.fromTo("#sub-card-034", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 66.300);
+        tl.fromTo("#sub-card-035", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 68.860);
+        tl.fromTo("#sub-card-036", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 71.460);
+        tl.fromTo("#sub-card-037", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 74.220);
+        tl.fromTo("#sub-card-038", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 75.300);
+        tl.fromTo("#sub-card-039", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 78.180);
+        tl.fromTo("#sub-card-040", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 79.860);
+        tl.fromTo("#sub-card-041", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 81.940);
+        tl.fromTo("#sub-card-042", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 83.540);
+        tl.fromTo("#sub-card-043", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 86.060);
+        tl.fromTo("#sub-card-044", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 87.620);
+        tl.fromTo("#sub-card-045", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 89.780);
+        tl.fromTo("#sub-card-046", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.12, ease: "power2.out" }, 91.620);
+        renderParticles(0);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
