@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="kk" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Орбұлақ шайқасы (1643 ж.) — v2.0</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "CormorantGaramondBold";
+        src: url("assets/fonts/CormorantGaramond-Bold.ttf") format("truetype");
+        font-weight: 700;
+        font-style: normal;
+        font-display: block;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #15120e;
+      }
+      #root {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #15120e;
+      }
+      .shot-wrap, .shot-media {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      .shot-media {
+        object-fit: cover;
+      }
+      .shot-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        will-change: transform;
+      }
+      #particles-canvas {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        pointer-events: none;
+        z-index: 20;
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        pointer-events: none;
+        z-index: 25;
+        background: radial-gradient(
+          ellipse at 50% 45%,
+          rgba(0, 0, 0, 0) 48%,
+          rgba(5, 4, 3, 0.44) 100%
+        );
+      }
+      .sub-wrap {
+        position: absolute;
+        left: 50%;
+        top: 78%;
+        transform: translate(-50%, -50%);
+        width: auto;
+        max-width: 780px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        z-index: 40;
+      }
+      .sub-card {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: max-content;
+        max-width: 760px;
+        padding: 20px 44px 22px 44px;
+        filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.65));
+      }
+      .paper-bg {
+        position: absolute;
+        inset: -6px -12px;
+        width: calc(100% + 24px);
+        height: calc(100% + 12px);
+        z-index: 0;
+        overflow: visible;
+      }
+      .sub-text {
+        position: relative;
+        z-index: 1;
+        font-family: "CormorantGaramondBold", "Cormorant Garamond", "Noto Serif", Georgia, serif;
+        font-weight: 700;
+        font-size: 48px;
+        line-height: 1.18;
+        color: #1A130E;
+        text-align: center;
+        letter-spacing: 0.1px;
+      }
+      #fontwarm {
+        position: absolute;
+        left: -4000px;
+        top: 0;
+        font-family: "CormorantGaramondBold", Georgia, serif;
+        font-weight: 700;
+        font-size: 48px;
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position:absolute;left:-9999px" aria-hidden="true">
+      <defs>
+        <pattern id="parchmentGrain" width="90" height="90" patternUnits="userSpaceOnUse">
+          <rect width="90" height="90" fill="#EFE3C8" fill-opacity="0"/>
+          <ellipse cx="22" cy="20" rx="18" ry="9" fill="#DFCAA4" fill-opacity="0.22"/>
+          <ellipse cx="66" cy="54" rx="22" ry="11" fill="#F8EED9" fill-opacity="0.26"/>
+          <ellipse cx="38" cy="72" rx="16" ry="8" fill="#D5BE95" fill-opacity="0.16"/>
+        </pattern>
+      </defs>
+    </svg>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="94.000" data-width="1080" data-height="1920">
+      <div id="shot-01" class="clip shot-wrap" data-start="0.000" data-duration="2.500">
+        <img id="img-01" class="shot-img" src="assets/orbulak-v2/orbulak-v2-01-v1.jpg" alt="" />
+      </div>
+      <video id="shot-02" class="clip shot-media" data-start="2.500" data-duration="2.300" src="assets/orbulak-v2/orbulak-v2-02-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-03" class="clip shot-wrap" data-start="4.800" data-duration="2.400">
+        <img id="img-03" class="shot-img" src="assets/orbulak-v2/orbulak-v2-03-v1.jpg" alt="" />
+      </div>
+      <div id="shot-04" class="clip shot-wrap" data-start="7.200" data-duration="2.100">
+        <img id="img-04" class="shot-img" src="assets/orbulak-v2/orbulak-v2-04-v1.jpg" alt="" />
+      </div>
+      <div id="shot-05" class="clip shot-wrap" data-start="9.300" data-duration="2.100">
+        <img id="img-05" class="shot-img" src="assets/orbulak-v2/orbulak-v2-05-v1.jpg" alt="" />
+      </div>
+      <div id="shot-06" class="clip shot-wrap" data-start="11.400" data-duration="2.300">
+        <img id="img-06" class="shot-img" src="assets/orbulak-v2/orbulak-v2-06-v1.jpg" alt="" />
+      </div>
+      <div id="shot-07" class="clip shot-wrap" data-start="13.700" data-duration="2.800">
+        <img id="img-07" class="shot-img" src="assets/orbulak-v2/orbulak-v2-07-v1.jpg" alt="" />
+      </div>
+      <div id="shot-08" class="clip shot-wrap" data-start="16.500" data-duration="2.000">
+        <img id="img-08" class="shot-img" src="assets/orbulak-v2/orbulak-v2-08-v1.jpg" alt="" />
+      </div>
+      <div id="shot-09" class="clip shot-wrap" data-start="18.500" data-duration="2.000">
+        <img id="img-09" class="shot-img" src="assets/orbulak-v2/orbulak-v2-09-v1.jpg" alt="" />
+      </div>
+      <div id="shot-10" class="clip shot-wrap" data-start="20.500" data-duration="2.000">
+        <img id="img-10" class="shot-img" src="assets/orbulak-v2/orbulak-v2-10-v1.jpg" alt="" />
+      </div>
+      <div id="shot-11" class="clip shot-wrap" data-start="22.500" data-duration="2.000">
+        <img id="img-11" class="shot-img" src="assets/orbulak-v2/orbulak-v2-11-v1.jpg" alt="" />
+      </div>
+      <div id="shot-12" class="clip shot-wrap" data-start="24.500" data-duration="2.000">
+        <img id="img-12" class="shot-img" src="assets/orbulak-v2/orbulak-v2-12-v1.jpg" alt="" />
+      </div>
+      <div id="shot-13" class="clip shot-wrap" data-start="26.500" data-duration="2.300">
+        <img id="img-13" class="shot-img" src="assets/orbulak-v2/orbulak-v2-13-v1.jpg" alt="" />
+      </div>
+      <div id="shot-14" class="clip shot-wrap" data-start="28.800" data-duration="2.300">
+        <img id="img-14" class="shot-img" src="assets/orbulak-v2/orbulak-v2-14-v1.jpg" alt="" />
+      </div>
+      <div id="shot-15" class="clip shot-wrap" data-start="31.100" data-duration="2.100">
+        <img id="img-15" class="shot-img" src="assets/orbulak-v2/orbulak-v2-15-v1.jpg" alt="" />
+      </div>
+      <div id="shot-16" class="clip shot-wrap" data-start="33.200" data-duration="2.000">
+        <img id="img-16" class="shot-img" src="assets/orbulak-v2/orbulak-v2-16-v1.jpg" alt="" />
+      </div>
+      <div id="shot-17" class="clip shot-wrap" data-start="35.200" data-duration="2.200">
+        <img id="img-17" class="shot-img" src="assets/orbulak-v2/orbulak-v2-17-v1.jpg" alt="" />
+      </div>
+      <div id="shot-18" class="clip shot-wrap" data-start="37.400" data-duration="2.100">
+        <img id="img-18" class="shot-img" src="assets/orbulak-v2/orbulak-v2-18-v1.jpg" alt="" />
+      </div>
+      <div id="shot-19" class="clip shot-wrap" data-start="39.500" data-duration="2.800">
+        <img id="img-19" class="shot-img" src="assets/orbulak-v2/orbulak-v2-19-v1.jpg" alt="" />
+      </div>
+      <div id="shot-20" class="clip shot-wrap" data-start="42.300" data-duration="2.700">
+        <img id="img-20" class="shot-img" src="assets/orbulak-v2/orbulak-v2-20-v1.jpg" alt="" />
+      </div>
+      <div id="shot-21" class="clip shot-wrap" data-start="45.000" data-duration="2.700">
+        <img id="img-21" class="shot-img" src="assets/orbulak-v2/orbulak-v2-21-v1.jpg" alt="" />
+      </div>
+      <div id="shot-22" class="clip shot-wrap" data-start="47.700" data-duration="2.300">
+        <img id="img-22" class="shot-img" src="assets/orbulak-v2/orbulak-v2-22-v1.jpg" alt="" />
+      </div>
+      <div id="shot-23" class="clip shot-wrap" data-start="50.000" data-duration="2.000">
+        <img id="img-23" class="shot-img" src="assets/orbulak-v2/orbulak-v2-23-v1.jpg" alt="" />
+      </div>
+      <video id="shot-24" class="clip shot-media" data-start="52.000" data-duration="2.300" src="assets/orbulak-v2/orbulak-v2-24-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-25" class="clip shot-wrap" data-start="54.300" data-duration="2.200">
+        <img id="img-25" class="shot-img" src="assets/orbulak-v2/orbulak-v2-25-v1.jpg" alt="" />
+      </div>
+      <div id="shot-26" class="clip shot-wrap" data-start="56.500" data-duration="2.000">
+        <img id="img-26" class="shot-img" src="assets/orbulak-v2/orbulak-v2-26-v1.jpg" alt="" />
+      </div>
+      <div id="shot-27" class="clip shot-wrap" data-start="58.500" data-duration="2.100">
+        <img id="img-27" class="shot-img" src="assets/orbulak-v2/orbulak-v2-27-v1.jpg" alt="" />
+      </div>
+      <div id="shot-28" class="clip shot-wrap" data-start="60.600" data-duration="2.100">
+        <img id="img-28" class="shot-img" src="assets/orbulak-v2/orbulak-v2-28-v1.jpg" alt="" />
+      </div>
+      <video id="shot-29" class="clip shot-media" data-start="62.700" data-duration="2.300" src="assets/orbulak-v2/orbulak-v2-29-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-30" class="clip shot-wrap" data-start="65.000" data-duration="2.100">
+        <img id="img-30" class="shot-img" src="assets/orbulak-v2/orbulak-v2-30-v1.jpg" alt="" />
+      </div>
+      <div id="shot-31" class="clip shot-wrap" data-start="67.100" data-duration="2.100">
+        <img id="img-31" class="shot-img" src="assets/orbulak-v2/orbulak-v2-31-v1.jpg" alt="" />
+      </div>
+      <div id="shot-32" class="clip shot-wrap" data-start="69.200" data-duration="2.300">
+        <img id="img-32" class="shot-img" src="assets/orbulak-v2/orbulak-v2-32-v1.jpg" alt="" />
+      </div>
+      <div id="shot-33" class="clip shot-wrap" data-start="71.500" data-duration="2.300">
+        <img id="img-33" class="shot-img" src="assets/orbulak-v2/orbulak-v2-33-v1.jpg" alt="" />
+      </div>
+      <div id="shot-34" class="clip shot-wrap" data-start="73.800" data-duration="2.100">
+        <img id="img-34" class="shot-img" src="assets/orbulak-v2/orbulak-v2-34-v1.jpg" alt="" />
+      </div>
+      <video id="shot-35" class="clip shot-media" data-start="75.900" data-duration="2.200" src="assets/orbulak-v2/orbulak-v2-35-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-36" class="clip shot-wrap" data-start="78.100" data-duration="2.000">
+        <img id="img-36" class="shot-img" src="assets/orbulak-v2/orbulak-v2-36-v1.jpg" alt="" />
+      </div>
+      <video id="shot-37" class="clip shot-media" data-start="80.100" data-duration="2.800" src="assets/orbulak-v2/orbulak-v2-37-v1.mp4" muted playsinline preload="auto"></video>
+      <div id="shot-38" class="clip shot-wrap" data-start="82.900" data-duration="2.500">
+        <img id="img-38" class="shot-img" src="assets/orbulak-v2/orbulak-v2-38-v1.jpg" alt="" />
+      </div>
+      <div id="shot-39" class="clip shot-wrap" data-start="85.400" data-duration="2.300">
+        <img id="img-39" class="shot-img" src="assets/orbulak-v2/orbulak-v2-39-v1.jpg" alt="" />
+      </div>
+      <div id="shot-40" class="clip shot-wrap" data-start="87.700" data-duration="2.700">
+        <img id="img-40" class="shot-img" src="assets/orbulak-v2/orbulak-v2-40-v1.jpg" alt="" />
+      </div>
+      <video id="shot-41" class="clip shot-media" data-start="90.400" data-duration="3.600" src="assets/orbulak-v2/orbulak-v2-41-v1.mp4" muted playsinline preload="auto"></video>
+      <canvas id="particles-canvas" class="clip" width="1080" height="1920" data-start="0" data-duration="94.000"></canvas>
+      <div id="vignette" class="clip" data-start="0" data-duration="94.000"></div>
+      <div id="sub-001" class="clip sub-wrap" data-start="0.260" data-duration="2.220">
+        <div id="sub-card-001" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Мың алты жүз<br/>қырық үшінші жыл</span>
+        </div>
+      </div>
+      <div id="sub-002" class="clip sub-wrap" data-start="2.500" data-duration="2.380">
+        <div id="sub-card-002" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Жетісу тауына елу<br/>мың жоңғар қолы</span>
+        </div>
+      </div>
+      <div id="sub-003" class="clip sub-wrap" data-start="4.900" data-duration="2.260">
+        <div id="sub-card-003" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">қара бұлттай<br/>төніп келе жатты</span>
+        </div>
+      </div>
+      <div id="sub-004" class="clip sub-wrap" data-start="7.180" data-duration="2.420">
+        <div id="sub-card-004" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Олардың алдында<br/>небәрі алты жүз қазақ</span>
+        </div>
+      </div>
+      <div id="sub-005" class="clip sub-wrap" data-start="9.620" data-duration="1.660">
+        <div id="sub-card-005" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">сарбазы<br/>ғана тұрды</span>
+        </div>
+      </div>
+      <div id="sub-006" class="clip sub-wrap" data-start="11.460" data-duration="2.140">
+        <div id="sub-card-006" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Бір адамға<br/>сексен жау</span>
+        </div>
+      </div>
+      <div id="sub-007" class="clip sub-wrap" data-start="13.620" data-duration="2.900">
+        <div id="sub-card-007" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Ашық далада бұл<br/>сөзсіз өлім еді</span>
+        </div>
+      </div>
+      <div id="sub-008" class="clip sub-wrap" data-start="16.540" data-duration="2.660">
+        <div id="sub-card-008" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Бірақ жасақты бастаған<br/>Жәңгір сұлтан кейін</span>
+        </div>
+      </div>
+      <div id="sub-009" class="clip sub-wrap" data-start="19.220" data-duration="1.020">
+        <div id="sub-card-009" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">шегінбеді</span>
+        </div>
+      </div>
+      <div id="sub-010" class="clip sub-wrap" data-start="20.260" data-duration="2.420">
+        <div id="sub-card-010" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Ол жаудың ең<br/>осал тұсын тапты</span>
+        </div>
+      </div>
+      <div id="sub-011" class="clip sub-wrap" data-start="22.700" data-duration="3.460">
+        <div id="sub-card-011" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">— тау арасындағы<br/>тар Орбұлақ шатқалын</span>
+        </div>
+      </div>
+      <div id="sub-012" class="clip sub-wrap" data-start="26.460" data-duration="2.980">
+        <div id="sub-card-012" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Түн жамылған сарбаздар<br/>тар сайдың аузына</span>
+        </div>
+      </div>
+      <div id="sub-013" class="clip sub-wrap" data-start="29.460" data-duration="1.540">
+        <div id="sub-card-013" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">терең<br/>ор қазды</span>
+        </div>
+      </div>
+      <div id="sub-014" class="clip sub-wrap" data-start="31.020" data-duration="2.060">
+        <div id="sub-card-014" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Алдына тастан<br/>бекініс қалап</span>
+        </div>
+      </div>
+      <div id="sub-015" class="clip sub-wrap" data-start="33.100" data-duration="1.980">
+        <div id="sub-card-015" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">үстін шөппен<br/>жасырды</span>
+        </div>
+      </div>
+      <div id="sub-016" class="clip sub-wrap" data-start="35.100" data-duration="2.260">
+        <div id="sub-card-016" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Үш жүз жауынгер<br/>білтелі мылтықтарын</span>
+        </div>
+      </div>
+      <div id="sub-017" class="clip sub-wrap" data-start="37.380" data-duration="2.100">
+        <div id="sub-card-017" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">кезеніп ор<br/>ішіне түсті</span>
+        </div>
+      </div>
+      <div id="sub-018" class="clip sub-wrap" data-start="39.500" data-duration="3.020">
+        <div id="sub-card-018" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Қалған үш жүзі биік<br/>жартастың тасасында</span>
+        </div>
+      </div>
+      <div id="sub-019" class="clip sub-wrap" data-start="42.540" data-duration="2.440">
+        <div id="sub-card-019" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">тынысын ішіне<br/>тартып күтті</span>
+        </div>
+      </div>
+      <div id="sub-020" class="clip sub-wrap" data-start="45.660" data-duration="2.260">
+        <div id="sub-card-020" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Таң атысымен<br/>елу мың қол тар</span>
+        </div>
+      </div>
+      <div id="sub-021" class="clip sub-wrap" data-start="47.940" data-duration="2.020">
+        <div id="sub-card-021" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">шатқалға<br/>кіріп кептелді</span>
+        </div>
+      </div>
+      <div id="sub-022" class="clip sub-wrap" data-start="49.980" data-duration="1.900">
+        <div id="sub-card-022" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Қанат жаяр<br/>жер жоқ</span>
+        </div>
+      </div>
+      <div id="sub-023" class="clip sub-wrap" data-start="51.900" data-duration="2.300">
+        <div id="sub-card-023" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Дәл сол сәтте<br/>жер астынан оқ</span>
+        </div>
+      </div>
+      <div id="sub-024" class="clip sub-wrap" data-start="54.220" data-duration="0.860">
+        <div id="sub-card-024" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">атылды</span>
+        </div>
+      </div>
+      <div id="sub-025" class="clip sub-wrap" data-start="55.100" data-duration="3.180">
+        <div id="sub-card-025" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Білтелі мылтықтың<br/>гүрсілі тау жаңғыртты</span>
+        </div>
+      </div>
+      <div id="sub-026" class="clip sub-wrap" data-start="58.300" data-duration="1.420">
+        <div id="sub-card-026" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Алдыңғы<br/>шеп құлап</span>
+        </div>
+      </div>
+      <div id="sub-027" class="clip sub-wrap" data-start="59.740" data-duration="2.460">
+        <div id="sub-card-027" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">артқылар кері<br/>шегіне алмай састы</span>
+        </div>
+      </div>
+      <div id="sub-028" class="clip sub-wrap" data-start="62.220" data-duration="2.700">
+        <div id="sub-card-028" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Кенет төбедегі<br/>жартастан тас пен жебе</span>
+        </div>
+      </div>
+      <div id="sub-029" class="clip sub-wrap" data-start="64.940" data-duration="1.340">
+        <div id="sub-card-029" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">нөсердей жауды</span>
+        </div>
+      </div>
+      <div id="sub-030" class="clip sub-wrap" data-start="66.300" data-duration="2.780">
+        <div id="sub-card-030" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Жәңгірдің алты жүзі<br/>қалың қолды екі</span>
+        </div>
+      </div>
+      <div id="sub-031" class="clip sub-wrap" data-start="69.100" data-duration="2.140">
+        <div id="sub-card-031" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">оттың ортасында<br/>қалдырды</span>
+        </div>
+      </div>
+      <div id="sub-032" class="clip sub-wrap" data-start="71.460" data-duration="2.740">
+        <div id="sub-card-032" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Сол қысылтаяң шақта<br/>көкжиектен шаң</span>
+        </div>
+      </div>
+      <div id="sub-033" class="clip sub-wrap" data-start="74.220" data-duration="1.060">
+        <div id="sub-card-033" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">көтерілді</span>
+        </div>
+      </div>
+      <div id="sub-034" class="clip sub-wrap" data-start="75.300" data-duration="2.860">
+        <div id="sub-card-034" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Самарқаннан жиырма<br/>мың қолмен Жалаңтөс</span>
+        </div>
+      </div>
+      <div id="sub-035" class="clip sub-wrap" data-start="78.180" data-duration="1.660">
+        <div id="sub-card-035" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">баһадүр<br/>жеткен еді</span>
+        </div>
+      </div>
+      <div id="sub-036" class="clip sub-wrap" data-start="79.860" data-duration="2.500">
+        <div id="sub-card-036" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Екі жақтан қысқан<br/>темір құрсау жауды</span>
+        </div>
+      </div>
+      <div id="sub-037" class="clip sub-wrap" data-start="82.380" data-duration="1.140">
+        <div id="sub-card-037" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">түре қуды</span>
+        </div>
+      </div>
+      <div id="sub-038" class="clip sub-wrap" data-start="83.540" data-duration="3.020">
+        <div id="sub-card-038" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Осы ерліктен соң халық<br/>Жәңгірді «Салқам»</span>
+        </div>
+      </div>
+      <div id="sub-039" class="clip sub-wrap" data-start="86.580" data-duration="1.020">
+        <div id="sub-card-039" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">деп атады</span>
+        </div>
+      </div>
+      <div id="sub-040" class="clip sub-wrap" data-start="87.620" data-duration="2.140">
+        <div id="sub-card-040" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">Себебі шайқасты<br/>сан емес —</span>
+        </div>
+      </div>
+      <div id="sub-041" class="clip sub-wrap" data-start="89.780" data-duration="3.020">
+        <div id="sub-card-041" class="sub-card">
+          <svg class="paper-bg" viewBox="0 0 400 100" preserveAspectRatio="none" aria-hidden="true">
+            <path fill="#EFE3C8" fill-opacity="0.94" stroke="#D7C39D" stroke-opacity="0.65" stroke-width="1.2" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+            <path fill="url(#parchmentGrain)" fill-opacity="0.28" d="M 14,7 Q 58,2 108,8 T 204,5 T 302,8 T 388,6 L 395,21 L 389,36 L 396,52 L 390,68 L 395,85 L 387,94 Q 332,90 278,95 T 180,91 T 84,95 T 11,92 L 5,78 L 10,61 L 4,44 L 11,27 Z"/>
+          </svg>
+          <span class="sub-text">ақыл мен тас түйін<br/>бірлік шешкен еді</span>
+        </div>
+      </div>
+      <audio id="vo-01" data-start="0.300" data-duration="10.800" src="assets/orbulak-v2/voice/v1.mp3" data-volume="1.0"></audio>
+      <audio id="vo-02" data-start="11.500" data-duration="14.480" src="assets/orbulak-v2/voice/v2.mp3" data-volume="1.0"></audio>
+      <audio id="vo-03" data-start="26.500" data-duration="18.480" src="assets/orbulak-v2/voice/v3.mp3" data-volume="1.0"></audio>
+      <audio id="vo-04" data-start="45.700" data-duration="25.360" src="assets/orbulak-v2/voice/v4.mp3" data-volume="1.0"></audio>
+      <audio id="vo-05" data-start="71.500" data-duration="21.120" src="assets/orbulak-v2/voice/v5.mp3" data-volume="1.0"></audio>
+      <audio id="bgm" data-start="0" data-duration="94.000" src="assets/orbulak-v2/audio/bgm.mp3" data-volume="0.25"></audio>
+      <audio id="sfx-01" data-start="0.000" data-duration="6.000" src="assets/orbulak-v2/audio/wind.mp3" data-volume="0.35"></audio>
+      <audio id="sfx-02" data-start="11.400" data-duration="3.500" src="assets/orbulak-v2/audio/subdrop.mp3" data-volume="0.50"></audio>
+      <audio id="sfx-03" data-start="26.500" data-duration="4.000" src="assets/orbulak-v2/audio/tension.mp3" data-volume="0.38"></audio>
+      <audio id="sfx-04" data-start="45.500" data-duration="2.700" src="assets/orbulak-v2/audio/whoosh.mp3" data-volume="0.45"></audio>
+      <audio id="sfx-05" data-start="51.900" data-duration="3.500" src="assets/orbulak-v2/audio/orbulak-musket.mp3" data-volume="0.65"></audio>
+      <audio id="sfx-06" data-start="62.600" data-duration="3.000" src="assets/orbulak-v2/audio/hit.mp3" data-volume="0.58"></audio>
+      <audio id="sfx-07" data-start="75.500" data-duration="4.000" src="assets/orbulak-v2/audio/orbulak-cavalry.mp3" data-volume="0.56"></audio>
+      <div id="fontwarm">ӘҒҚҢӨҰҮҺІ әғқңөұүһі АаБбВв</div>
+    </div>
+    <script>
+      (function () {
+        const DUR = 94.000;
+        const PARTICLE_KIND = "embers";
+        const canvas = document.getElementById("particles-canvas");
+        const ctx = canvas.getContext("2d");
+
+        function hash(n) {
+          const x = Math.sin(n * 127.1 + 311.7) * 43758.5453123;
+          return x - Math.floor(x);
+        }
+
+        const COUNT = PARTICLE_KIND === "none" ? 0 : (PARTICLE_KIND === "rain" ? 75 : 55);
+        const items = [];
+        for (let i = 0; i < COUNT; i++) {
+          items.push({
+            x0: hash(i * 3 + 1) * 1080,
+            y0: hash(i * 3 + 2) * 1920,
+            vx: (hash(i * 3 + 3) - 0.35) * (PARTICLE_KIND === "snow" ? 95 : PARTICLE_KIND === "rain" ? -140 : 28),
+            vy: PARTICLE_KIND === "embers"
+              ? -(55 + hash(i * 3 + 4) * 90)
+              : PARTICLE_KIND === "rain"
+                ? (900 + hash(i * 3 + 4) * 450)
+                : (35 + hash(i * 3 + 4) * 110),
+            r: 1.5 + hash(i * 3 + 5) * (PARTICLE_KIND === "mist" ? 28 : 4.0),
+            a: 0.14 + hash(i * 3 + 6) * 0.42,
+            phase: hash(i * 3 + 7) * 6.283
+          });
+        }
+
+        function renderParticles(t) {
+          ctx.clearRect(0, 0, 1080, 1920);
+          if (!COUNT) return;
+          for (let i = 0; i < COUNT; i++) {
+            const p = items[i];
+            const sway = Math.sin(t * 1.4 + p.phase) * (PARTICLE_KIND === "rain" ? 0 : 24);
+            const x = ((p.x0 + p.vx * t + sway) % 1080 + 1080) % 1080;
+            const y = ((p.y0 + p.vy * t) % 1920 + 1920) % 1920;
+
+            if (PARTICLE_KIND === "rain") {
+              ctx.strokeStyle = `rgba(195, 218, 240, ${p.a * 0.65})`;
+              ctx.lineWidth = 1.6;
+              ctx.beginPath();
+              ctx.moveTo(x, y);
+              ctx.lineTo(x - 6, y + 36);
+              ctx.stroke();
+            } else if (PARTICLE_KIND === "embers") {
+              ctx.fillStyle = `rgba(255, 165, 70, ${p.a})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            } else if (PARTICLE_KIND === "mist") {
+              ctx.fillStyle = `rgba(200, 220, 225, ${p.a * 0.18})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            } else if (PARTICLE_KIND === "dust") {
+              ctx.fillStyle = `rgba(255, 232, 180, ${p.a * 0.7})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r * 0.7, 0, Math.PI * 2);
+              ctx.fill();
+            } else {
+              ctx.fillStyle = `rgba(236, 244, 255, ${p.a})`;
+              ctx.beginPath();
+              ctx.arc(x, y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+
+        const proxy = { t: 0 };
+        const tl = gsap.timeline({ paused: true });
+        tl.to(proxy, { t: DUR, duration: DUR, ease: "none", onUpdate: () => renderParticles(proxy.t) }, 0);
+        tl.fromTo("#img-01", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.500, ease: "none" }, 0.000);
+        tl.fromTo("#img-03", { scale: 1.02 }, { scale: 1.15, duration: 0.240, ease: "power3.out" }, 4.800);
+        tl.to("#img-03", { scale: 1.17, duration: 2.160, ease: "none" }, 5.040);
+        tl.to("#img-03", { x: 0.0, y: 11.0, rotation: 0.0, duration: 0.050, ease: "sine.inOut" }, 4.800);
+        tl.to("#img-03", { x: 8.2, y: -8.3, rotation: 0.39, duration: 0.050, ease: "sine.inOut" }, 4.850);
+        tl.to("#img-03", { x: -9.1, y: 6.3, rotation: -0.19, duration: 0.050, ease: "sine.inOut" }, 4.900);
+        tl.to("#img-03", { x: 5.5, y: -4.7, rotation: -0.13, duration: 0.050, ease: "sine.inOut" }, 4.950);
+        tl.to("#img-03", { x: -0.9, y: 3.5, rotation: 0.17, duration: 0.050, ease: "sine.inOut" }, 5.000);
+        tl.to("#img-03", { x: -2.1, y: -2.7, rotation: -0.01, duration: 0.050, ease: "sine.inOut" }, 5.050);
+        tl.to("#img-03", { x: 2.9, y: 2.0, rotation: -0.09, duration: 0.050, ease: "sine.inOut" }, 5.100);
+        tl.to("#img-03", { x: -2.0, y: -1.5, rotation: 0.05, duration: 0.050, ease: "sine.inOut" }, 5.150);
+        tl.to("#img-03", { x: 0.6, y: 1.1, rotation: 0.03, duration: 0.050, ease: "sine.inOut" }, 5.200);
+        tl.to("#img-03", { x: 0.5, y: -0.8, rotation: -0.04, duration: 0.050, ease: "sine.inOut" }, 5.250);
+        tl.to("#img-03", { x: -0.9, y: 0.6, rotation: 0.01, duration: 0.050, ease: "sine.inOut" }, 5.300);
+        tl.to("#img-03", { x: 0, y: 0, rotation: 0, duration: 0.140, ease: "power2.out" }, 5.350);
+        tl.fromTo("#img-04", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.100, ease: "none" }, 7.200);
+        tl.fromTo("#img-05", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.100, ease: "none" }, 9.300);
+        tl.fromTo("#img-06", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.300, ease: "none" }, 11.400);
+        tl.fromTo("#img-07", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.800, ease: "none" }, 13.700);
+        tl.fromTo("#img-08", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.000, ease: "none" }, 16.500);
+        tl.fromTo("#img-09", { scale: 1.02 }, { scale: 1.15, duration: 0.240, ease: "power3.out" }, 18.500);
+        tl.to("#img-09", { scale: 1.17, duration: 1.760, ease: "none" }, 18.740);
+        tl.to("#img-09", { x: 0.0, y: 11.0, rotation: 0.0, duration: 0.050, ease: "sine.inOut" }, 18.500);
+        tl.to("#img-09", { x: 8.2, y: -8.3, rotation: 0.39, duration: 0.050, ease: "sine.inOut" }, 18.550);
+        tl.to("#img-09", { x: -9.1, y: 6.3, rotation: -0.19, duration: 0.050, ease: "sine.inOut" }, 18.600);
+        tl.to("#img-09", { x: 5.5, y: -4.7, rotation: -0.13, duration: 0.050, ease: "sine.inOut" }, 18.650);
+        tl.to("#img-09", { x: -0.9, y: 3.5, rotation: 0.17, duration: 0.050, ease: "sine.inOut" }, 18.700);
+        tl.to("#img-09", { x: -2.1, y: -2.7, rotation: -0.01, duration: 0.050, ease: "sine.inOut" }, 18.750);
+        tl.to("#img-09", { x: 2.9, y: 2.0, rotation: -0.09, duration: 0.050, ease: "sine.inOut" }, 18.800);
+        tl.to("#img-09", { x: -2.0, y: -1.5, rotation: 0.05, duration: 0.050, ease: "sine.inOut" }, 18.850);
+        tl.to("#img-09", { x: 0.6, y: 1.1, rotation: 0.03, duration: 0.050, ease: "sine.inOut" }, 18.900);
+        tl.to("#img-09", { x: 0.5, y: -0.8, rotation: -0.04, duration: 0.050, ease: "sine.inOut" }, 18.950);
+        tl.to("#img-09", { x: -0.9, y: 0.6, rotation: 0.01, duration: 0.050, ease: "sine.inOut" }, 19.000);
+        tl.to("#img-09", { x: 0, y: 0, rotation: 0, duration: 0.140, ease: "power2.out" }, 19.050);
+        tl.fromTo("#img-10", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.000, ease: "none" }, 20.500);
+        tl.fromTo("#img-11", { scale: 1.16, x: 0, y: 110, rotation: 0 }, { scale: 1.16, x: 0, y: -110, rotation: 0, duration: 2.000, ease: "none" }, 22.500);
+        tl.fromTo("#img-12", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.000, ease: "none" }, 24.500);
+        tl.fromTo("#img-13", { scale: 1.02 }, { scale: 1.15, duration: 0.240, ease: "power3.out" }, 26.500);
+        tl.to("#img-13", { scale: 1.17, duration: 2.060, ease: "none" }, 26.740);
+        tl.to("#img-13", { x: 0.0, y: 11.0, rotation: 0.0, duration: 0.050, ease: "sine.inOut" }, 26.500);
+        tl.to("#img-13", { x: 8.2, y: -8.3, rotation: 0.39, duration: 0.050, ease: "sine.inOut" }, 26.550);
+        tl.to("#img-13", { x: -9.1, y: 6.3, rotation: -0.19, duration: 0.050, ease: "sine.inOut" }, 26.600);
+        tl.to("#img-13", { x: 5.5, y: -4.7, rotation: -0.13, duration: 0.050, ease: "sine.inOut" }, 26.650);
+        tl.to("#img-13", { x: -0.9, y: 3.5, rotation: 0.17, duration: 0.050, ease: "sine.inOut" }, 26.700);
+        tl.to("#img-13", { x: -2.1, y: -2.7, rotation: -0.01, duration: 0.050, ease: "sine.inOut" }, 26.750);
+        tl.to("#img-13", { x: 2.9, y: 2.0, rotation: -0.09, duration: 0.050, ease: "sine.inOut" }, 26.800);
+        tl.to("#img-13", { x: -2.0, y: -1.5, rotation: 0.05, duration: 0.050, ease: "sine.inOut" }, 26.850);
+        tl.to("#img-13", { x: 0.6, y: 1.1, rotation: 0.03, duration: 0.050, ease: "sine.inOut" }, 26.900);
+        tl.to("#img-13", { x: 0.5, y: -0.8, rotation: -0.04, duration: 0.050, ease: "sine.inOut" }, 26.950);
+        tl.to("#img-13", { x: -0.9, y: 0.6, rotation: 0.01, duration: 0.050, ease: "sine.inOut" }, 27.000);
+        tl.to("#img-13", { x: 0, y: 0, rotation: 0, duration: 0.140, ease: "power2.out" }, 27.050);
+        tl.fromTo("#img-14", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.300, ease: "none" }, 28.800);
+        tl.fromTo("#img-15", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.100, ease: "none" }, 31.100);
+        tl.fromTo("#img-16", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.000, ease: "none" }, 33.200);
+        tl.fromTo("#img-17", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.200, ease: "none" }, 35.200);
+        tl.fromTo("#img-18", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.100, ease: "none" }, 37.400);
+        tl.fromTo("#img-19", { scale: 1.16, x: 0, y: 110, rotation: 0 }, { scale: 1.16, x: 0, y: -110, rotation: 0, duration: 2.800, ease: "none" }, 39.500);
+        tl.fromTo("#img-20", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.700, ease: "none" }, 42.300);
+        tl.fromTo("#img-21", { scale: 1.16, x: 0, y: 110, rotation: 0 }, { scale: 1.16, x: 0, y: -110, rotation: 0, duration: 2.700, ease: "none" }, 45.000);
+        tl.fromTo("#img-22", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.300, ease: "none" }, 47.700);
+        tl.fromTo("#img-23", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.000, ease: "none" }, 50.000);
+        tl.fromTo("#img-25", { scale: 1.02 }, { scale: 1.15, duration: 0.240, ease: "power3.out" }, 54.300);
+        tl.to("#img-25", { scale: 1.17, duration: 1.960, ease: "none" }, 54.540);
+        tl.to("#img-25", { x: 0.0, y: 11.0, rotation: 0.0, duration: 0.050, ease: "sine.inOut" }, 54.300);
+        tl.to("#img-25", { x: 8.2, y: -8.3, rotation: 0.39, duration: 0.050, ease: "sine.inOut" }, 54.350);
+        tl.to("#img-25", { x: -9.1, y: 6.3, rotation: -0.19, duration: 0.050, ease: "sine.inOut" }, 54.400);
+        tl.to("#img-25", { x: 5.5, y: -4.7, rotation: -0.13, duration: 0.050, ease: "sine.inOut" }, 54.450);
+        tl.to("#img-25", { x: -0.9, y: 3.5, rotation: 0.17, duration: 0.050, ease: "sine.inOut" }, 54.500);
+        tl.to("#img-25", { x: -2.1, y: -2.7, rotation: -0.01, duration: 0.050, ease: "sine.inOut" }, 54.550);
+        tl.to("#img-25", { x: 2.9, y: 2.0, rotation: -0.09, duration: 0.050, ease: "sine.inOut" }, 54.600);
+        tl.to("#img-25", { x: -2.0, y: -1.5, rotation: 0.05, duration: 0.050, ease: "sine.inOut" }, 54.650);
+        tl.to("#img-25", { x: 0.6, y: 1.1, rotation: 0.03, duration: 0.050, ease: "sine.inOut" }, 54.700);
+        tl.to("#img-25", { x: 0.5, y: -0.8, rotation: -0.04, duration: 0.050, ease: "sine.inOut" }, 54.750);
+        tl.to("#img-25", { x: -0.9, y: 0.6, rotation: 0.01, duration: 0.050, ease: "sine.inOut" }, 54.800);
+        tl.to("#img-25", { x: 0, y: 0, rotation: 0, duration: 0.140, ease: "power2.out" }, 54.850);
+        tl.fromTo("#img-26", { scale: 1.16, x: 0, y: 110, rotation: 0 }, { scale: 1.16, x: 0, y: -110, rotation: 0, duration: 2.000, ease: "none" }, 56.500);
+        tl.fromTo("#img-27", { scale: 1.02 }, { scale: 1.15, duration: 0.240, ease: "power3.out" }, 58.500);
+        tl.to("#img-27", { scale: 1.17, duration: 1.860, ease: "none" }, 58.740);
+        tl.to("#img-27", { x: 0.0, y: 11.0, rotation: 0.0, duration: 0.050, ease: "sine.inOut" }, 58.500);
+        tl.to("#img-27", { x: 8.2, y: -8.3, rotation: 0.39, duration: 0.050, ease: "sine.inOut" }, 58.550);
+        tl.to("#img-27", { x: -9.1, y: 6.3, rotation: -0.19, duration: 0.050, ease: "sine.inOut" }, 58.600);
+        tl.to("#img-27", { x: 5.5, y: -4.7, rotation: -0.13, duration: 0.050, ease: "sine.inOut" }, 58.650);
+        tl.to("#img-27", { x: -0.9, y: 3.5, rotation: 0.17, duration: 0.050, ease: "sine.inOut" }, 58.700);
+        tl.to("#img-27", { x: -2.1, y: -2.7, rotation: -0.01, duration: 0.050, ease: "sine.inOut" }, 58.750);
+        tl.to("#img-27", { x: 2.9, y: 2.0, rotation: -0.09, duration: 0.050, ease: "sine.inOut" }, 58.800);
+        tl.to("#img-27", { x: -2.0, y: -1.5, rotation: 0.05, duration: 0.050, ease: "sine.inOut" }, 58.850);
+        tl.to("#img-27", { x: 0.6, y: 1.1, rotation: 0.03, duration: 0.050, ease: "sine.inOut" }, 58.900);
+        tl.to("#img-27", { x: 0.5, y: -0.8, rotation: -0.04, duration: 0.050, ease: "sine.inOut" }, 58.950);
+        tl.to("#img-27", { x: -0.9, y: 0.6, rotation: 0.01, duration: 0.050, ease: "sine.inOut" }, 59.000);
+        tl.to("#img-27", { x: 0, y: 0, rotation: 0, duration: 0.140, ease: "power2.out" }, 59.050);
+        tl.fromTo("#img-28", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.100, ease: "none" }, 60.600);
+        tl.fromTo("#img-30", { scale: 1.02 }, { scale: 1.15, duration: 0.240, ease: "power3.out" }, 65.000);
+        tl.to("#img-30", { scale: 1.17, duration: 1.860, ease: "none" }, 65.240);
+        tl.to("#img-30", { x: 0.0, y: 11.0, rotation: 0.0, duration: 0.050, ease: "sine.inOut" }, 65.000);
+        tl.to("#img-30", { x: 8.2, y: -8.3, rotation: 0.39, duration: 0.050, ease: "sine.inOut" }, 65.050);
+        tl.to("#img-30", { x: -9.1, y: 6.3, rotation: -0.19, duration: 0.050, ease: "sine.inOut" }, 65.100);
+        tl.to("#img-30", { x: 5.5, y: -4.7, rotation: -0.13, duration: 0.050, ease: "sine.inOut" }, 65.150);
+        tl.to("#img-30", { x: -0.9, y: 3.5, rotation: 0.17, duration: 0.050, ease: "sine.inOut" }, 65.200);
+        tl.to("#img-30", { x: -2.1, y: -2.7, rotation: -0.01, duration: 0.050, ease: "sine.inOut" }, 65.250);
+        tl.to("#img-30", { x: 2.9, y: 2.0, rotation: -0.09, duration: 0.050, ease: "sine.inOut" }, 65.300);
+        tl.to("#img-30", { x: -2.0, y: -1.5, rotation: 0.05, duration: 0.050, ease: "sine.inOut" }, 65.350);
+        tl.to("#img-30", { x: 0.6, y: 1.1, rotation: 0.03, duration: 0.050, ease: "sine.inOut" }, 65.400);
+        tl.to("#img-30", { x: 0.5, y: -0.8, rotation: -0.04, duration: 0.050, ease: "sine.inOut" }, 65.450);
+        tl.to("#img-30", { x: -0.9, y: 0.6, rotation: 0.01, duration: 0.050, ease: "sine.inOut" }, 65.500);
+        tl.to("#img-30", { x: 0, y: 0, rotation: 0, duration: 0.140, ease: "power2.out" }, 65.550);
+        tl.fromTo("#img-31", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.100, ease: "none" }, 67.100);
+        tl.fromTo("#img-32", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.300, ease: "none" }, 69.200);
+        tl.fromTo("#img-33", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.300, ease: "none" }, 71.500);
+        tl.fromTo("#img-34", { scale: 1.16, x: 0, y: 110, rotation: 0 }, { scale: 1.16, x: 0, y: -110, rotation: 0, duration: 2.100, ease: "none" }, 73.800);
+        tl.fromTo("#img-36", { scale: 1.02 }, { scale: 1.15, duration: 0.240, ease: "power3.out" }, 78.100);
+        tl.to("#img-36", { scale: 1.17, duration: 1.760, ease: "none" }, 78.340);
+        tl.to("#img-36", { x: 0.0, y: 11.0, rotation: 0.0, duration: 0.050, ease: "sine.inOut" }, 78.100);
+        tl.to("#img-36", { x: 8.2, y: -8.3, rotation: 0.39, duration: 0.050, ease: "sine.inOut" }, 78.150);
+        tl.to("#img-36", { x: -9.1, y: 6.3, rotation: -0.19, duration: 0.050, ease: "sine.inOut" }, 78.200);
+        tl.to("#img-36", { x: 5.5, y: -4.7, rotation: -0.13, duration: 0.050, ease: "sine.inOut" }, 78.250);
+        tl.to("#img-36", { x: -0.9, y: 3.5, rotation: 0.17, duration: 0.050, ease: "sine.inOut" }, 78.300);
+        tl.to("#img-36", { x: -2.1, y: -2.7, rotation: -0.01, duration: 0.050, ease: "sine.inOut" }, 78.350);
+        tl.to("#img-36", { x: 2.9, y: 2.0, rotation: -0.09, duration: 0.050, ease: "sine.inOut" }, 78.400);
+        tl.to("#img-36", { x: -2.0, y: -1.5, rotation: 0.05, duration: 0.050, ease: "sine.inOut" }, 78.450);
+        tl.to("#img-36", { x: 0.6, y: 1.1, rotation: 0.03, duration: 0.050, ease: "sine.inOut" }, 78.500);
+        tl.to("#img-36", { x: 0.5, y: -0.8, rotation: -0.04, duration: 0.050, ease: "sine.inOut" }, 78.550);
+        tl.to("#img-36", { x: -0.9, y: 0.6, rotation: 0.01, duration: 0.050, ease: "sine.inOut" }, 78.600);
+        tl.to("#img-36", { x: 0, y: 0, rotation: 0, duration: 0.140, ease: "power2.out" }, 78.650);
+        tl.fromTo("#img-38", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.500, ease: "none" }, 82.900);
+        tl.fromTo("#img-39", { scale: 1.15, x: 0, y: 0, rotation: 0 }, { scale: 1.00, x: 0, y: 0, rotation: 0, duration: 2.300, ease: "none" }, 85.400);
+        tl.fromTo("#img-40", { scale: 1.00, x: 0, y: 0, rotation: 0 }, { scale: 1.15, x: 0, y: -10, rotation: 0, duration: 2.700, ease: "none" }, 87.700);
+        tl.fromTo("#sub-card-001", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 0.260);
+        tl.fromTo("#sub-card-002", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 2.500);
+        tl.fromTo("#sub-card-003", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 4.900);
+        tl.fromTo("#sub-card-004", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 7.180);
+        tl.fromTo("#sub-card-005", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 9.620);
+        tl.fromTo("#sub-card-006", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 11.460);
+        tl.fromTo("#sub-card-007", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 13.620);
+        tl.fromTo("#sub-card-008", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 16.540);
+        tl.fromTo("#sub-card-009", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 19.220);
+        tl.fromTo("#sub-card-010", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 20.260);
+        tl.fromTo("#sub-card-011", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 22.700);
+        tl.fromTo("#sub-card-012", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 26.460);
+        tl.fromTo("#sub-card-013", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 29.460);
+        tl.fromTo("#sub-card-014", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 31.020);
+        tl.fromTo("#sub-card-015", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 33.100);
+        tl.fromTo("#sub-card-016", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 35.100);
+        tl.fromTo("#sub-card-017", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 37.380);
+        tl.fromTo("#sub-card-018", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 39.500);
+        tl.fromTo("#sub-card-019", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 42.540);
+        tl.fromTo("#sub-card-020", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 45.660);
+        tl.fromTo("#sub-card-021", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 47.940);
+        tl.fromTo("#sub-card-022", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 49.980);
+        tl.fromTo("#sub-card-023", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 51.900);
+        tl.fromTo("#sub-card-024", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 54.220);
+        tl.fromTo("#sub-card-025", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 55.100);
+        tl.fromTo("#sub-card-026", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 58.300);
+        tl.fromTo("#sub-card-027", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 59.740);
+        tl.fromTo("#sub-card-028", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 62.220);
+        tl.fromTo("#sub-card-029", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 64.940);
+        tl.fromTo("#sub-card-030", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 66.300);
+        tl.fromTo("#sub-card-031", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 69.100);
+        tl.fromTo("#sub-card-032", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 71.460);
+        tl.fromTo("#sub-card-033", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 74.220);
+        tl.fromTo("#sub-card-034", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 75.300);
+        tl.fromTo("#sub-card-035", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 78.180);
+        tl.fromTo("#sub-card-036", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 79.860);
+        tl.fromTo("#sub-card-037", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 82.380);
+        tl.fromTo("#sub-card-038", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 83.540);
+        tl.fromTo("#sub-card-039", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 86.580);
+        tl.fromTo("#sub-card-040", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 87.620);
+        tl.fromTo("#sub-card-041", { opacity: 0, scale: 0.96, y: 6 }, { opacity: 1, scale: 1, y: 0, duration: 0.11, ease: "power2.out" }, 89.780);
+        renderParticles(0);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
