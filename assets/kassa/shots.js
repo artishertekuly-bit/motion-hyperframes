@@ -92,10 +92,10 @@
     t0: S("L02"), c0: { x: 0, y: -450 }, fadeIn: 0.25,
     cam: [[S("L02"), { x: 0, y: -450, z: 1.05 }], [CART_F, { x: 0, y: -450, z: 1.1 }]],
     actors: [
-      ACT.mom({ x: -180, y: 0, s: 0.72, keys: [[S("L02"), ex("happySmile", "fingerUp", { turn: 0.25 })]], talk: ["L02"] }),
-      ACT.artur({ x: 160, y: 0, s: 0.70, keys: [[S("L02"), ex("calmSmile", "armsDown", { turn: -0.2 })], [CART_F, ex("strain", "reach", { turn: -0.25 })]], talk: ["L03"] })
+      ACT.mom({ x: -240, y: 0, s: 0.72, keys: [[S("L02"), ex("happySmile", "fingerUp", { turn: 0.25 })]], talk: ["L02"] }),
+      ACT.artur({ x: 240, y: 0, s: 0.70, keys: [[S("L02"), ex("calmSmile", "armsDown", { turn: -0.2 })], [CART_F, ex("strain", "reach", { turn: -0.25 })]], talk: ["L03"] })
     ],
-    world: (t) => (t >= CART_F ? cart(0, 0, 1.0, true) : cart(0, 0, 0.8, false)),
+    world: (t) => (t >= CART_F ? cart(0, 60, 0.76, true) : cart(0, 60, 0.72, false)),
     type: (t) => (t < CART_F ? TY.pop(t, S("L02") + 0.3, "ТЕК НАН МЕН СҮТ", 540, 260, { size: 76, color: "#7cc47a" })
       : TY.stamp(t, CART_F + 0.4, "20 КГ АРБА = 28 450 ₸", 540, 270, { size: 70, color: "#ff5252", rot: -4 }))
   });
@@ -122,9 +122,9 @@
     cam: [[S("L06"), { x: 0, y: -450, z: 1.1 }], [S("L07"), { x: 40, y: -450, z: 1.3 }, eio]],
     shake: (t) => (t > S("L07") ? 10 : 0),
     actors: [
-      ACT.artur({ x: 60, y: 0, s: 0.72, keys: [[S("L06"), ex("scared", "shrug", { turn: 0 })], [S("L07"), ex("shock", "chest", { mouth: "gasp", squash: 1.06 })]], talk: ["L06", "L07"] })
+      ACT.artur({ x: 140, y: 0, s: 0.72, keys: [[S("L06"), ex("scared", "shrug", { turn: 0 })], [S("L07"), ex("shock", "chest", { mouth: "gasp", squash: 1.06 })]], talk: ["L06", "L07"] })
     ],
-    world: (t) => cart(-160, 0, 0.9, true) + sweat(60, -700, t, S("L06"), 4),
+    world: (t) => cart(-200, 60, 0.74, true) + sweat(140, -700, t, S("L06"), 4),
     type: (t) => TY.pop(t, S("L06") + 0.4, "КЕЗЕК 3x ЖЫЛДАМДЫҚ!", 540, 250, { size: 70, color: "#ff5252" }) +
                  TY.stamp(t, S("L07") + 0.5, "КАРТА АНАМДА!", 540, 380, { size: 84, color: "#ff5252", rot: -5 })
   });

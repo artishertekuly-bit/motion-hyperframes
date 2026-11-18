@@ -78,8 +78,9 @@
       ACT.artur({ x: 200, y: 0, s: 0.70, keys: [[S("L02"), ex("nervous", "armsDown", { turn: -0.3 })]], talk: ["L02"] }),
       ACT.dad({ x: -240, y: 0, s: 0.72, keys: [[0, { hide: true }], [DRV_L, ex("angry", "reach", { hide: false, turn: 0.3, mouth: "shout" })]], talk: ["L03"] })
     ],
-    world: (t) => RB.bus(-420, 40, 0.85) + (t >= DRV_L ? shout(-140, -680, 180, t, DRV_L, E("L03"), 3) : ""),
-    type: (t) => TY.stamp(t, DRV_L + 0.3, "БОС ОРЫН БАР!", 540, 270, { size: 84, color: "#f2c14e", rot: -4 })
+    worldBack: (t) => RB.bus(-420, 40, 0.85),
+    world: (t) => (t >= DRV_L ? shout(-140, -680, 180, t, DRV_L, E("L03"), 3) : ""),
+    type: (t) => TY.stamp(t, DRV_L + 0.3, "БОС ОРЫН БАР!", 540, 270, { size: 80, color: "#f2c14e", rot: -4 })
   });
 
   // ================= 2. СЫҒЫЛЫС: АЯҚ АУАДА (L04, L05) =================
@@ -130,9 +131,10 @@
     actors: [
       ACT.artur({ x: -40, y: 0, s: 0.72, keys: [[S("L07"), ex("tired", "chest", { turn: 0 })], [S("L08"), ex("determined", "reach", { turn: 0.25 })]], talk: ["L07", "L08"] })
     ],
-    world: (t) => busWindow(240, -640, t >= S("L08") ? 36 : 0) + sweat(-40, -680, t, S("L07"), 5),
+    worldBack: (t) => busWindow(240, -640, t >= S("L08") ? 36 : 0),
+    world: (t) => sweat(-40, -680, t, S("L07"), 5),
     fx: (t) => ({ tint: "#ff6b35", tintA: 0.16 }),
-    type: (t) => TY.pop(t, S("L07") + 0.3, "+45°C САУНА!", 540, 260, { size: 92, color: "#ff5252", wob: 5 })
+    type: (t) => TY.pop(t, S("L07") + 0.3, "+45°C САУНА!", 540, 260, { size: 88, color: "#ff5252", wob: 5 })
   });
 
   // ================= 5. АПАЙ: «ЖАП ТЕРЕЗЕНІ!» ШАЙҚАСЫ (L09, L10, L11) =================
@@ -146,8 +148,8 @@
       ACT.aje({ x: -190, y: 0, s: 0.72, keys: [[S("L09"), ex("angry", "point", { turn: 0.3, mouth: "shout" })], [S("L11"), ex("angry", "stop", { turn: 0.35 })]], talk: ["L09", "L11"] }),
       ACT.artur({ x: 160, y: 0, s: 0.70, keys: [[S("L09"), ex("scared", "shrug", { turn: -0.2 })], [S("L10"), ex("sad", "hands1", { turn: -0.25 })]], talk: ["L10"] })
     ],
-    world: (t) => busWindow(220, -650, t < S("L11") ? 20 : 0),
-    type: (t) => TY.stamp(t, S("L09") + 0.3, "ЖЕЛ СОҒЫП ТҰР!", 540, 270, { size: 84, color: "#ff5252", rot: -5 })
+    worldBack: (t) => busWindow(220, -650, t < S("L11") ? 20 : 0),
+    type: (t) => TY.stamp(t, S("L09") + 0.3, "ЖЕЛ СОҒЫП ТҰР!", 540, 270, { size: 80, color: "#ff5252", rot: -5 })
   });
 
   // ================= 6. ТҮСУ ОПЕРАЦИЯСЫ: «ТҮСЕСІЗ БЕ?» (L12..L15) =================
@@ -161,7 +163,7 @@
       ACT.teen({ x: -160, y: 0, s: 0.70, keys: [[S("L12"), ex("deadpan", "armsDown", { turn: 0 })], [S("L14"), ex("deadpan", { turn: 0.15 })]], talk: ["L14"] })
     ],
     world: (t) => packCrowd(0, t),
-    type: (t) => TY.stamp(t, S("L15") + 1.8, "ЕСІК ЖАБЫЛДЫ! ПШШ!", 540, 270, { size: 76, color: "#ff5252", rot: 4 })
+    type: (t) => TY.stamp(t, S("L15") + 1.8, "ЕСІК ЖАБЫЛДЫ! ПШШ!", 540, 270, { size: 68, color: "#ff5252", rot: 4 })
   });
 
   // ================= 7. УНИВЕРСИТЕТ ӨТІП КЕТТІ + ЖАЯУ ҚАЙТУ (L16, L17) =================
@@ -178,9 +180,9 @@
         talk: ["L16", "L17"]
       })
     ],
-    world: (t) => (t < WALK_B ? RB.bus(lerp(-100, 900, win(t, S("L16"), WALK_B)), 40, 0.85) : ""),
+    worldBack: (t) => (t < WALK_B ? RB.bus(lerp(-100, 900, win(t, S("L16"), WALK_B)), -40, 0.80) : ""),
     fx: (t) => (t < WALK_B ? { sat: 0.4 } : {}),
-    type: (t) => TY.pop(t, S("L16") + 0.3, "ҚОШ БОЛ, УНИВЕР!", 540, 270, { size: 80, color: "#4da8da" })
+    type: (t) => TY.pop(t, S("L16") + 0.3, "ҚОШ БОЛ, УНИВЕР!", 540, 270, { size: 74, color: "#4da8da" })
   });
 
   // ================= 8. ТҮЙІН + КЕҢЕС (L18) =================
@@ -192,7 +194,7 @@
     actors: [
       ACT.artur({ x: 0, y: 320, s: 1.15, keys: [[S("L18"), ex("calmSmile", "fingerUp", { turn: 0 })]], talk: ["L18"] })
     ],
-    type: (t) => TY.stamp(t, S("L18") + 0.4, "3 АЯЛДАМА БҰРЫН ДАЙЫНДАЛ!", 540, 320, { size: 64, color: "#f2c14e" })
+    type: (t) => TY.stamp(t, S("L18") + 0.4, "3 АЯЛДАМА БҰРЫН ДАЙЫНДАЛ!", 540, 320, { size: 52, color: "#f2c14e" })
   });
 
   G.SONGY_SHOTS = SH;

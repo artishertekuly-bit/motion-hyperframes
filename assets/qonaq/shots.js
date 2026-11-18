@@ -129,13 +129,14 @@
   add({
     bg: () => BG.living(), bgKey: "living",
     t0: S("L08"), c0: { x: 0, y: -450 }, fadeIn: 0.25,
-    cam: [[S("L08"), { x: 0, y: -450, z: 1.0 }], [S("L10"), { x: -40, y: -460, z: 1.2 }, eio]],
+    cam: [[S("L08"), { x: 0, y: -450, z: 1.0 }], [S("L10"), { x: -20, y: -460, z: 1.15 }, eio]],
     shake: (t) => (t > S("L09") ? 8 * Math.sin(t * 24) : 0),
     actors: [
-      ACT.artur({ x: 180, y: 0, s: 0.70, keys: [[S("L08"), ex("strain", "reachBoth", { turn: -0.4 })], [S("L10"), ex("nervous", "stop", { turn: -0.45, lean: -12 })]], talk: ["L08", "L09", "L10"] })
+      ACT.artur({ x: 210, y: 0, s: 0.70, keys: [[S("L08"), ex("strain", "reachBoth", { turn: -0.4 })], [S("L10"), ex("nervous", "stop", { turn: -0.45, lean: -12 })]], talk: ["L08", "L09", "L10"] })
     ],
-    world: (t) => wardrobe(-140, 0, 0.95, clamp(win(t, S("L08"), E("L10")), 0.1, 1.15), false) + sweat(180, -680, t, S("L08"), 4),
-    type: (t) => TY.pop(t, S("L09") + 0.3, "СИҚЫРЛЫ ШКАФ: +100 ЗАТ", 540, 260, { size: 70, color: "#f2c14e", wob: 4 })
+    worldBack: (t) => wardrobe(-170, 0, 0.84, clamp(win(t, S("L08"), E("L10")), 0.1, 1.15), false),
+    world: (t) => sweat(210, -680, t, S("L08"), 4),
+    type: (t) => TY.pop(t, S("L09") + 0.3, "СИҚЫРЛЫ ШКАФ!", 540, 260, { size: 70, color: "#f2c14e", wob: 4 })
   });
 
   // ================= 5. ХРУСТАЛЬ СЕРВИЗ + 5 МИНУТ (L11, L12) =================
@@ -164,9 +165,9 @@
       ACT.mom({ x: -180, y: 0, s: 0.72, keys: [[S("L13"), ex("scared", "armsDown", { turn: 0.1 })], [SMILE, ex("happySmile", "cheer", { turn: 0.2 })]], talk: ["L15"] }),
       ACT.artur({ x: 160, y: 0, s: 0.70, keys: [[S("L13"), ex("shock", "shrug", { turn: -0.1 })], [SMILE, ex("happySmile", "wave", { turn: -0.2 })]], talk: ["L13", "L14"] })
     ],
-    world: (t) => wardrobe(300, 0, 0.75, 1.0, false),
-    type: (t) => (t < SMILE ? TY.pop(t, S("L13") + 0.1, "ДІҢ-ДІҢ!", 540, 270, { size: 110, color: "#ff5252", wob: 6 })
-      : TY.pop(t, SMILE, "ТӨРЛЕТІҢІЗДЕР! :)", 540, 270, { size: 84, color: "#7cc47a" }))
+    worldBack: (t) => wardrobe(300, 0, 0.72, 1.0, false),
+    type: (t) => (t < SMILE ? TY.pop(t, S("L13") + 0.1, "ДІҢ-ДІҢ!", 540, 270, { size: 100, color: "#ff5252", wob: 6 })
+      : TY.pop(t, SMILE, "ТӨРЛЕТІҢІЗДЕР! :)", 540, 270, { size: 70, color: "#7cc47a" }))
   });
 
   // ================= 7. ҚОНАҚ: «БІЗ 5 МИНУТҚА ҒАНА!» (L16, L17) =================
@@ -181,7 +182,7 @@
       ACT.artur({ x: 140, y: 0, s: 0.70, keys: [[S("L16"), ex("happySmile", "wave", { turn: -0.2 })], [S("L17"), ex("shock", "armsDown", { turn: -0.2, eye: { scale: 1.35 } })]], talk: ["L17"] })
     ],
     fx: (t) => (t >= S("L17") ? freezeFx(t, S("L17"), { vig: 0.25 }) : {}),
-    type: (t) => TY.stamp(t, S("L17") + 0.2, "5 МИНУТ ҮШІН БЕ?!", 540, 280, { size: 88, color: "#ff5252", rot: -5 })
+    type: (t) => TY.stamp(t, S("L17") + 0.2, "5 МИНУТ ҮШІН БЕ?!", 540, 280, { size: 80, color: "#ff5252", rot: -5 })
   });
 
   // ================= 8. ШКАФТЫҢ АТЫЛЫП АШЫЛУЫ (L18) =================
@@ -189,13 +190,14 @@
   add({
     bg: () => BG.living(), bgKey: "living",
     t0: S("L18"), c0: { x: 0, y: -450 }, fadeIn: 0.15,
-    cam: [[S("L18"), { x: 0, y: -450, z: 1.05 }], [E("L18"), { x: 0, y: -450, z: 1.2 }]],
+    cam: [[S("L18"), { x: 0, y: -450, z: 1.0 }], [E("L18"), { x: 0, y: -450, z: 1.12 }]],
     shake: (t) => (t < S("L18") + 1.0 ? 18 : 0),
     actors: [
-      ACT.artur({ x: 240, y: 0, s: 0.70, keys: [[S("L18"), ex("deadpan", "shrug", { turn: -0.2 })]], talk: ["L18"] })
+      ACT.artur({ x: 250, y: 0, s: 0.70, keys: [[S("L18"), ex("deadpan", "shrug", { turn: -0.2 })]], talk: ["L18"] })
     ],
-    world: (t) => wardrobe(-120, 0, 1.0, 0, true) + puff(-120, -320, t, S("L18") + 0.4, 1.2, 12, "#f6d55c"),
-    type: (t) => TY.pop(t, S("L18") + 0.3, "БАБАХ! ШКАФ АШЫЛДЫ", 540, 260, { size: 80, color: "#ff5252", wob: 6 })
+    worldBack: (t) => wardrobe(-170, 0, 0.80, 0, true),
+    world: (t) => puff(-170, -320, t, S("L18") + 0.4, 1.2, 12, "#f6d55c"),
+    type: (t) => TY.pop(t, S("L18") + 0.3, "БАБАХ! АШЫЛДЫ!", 540, 260, { size: 74, color: "#ff5252", wob: 6 })
   });
 
   // ================= 9. ТҮЙІН + КЕҢЕС (L19) =================
